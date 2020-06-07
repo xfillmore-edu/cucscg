@@ -85,6 +85,7 @@ void gprint(const char* format, ...)
 
 /* function to perform animation stepping */
 /* designed based on pentamollis project tutorial (YouTube) */
+/* Additional modifications made based on nexusone explanation on Khronos forum */
 void timer(int filler)
 {
     /* update entire display */
@@ -342,6 +343,7 @@ void keybindings(unsigned char key, int xpos, int ypos)
         t %= 4;
     }
     /* toggle animation - a */
+    /* with modded functionality based on nexusone post to Khronos forum */
     else if (key == 97)
     {
         animate = !animate;
