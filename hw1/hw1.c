@@ -28,15 +28,21 @@
 
 /* Global Variables */
 #define MAXSTRLEN 8192
-/* prandtl number - valid values for sigma (values from ScienceDirect) */
-/* sodium, mercury, air, carbon disulfide, chloromethane, methanol, water, toluene, default 10, ethanol, argon, krypton, xenon */
-double prandtl[13] = {0.01, 0.03, 0.72, 2.36, 4.41, 6.83, 6.90, 7.26, 10.00, 18.05, 22.77, 673.68, 674.91};
-int    s     = 8; /* Prandtl nums array index */
-double beta  = 2.6666; /* geometric factor */
-double rho   = 28;
-double dt    = 0.001;
+/* prandtl number - values for sigma (values from ScienceDirect) */
+/* mercury, air, carbon disulfide, chloromethane, methanol, water, toluene, default 10, ethanol, argon, krypton */
+double prandtl[11] = {0.03, 0.72, 2.36, 4.41, 6.83, 6.90, 7.26, 10.00, 18.05, 22.77, 673.68};
+int    s     = 7; /* Prandtl nums array index */
+/* rayleigh number - values for rho (values selected semi-randomly) */
+double rayleigh[10] = {0.00, 5.00, 13.00, 14.00, 15.00, 24.74, 28.00, 99.96, 126.52, 1700};
+int    r     = 6; /* index to Rayleigh nums array */
+double beta  = 2.6666; /* geometric factor (constant, 8/3) */
+double timesteps[] = {0.01, 0.001, 0.005, 0.0001};
+int    t     = 1;
+/* sets default viewing angle */
 int    theta = -45;
 int    phi   = 25;
+
+
 
 /* Error checking Function */
 /* Code derived directly from ex5 */
@@ -106,9 +112,18 @@ void display()
     glRasterPos3d(0, 0, ax);
     gprint("Z");
 
+    /* Display current parameters in lower left corner */
+    double sigma = prandtl[s];
+    double rho = rayleigh[r];
+    double dt = timesteps[t];
+    glWindowPos2i(5, 20);
+    gprint("Viewing from (%d, %d) deg, Time Step dt=%.3f", theta, phi, dt);
+    glWindowPos2i(5, 5);
+    gprint("Lorenz Params s=%.2f b=%.4f r=%.2f", sigma, beta, rho);
+
     /* Calculate and render lorenz values */
     /* Derived from PrinMath lorenz.c and Qt example lorenz.cpp */
-    double sigma = prandtl[s];
+    
     double xcoord = 1;
     double ycoord = 1;
     double zcoord = 1;
@@ -117,7 +132,8 @@ void display()
     float green[] = {0.0,0.5,1.0,1.0,1.0,0.0};
     float blue[] = {0.0,0.0,0.0,0.0,1.0,1.0};
     glBegin(GL_LINE_STRIP);
-    for (i = 0; i < 50000; i++)
+    int imax = 50/dt;
+    for (i = 0; i < imax; i++)
     {
         double dx = sigma * (ycoord-xcoord);
         double dy = xcoord * (rho-zcoord) - ycoord;
@@ -131,14 +147,6 @@ void display()
         glVertex3d(xcoord, ycoord, zcoord);
     }
     glEnd();
-
-
-    /* Display current parameters in lower left corner */
-    glWindowPos2i(5, 20);
-    gprint("Viewing from (%d, %d) deg, Time Step dt=%.3f", theta, phi, dt);
-    glWindowPos2i(5, 5);
-    gprint("Lorenz Params s=%.2f b=%.4f r=%2.0f", sigma, beta, rho);
-
 
     /* Cleanup */
     checkErrs("display");
@@ -158,8 +166,6 @@ void display()
  * Z         (90)    view from -Z axis
  * s         (115)   decrease s parameter
  * S         (83)    increase s parameter
- * b         (98)    decrease b parameter
- * B         (66)    increase b parameter
  * r         (114)   decrease r parameter
  * R         (82)    increase r parameter
  * t         (116)   decrease time step
@@ -216,24 +222,56 @@ void keybindings(unsigned char key, int xpos, int ypos)
     else if (key == 101)
     {
         theta = -45;
-        phi = 25;
-        s = 8;
-        beta = 2.6666;
-        rho = 28.0;
+        phi   = 25;
+        s = 7;
+        r = 6;
+        t = 1;
     }
     /* decrease s parameter - s */
     else if (key == 115)
     {
         s -= 1;
-        s %= 13;
+        if (s < 0)
+        {
+            s = 10;
+        }
     }
     /* increase s parameter - S */
     else if (key == 83)
     {
         s += 1;
-        s %= 13;
+        s %= 11;
     }
-    
+    /* decrease r parameter - r */
+    else if (key == 114)
+    {
+        r -= 1;
+        if (r < 0)
+        {
+            r = 9;
+        }
+    }
+    /* increase r parameter - R */
+    else if (key == 82)
+    {
+        r += 1;
+        r %= 10;
+    }
+    /* increase time step - T */
+    else if (key == 84)
+    {
+        t -= 1;
+        if (t < 0)
+        {
+            t = 3;
+        }
+    }
+    /* decrease time step - t */
+    else if (key == 116)
+    {
+        t += 1;
+        t %= 4;
+    }
 
     /* Redisplay scene */
     glutPostRedisplay();
