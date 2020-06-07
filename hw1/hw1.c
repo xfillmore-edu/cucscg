@@ -32,8 +32,8 @@ double sigma = 10; /* Prandtl number */
 double b     = 2.6666; /* geometric factor */
 double r     = 28;
 double dt    = 0.001;
-double theta = 0;
-double phi   = 0;
+int theta = 0;
+int phi   = 0;
 double axis  = 1; /* +X, -X, +Y, -Y, +Z, -Z */
 
 
@@ -65,7 +65,7 @@ void gprint(const char* format, ...)
     /* Disp chars one by one at current raster pos */
     while (*ch)
     {
-        glutBitmapCharacter(GLUT_BITMAP_CONSOLAS_14, *ch++);
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *ch++);
     }
 }
 
@@ -110,7 +110,7 @@ void display()
 
 
     /* Cleanup */
-    checkErrs(__func__);
+    checkErrs("display");
     glFlush();
     glutSwapBuffers();
 }
@@ -163,7 +163,7 @@ void specialkeybindings(int key, int xpos, int ypos)
         case GLUT_KEY_LEFT:
             theta -= 5;      /* decrease longitudinal view 5 deg */
             break;
-        case GLUT_KEY_up:
+        case GLUT_KEY_UP:
             phi += 5;        /* increase latitudinal view 5 deg */
             break;
         case GLUT_KEY_DOWN:
