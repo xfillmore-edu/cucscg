@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <stdbool.h>
 #include <math.h>
 
 #define GL_GLEXT_PROTOTYPES
@@ -41,6 +42,7 @@ int    t     = 1;
 /* sets default viewing angle */
 int    theta = -45;
 int    phi   = 25;
+/* bool   animate = false; /* animate point drawing for system */
 
 
 
@@ -75,7 +77,6 @@ void gprint(const char* format, ...)
         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *ch++);
     }
 }
-
 
 /* Display scene */
 /* Built based on ex5-7 and lorenz.c code */
@@ -119,7 +120,7 @@ void display()
     glWindowPos2i(5, 20);
     gprint("Viewing from (%d, %d) deg, Time Step dt=%.3f", theta, phi, dt);
     glWindowPos2i(5, 5);
-    gprint("Lorenz Params s=%.2f b=%.4f r=%.2f", sigma, beta, rho);
+    gprint("Lorenz Params s=%.2f b=%.4f r=%.2f, Initial condition (x,y,z)=(1,1,1)", sigma, beta, rho);
 
     /* Calculate and render lorenz values */
     /* Derived from PrinMath lorenz.c and Qt example lorenz.cpp */
