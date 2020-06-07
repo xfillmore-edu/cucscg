@@ -28,9 +28,12 @@
 
 /* Global Variables */
 #define MAXSTRLEN 8192
-double sigma = 10; /* Prandtl number */
-double b     = 2.6666; /* geometric factor */
-double r     = 28;
+/* prandtl number - valid values for sigma (values from ScienceDirect) */
+/* sodium, mercury, air, carbon disulfide, chloromethane, methanol, water, toluene, default 10, ethanol, argon, krypton, xenon */
+double prandtl[13] = {0.01, 0.03, 0.72, 2.36, 4.41, 6.83, 6.90, 7.26, 10.00, 18.05, 22.77, 673.68, 674.91};
+int    s     = 8; /* Prandtl nums array index */
+double beta  = 2.6666; /* geometric factor */
+double rho   = 28;
 double dt    = 0.001;
 int    theta = -45;
 int    phi   = 25;
@@ -88,30 +91,55 @@ void display()
     glEnable(GL_DEPTH_TEST);
 
     /* Draw and label X, Y, and Z axes */
+    int ax = 1;
     glColor3f(0.8, 0.8, 0.8); /* light grey */
     glBegin(GL_LINES);   /* connects each pair of specified vertices */
-    glVertex3d(0, 0, 0); /* x begin */
-    glVertex3d(1, 0, 0); /* x end   */
-    glVertex3d(0, 0, 0); /* y begin */
-    glVertex3d(0, 1, 0); /* y end   */
-    glVertex3d(0, 0, 0); /* z begin */
-    glVertex3d(0, 0, 1); /* z end   */
+    glVertex3d(0, 0, 0);  /* x begin */
+    glVertex3d(ax, 0, 0); /* x end   */
+    glVertex3d(0, 0, 0);  /* y begin */
+    glVertex3d(0, ax, 0); /* y end   */
+    glVertex3d(0, 0, 0);  /* z begin */
+    glVertex3d(0, 0, ax); /* z end   */
     glEnd();
-    glRasterPos3d(1.1, 0, 0);
+    glRasterPos3d(ax, 0, 0);
     gprint("X");
-    glRasterPos3d(0, 1.1, 0);
+    glRasterPos3d(0, ax, 0);
     gprint("Y");
-    glRasterPos3d(0, 0, 1.1);
+    glRasterPos3d(0, 0, ax);
     gprint("Z");
 
     /* Calculate and render lorenz values */
+    /* Derived from PrinMath lorenz.c and Qt example lorenz.cpp */
+    double sigma = prandtl[s];
+    double xcoord = 1;
+    double ycoord = 1;
+    double zcoord = 1;
+    int i = 0;
+    float red[] = {1.0,1.0,1.0,0.0,0.0,0.0};
+    float green[] = {0.0,0.5,1.0,1.0,1.0,0.0};
+    float blue[] = {0.0,0.0,0.0,0.0,1.0,1.0};
+    glBegin(GL_LINE_STRIP);
+    for (i = 0; i < 50000; i++)
+    {
+        double dx = sigma * (ycoord-xcoord);
+        double dy = xcoord * (rho-zcoord) - ycoord;
+        double dz = xcoord * ycoord - beta * zcoord;
+        xcoord += dt * dx;
+        ycoord += dt * dy;
+        zcoord += dt * dz;
+
+        /* Create point at calculated coordinates */
+        glColor3f(red[i/1000], green[i/1000], blue[i/1000]);
+        glVertex3d(xcoord, ycoord, zcoord);
+    }
+    glEnd();
 
 
     /* Display current parameters in lower left corner */
     glWindowPos2i(5, 20);
-    gprint("Viewing from (%d, %d) deg, Time Step dt=%.3d", theta, phi, dt);
+    gprint("Viewing from (%d, %d) deg, Time Step dt=%.3f", theta, phi, dt);
     glWindowPos2i(5, 5);
-    gprint("Lorenz Params s=%d b=%.4d r=%d", sigma, b, r);
+    gprint("Lorenz Params s=%.2f b=%.4f r=%2.0f", sigma, beta, rho);
 
 
     /* Cleanup */
@@ -149,6 +177,54 @@ void keybindings(unsigned char key, int xpos, int ypos)
     if (key == 27 || key == 113)
     {
         exit(0);
+    }
+    /* view from +X axis - x */
+    else if (key == 120)
+    {
+        theta = 90;
+        phi   = 0;
+    }
+    /* view from -X axis - X */
+    else if (key == 88)
+    {
+        theta = -90;
+        phi   = 0;
+    }
+    /* view from +Y axis - y */
+    else if (key == 121)
+    {
+        theta = 0;
+        phi   = 90;
+    }
+    /* view from -Y axis - Y */
+    else if (key == 89)
+    {
+        theta = 0;
+        phi   = -90;
+    }
+    /* view from +Z axis - z */
+    else if (key == 122)
+    {
+        theta = 0;
+        phi   = 0;
+    }
+    /* view from -Z axis - Z */
+    else if (key == 90)
+    {
+        theta = 180;
+        phi   = 0;
+    }
+    /* decrease s parameter - s */
+    else if (key == 115)
+    {
+        s -= 1;
+        s %= 13;
+    }
+    /* increase s parameter - S */
+    else if (key == 83)
+    {
+        s += 1;
+        s %= 13;
     }
 
     /* Redisplay scene */
@@ -203,7 +279,7 @@ void winadjust(int width, int height)
     glLoadIdentity();
 
     /* Adjust projection box for new win aspect ratio */
-    glOrtho(-dim * wh_ratio, dim * wh_ratio, -dim, dim, -dim, dim);
+    glOrtho(-dim * wh_ratio, dim * wh_ratio, -dim, dim, -100 * dim, 100 * dim);
 
     /* Switch to manipulating model matrix */
     glMatrixMode(GL_MODELVIEW);
