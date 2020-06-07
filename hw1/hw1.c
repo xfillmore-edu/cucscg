@@ -89,7 +89,7 @@ void display()
     glEnable(GL_DEPTH_TEST);
 
     /* Draw and label X, Y, and Z axes */
-    int ax = 50;
+    int ax = 40;
     glColor3f(0.8, 0.8, 0.8); /* light grey */
     glBegin(GL_LINES);   /* connects each pair of specified vertices */
     glVertex3d(0, 0, 0);  /* x begin */
@@ -212,6 +212,15 @@ void keybindings(unsigned char key, int xpos, int ypos)
         theta = 180;
         phi   = 0;
     }
+    /* reset to default/startup view and params - e */
+    else if (key == 101)
+    {
+        theta = -45;
+        phi = 25;
+        s = 8;
+        beta = 2.6666;
+        rho = 28.0;
+    }
     /* decrease s parameter - s */
     else if (key == 115)
     {
@@ -224,6 +233,7 @@ void keybindings(unsigned char key, int xpos, int ypos)
         s += 1;
         s %= 13;
     }
+    
 
     /* Redisplay scene */
     glutPostRedisplay();
