@@ -91,7 +91,7 @@ void display()
     glEnable(GL_DEPTH_TEST);
 
     /* Draw and label X, Y, and Z axes */
-    int ax = 1;
+    int ax = 50;
     glColor3f(0.8, 0.8, 0.8); /* light grey */
     glBegin(GL_LINES);   /* connects each pair of specified vertices */
     glVertex3d(0, 0, 0);  /* x begin */
@@ -267,7 +267,7 @@ void winadjust(int width, int height)
     /* ratio width:height */
     double wh_ratio = (height > 0) ? (double)width/height : 1;
     /* dimension of orthogonal box */
-    double dim = 2;
+    double dim = 50;
 
     /* set viewport to entire window */
     glViewport(0, 0, width, height);
@@ -279,7 +279,7 @@ void winadjust(int width, int height)
     glLoadIdentity();
 
     /* Adjust projection box for new win aspect ratio */
-    glOrtho(-dim * wh_ratio, dim * wh_ratio, -dim, dim, -100 * dim, 100 * dim);
+    glOrtho(-dim * wh_ratio, dim * wh_ratio, -dim, dim, -dim, dim);
 
     /* Switch to manipulating model matrix */
     glMatrixMode(GL_MODELVIEW);
