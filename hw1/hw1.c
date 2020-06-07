@@ -15,10 +15,6 @@
 
 #define GL_GLEXT_PROTOTYPES
 
-/* Macros */
-#define sind(x) (sin((x) * 3.1415927 / 180)) /* sine degree evaluation */
-#define cosd(x) (cos((x) * 3.1415927 / 180)) /* cosine degree evaluation */
-
 /* Cross-OS Compatability */
 #ifdef __APPLE__
 #include <GLUT/glut.h>
@@ -26,14 +22,18 @@
 #include <GL/glut.h>
 #endif
 
+/* Macros */
+#define sind(x) (sin((x) * 3.1415927 / 180)) /* sine degree evaluation */
+#define cosd(x) (cos((x) * 3.1415927 / 180)) /* cosine degree evaluation */
+
 /* Global Variables */
 #define MAXSTRLEN 8192
 double sigma = 10; /* Prandtl number */
 double b     = 2.6666; /* geometric factor */
 double r     = 28;
 double dt    = 0.001;
-int theta = 0;
-int phi   = 0;
+int    theta = -45;
+int    phi   = 25;
 double axis  = 1; /* +X, -X, +Y, -Y, +Z, -Z */
 
 
@@ -44,7 +44,7 @@ void checkErrs (char* fn)
     int err = glGetError();
     if (err)
     {
-        fprintf (stderr, "ERROR: %s in function <%s>.", gluErrorString(err), fn);
+        fprintf (stderr, "ERROR: %s in function <%s>.\n", gluErrorString(err), fn);
     }
 }
 
@@ -84,6 +84,9 @@ void display()
     glRotated(phi,   1, 0, 0);
     glRotated(theta, 0, 1, 0);
 
+    /* Allow z-buffer */
+    glEnable(GL_DEPTH_TEST);
+
     /* Draw and label X, Y, and Z axes */
     glColor3f(0.8, 0.8, 0.8); /* light grey */
     glBegin(GL_LINES);   /* connects each pair of specified vertices */
@@ -94,19 +97,21 @@ void display()
     glVertex3d(0, 0, 0); /* z begin */
     glVertex3d(0, 0, 1); /* z end   */
     glEnd();
-    glRasterPos3d(1.5, 0, 0);
+    glRasterPos3d(1.1, 0, 0);
     gprint("X");
-    glRasterPos3d(0, 1.5, 0);
+    glRasterPos3d(0, 1.1, 0);
     gprint("Y");
-    glRasterPos3d(0, 0, 1.5);
+    glRasterPos3d(0, 0, 1.1);
     gprint("Z");
 
     /* Calculate and render lorenz values */
 
 
     /* Display current parameters in lower left corner */
+    glWindowPos2i(5, 20);
+    gprint("Viewing from (%d, %d) deg, Time Step dt=%.3d", theta, phi, dt);
     glWindowPos2i(5, 5);
-    gprint("Viewing from (%d, %d) deg, Time Step dt=%1.3d, Lorenz Params s=%2d b=%1.4d r=%2d", theta, phi, dt, sigma, b, r);
+    gprint("Lorenz Params s=%d b=%.4d r=%d", sigma, b, r);
 
 
     /* Cleanup */
@@ -221,7 +226,7 @@ int main(int argc, char* argv[])
     glutInitWindowSize(500, 500);
 
     /* Create window with name */
-    glutCreateWindow("Assignment 1");
+    glutCreateWindow("Xuedan Fillmore | Assignment 1");
 
     /* register 'display' as scene drawing fn */
     glutDisplayFunc(display);
@@ -230,8 +235,8 @@ int main(int argc, char* argv[])
     glutReshapeFunc(winadjust);
 
     /* register key bindings for keyboard and arrows */
-    glutKeyboardFunc(keybindings);
     glutSpecialFunc(specialkeybindings);
+    glutKeyboardFunc(keybindings);
 
     /* Pass control to GLUT for user interaction */
     glutMainLoop();
