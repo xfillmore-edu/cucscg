@@ -26,7 +26,7 @@
 /* Macros */
 #define sind(x) (sin((x) * 3.1415927 / 180)) /* sine degree evaluation */
 #define cosd(x) (cos((x) * 3.1415927 / 180)) /* cosine degree evaluation */
-#define bool2str(bvar) (bvar ? "true" : "false")
+#define bool2str(bvar) (bvar ? "true" : "false") /* convert boolean true/false to string */
 
 /* Global Variables */
 #define MAXSTRLEN 8192
@@ -87,18 +87,11 @@ void gprint(const char* format, ...)
 /* designed based on pentamollis project tutorial (YouTube) */
 void timer(int filler)
 {
-    /* redisplay scene */
-    glutPostRedisplay();
-
-    /* register timer function to itself to loop at 60 fps */
-    glutTimerFunc(1000/60, timer, 0);
-    
     /* update entire display */
-    if (itersteps < (50 / timesteps[t]))
+    double dt = timesteps[t];
+    if ((itersteps < (50 / dt)) && animate)
     {
-        itersteps += 1;
         int i = 0;
-        double dt = timesteps[t];
         double sigma = prandtl[s];
         double rho = rayleigh[r];
         float red[] = {1.0,1.0,1.0,0.0,0.0,0.0};
@@ -106,9 +99,10 @@ void timer(int filler)
         float blue[] = {0.0,0.0,0.0,0.0,1.0,1.0};
 
         xcoord = ycoord = zcoord = 1;
+        int imax = 50 / dt;
 
         glBegin(GL_LINE_STRIP);
-        for (i = 0; i < itersteps; i++)
+        for (i = 0; (i < itersteps) && (itersteps < imax); i++)
         {
             double dx = sigma * (ycoord-xcoord);
             double dy = xcoord * (rho-zcoord) - ycoord;
@@ -122,6 +116,23 @@ void timer(int filler)
             glVertex3d(xcoord, ycoord, zcoord);
         }
         glEnd();
+
+        itersteps += 1;
+        if (itersteps > (50/dt))
+        {
+            animate = false;
+        }
+
+        /* redisplay scene */
+        glutPostRedisplay();
+        /* register timer function to itself to loop at 60 fps */
+        glutTimerFunc(1000.0/60.0, timer, 0);
+    }
+    else
+    {
+        animate = false;
+        /* redisplay scene */
+        glutPostRedisplay();
     }
 }
 
@@ -227,6 +238,7 @@ void display()
  * t         (116)   decrease time step
  * T         (84)    increase time step
  * e         (101)   erase modifications (reset view)
+ * a         (97)    toggle animation on/off
  * q or ESC  (113,27) quit program / exit display window
  */
 /* key refers to the input character */
@@ -333,6 +345,11 @@ void keybindings(unsigned char key, int xpos, int ypos)
     else if (key == 97)
     {
         animate = !animate;
+        if (animate)
+        {
+            itersteps = 0;
+            glutTimerFunc(500, timer, 0);
+        }
     }
 
     /* Redisplay scene */
@@ -421,8 +438,6 @@ int main(int argc, char* argv[])
     /* register key bindings for keyboard and arrows */
     glutSpecialFunc(specialkeybindings);
     glutKeyboardFunc(keybindings);
-
-    glutTimerFunc(50, timer, 0);
 
     /* Pass control to GLUT for user interaction */
     glutMainLoop();
