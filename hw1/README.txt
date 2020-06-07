@@ -34,6 +34,7 @@ KEY BINDINGS
   t         decrease time step
   T         increase time step
   e         erase modifications (reset view)
+  a         toggle animation on/off
   q or ESC  Exit display window
 
 UPDATING PARAMETERS
@@ -51,3 +52,4 @@ UPDATING PARAMETERS
 Time spent
 ~ 8 hours, 30 minutes
 [Status: Minimum Requirements met]
++9h

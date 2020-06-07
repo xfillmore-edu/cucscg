@@ -26,6 +26,7 @@
 /* Macros */
 #define sind(x) (sin((x) * 3.1415927 / 180)) /* sine degree evaluation */
 #define cosd(x) (cos((x) * 3.1415927 / 180)) /* cosine degree evaluation */
+#define bool2str(bvar) (bvar ? "true" : "false")
 
 /* Global Variables */
 #define MAXSTRLEN 8192
@@ -42,7 +43,11 @@ int    t     = 1;
 /* sets default viewing angle */
 int    theta = -45;
 int    phi   = 25;
-/* bool   animate = false; /* animate point drawing for system */
+bool   animate = false; /* animate point drawing for system */
+int itersteps = 0;
+double xcoord = 1;
+double ycoord = 1;
+double zcoord = 1;
 
 
 
@@ -75,6 +80,48 @@ void gprint(const char* format, ...)
     while (*ch)
     {
         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *ch++);
+    }
+}
+
+/* function to perform animation stepping */
+/* designed based on pentamollis project tutorial (YouTube) */
+void timer(int filler)
+{
+    /* redisplay scene */
+    glutPostRedisplay();
+
+    /* register timer function to itself to loop at 60 fps */
+    glutTimerFunc(1000/60, timer, 0);
+    
+    /* update entire display */
+    if (itersteps < (50 / timesteps[t]))
+    {
+        itersteps += 1;
+        int i = 0;
+        double dt = timesteps[t];
+        double sigma = prandtl[s];
+        double rho = rayleigh[r];
+        float red[] = {1.0,1.0,1.0,0.0,0.0,0.0};
+        float green[] = {0.0,0.5,1.0,1.0,1.0,0.0};
+        float blue[] = {0.0,0.0,0.0,0.0,1.0,1.0};
+
+        xcoord = ycoord = zcoord = 1;
+
+        glBegin(GL_LINE_STRIP);
+        for (i = 0; i < itersteps; i++)
+        {
+            double dx = sigma * (ycoord-xcoord);
+            double dy = xcoord * (rho-zcoord) - ycoord;
+            double dz = xcoord * ycoord - beta * zcoord;
+            xcoord += dt * dx;
+            ycoord += dt * dy;
+            zcoord += dt * dz;
+
+            /* Create point at calculated coordinates */
+            glColor3f(red[i/1000], green[i/1000], blue[i/1000]);
+            glVertex3d(xcoord, ycoord, zcoord);
+        }
+        glEnd();
     }
 }
 
@@ -117,37 +164,45 @@ void display()
     double sigma = prandtl[s];
     double rho = rayleigh[r];
     double dt = timesteps[t];
+    glWindowPos2i(5, 35);
+    gprint("Animation on: %s", bool2str(animate));
     glWindowPos2i(5, 20);
     gprint("Viewing from (%d, %d) deg, Time Step dt=%.3f", theta, phi, dt);
     glWindowPos2i(5, 5);
     gprint("Lorenz Params s=%.2f b=%.4f r=%.2f, Initial condition (x,y,z)=(1,1,1)", sigma, beta, rho);
 
     /* Calculate and render lorenz values */
-    /* Derived from PrinMath lorenz.c and Qt example lorenz.cpp */
-    
-    double xcoord = 1;
-    double ycoord = 1;
-    double zcoord = 1;
-    int i = 0;
-    float red[] = {1.0,1.0,1.0,0.0,0.0,0.0};
-    float green[] = {0.0,0.5,1.0,1.0,1.0,0.0};
-    float blue[] = {0.0,0.0,0.0,0.0,1.0,1.0};
-    glBegin(GL_LINE_STRIP);
-    int imax = 50/dt;
-    for (i = 0; i < imax; i++)
+    /* Derived from PrinMath lorenz.c and Qt example lorenz.cpp */   
+    if (!animate)
     {
-        double dx = sigma * (ycoord-xcoord);
-        double dy = xcoord * (rho-zcoord) - ycoord;
-        double dz = xcoord * ycoord - beta * zcoord;
-        xcoord += dt * dx;
-        ycoord += dt * dy;
-        zcoord += dt * dz;
+        int i = 0;
+        float red[] = {1.0,1.0,1.0,0.0,0.0,0.0};
+        float green[] = {0.0,0.5,1.0,1.0,1.0,0.0};
+        float blue[] = {0.0,0.0,0.0,0.0,1.0,1.0};
 
-        /* Create point at calculated coordinates */
-        glColor3f(red[i/1000], green[i/1000], blue[i/1000]);
-        glVertex3d(xcoord, ycoord, zcoord);
+        xcoord = ycoord = zcoord = 1;
+
+        glBegin(GL_LINE_STRIP);
+        int imax = 50/dt; /* calculate number of steps for 50 time units */
+        for (i = 0; i < imax; i++)
+        {
+            double dx = sigma * (ycoord-xcoord);
+            double dy = xcoord * (rho-zcoord) - ycoord;
+            double dz = xcoord * ycoord - beta * zcoord;
+            xcoord += dt * dx;
+            ycoord += dt * dy;
+            zcoord += dt * dz;
+
+            /* Create point at calculated coordinates */
+            glColor3f(red[i/1000], green[i/1000], blue[i/1000]);
+            glVertex3d(xcoord, ycoord, zcoord);
+        }
+        glEnd();
     }
-    glEnd();
+    else
+    {
+        timer(itersteps);
+    }
 
     /* Cleanup */
     checkErrs("display");
@@ -227,6 +282,7 @@ void keybindings(unsigned char key, int xpos, int ypos)
         s = 7;
         r = 6;
         t = 1;
+        animate = false;
     }
     /* decrease s parameter - s */
     else if (key == 115)
@@ -273,6 +329,11 @@ void keybindings(unsigned char key, int xpos, int ypos)
         t += 1;
         t %= 4;
     }
+    /* toggle animation - a */
+    else if (key == 97)
+    {
+        animate = !animate;
+    }
 
     /* Redisplay scene */
     glutPostRedisplay();
@@ -309,7 +370,7 @@ void specialkeybindings(int key, int xpos, int ypos)
 
 /* GLUT window resized adjuster routine */
 /* Directly derived from ex6 */
-void winadjust(int width, int height)
+void reshape(int width, int height)
 {
     /* ratio width:height */
     double wh_ratio = (height > 0) ? (double)width/height : 1;
@@ -354,12 +415,14 @@ int main(int argc, char* argv[])
     /* register 'display' as scene drawing fn */
     glutDisplayFunc(display);
 
-    /* register 'winadjust' as window resizing fn */
-    glutReshapeFunc(winadjust);
+    /* register 'reshape' as window resizing fn */
+    glutReshapeFunc(reshape);
 
     /* register key bindings for keyboard and arrows */
     glutSpecialFunc(specialkeybindings);
     glutKeyboardFunc(keybindings);
+
+    glutTimerFunc(50, timer, 0);
 
     /* Pass control to GLUT for user interaction */
     glutMainLoop();
