@@ -49,6 +49,5 @@ UPDATING PARAMETERS
     can be quickly set using e (erase all modifications).
 
 Time spent
-Over 6 hours, 30 minutes
-[Status: In Progress]
-+ 5h 15m
+~ 8 hours, 30 minutes
+[Status: Minimum Requirements met]
