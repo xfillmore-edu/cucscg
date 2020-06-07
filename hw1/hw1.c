@@ -37,8 +37,6 @@ double rho   = 28;
 double dt    = 0.001;
 int    theta = -45;
 int    phi   = 25;
-double axis  = 1; /* +X, -X, +Y, -Y, +Z, -Z */
-
 
 /* Error checking Function */
 /* Code derived directly from ex5 */
