@@ -14,6 +14,12 @@ COMPILE
   $ make
   $ hw1
 
+LOCAL CONFIG
+  Windows OS 10 with mounted Ubuntu terminal
+  Start Xming
+  $ export DISPLAY=:0.0
+  $ ./hw1
+
 KEY BINDINGS
   x         view from +X axis
   X         view from -X axis
@@ -33,3 +39,6 @@ KEY BINDINGS
   q or ESC  Exit display window
 
 Time spent
+Over 6 hours, 30 minutes
+[Status: In Progress]
++ 5h 15m
