@@ -29,14 +29,24 @@ KEY BINDINGS
   Z         view from -Z axis
   s         decrease s parameter
   S         increase s parameter
-  b         decrease b parameter
-  B         increase b parameter
   r         decrease r parameter
   R         increase r parameter
   t         decrease time step
   T         increase time step
   e         erase modifications (reset view)
   q or ESC  Exit display window
+
+UPDATING PARAMETERS
+  The key bindings specify that the sigma (s), rho (r), and dt (t) parameters
+  can be changed to modify the system.
+  Available values for each is stored an array.
+  For sigma, the values correspond to actual fluids.
+  For rho, most values are randomly selected with the exception of a select few
+    that are determined to be critical values. For very large values of rho,
+    the specified dimension is insufficient to accomodate the entire graph.
+  For dt, time steps are limited to 0.01, 0.001, 0.005, and 0.0001 (which is displayed as 0.000)
+  The default values for each of these, as well as the initial display angle,
+    can be quickly set using e (erase all modifications).
 
 Time spent
 Over 6 hours, 30 minutes
