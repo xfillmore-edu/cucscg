@@ -86,11 +86,12 @@ void gprint(const char* format, ...)
 /* function to perform animation stepping */
 /* designed based on pentamollis project tutorial (YouTube) */
 /* Additional modifications made based on nexusone explanation on Khronos forum */
-void timer(int filler)
+void timer()
 {
     /* update entire display */
     double dt = timesteps[t];
-    if ((itersteps < (50 / dt)) && animate)
+    unsigned int imax = 50 / dt;
+    if (itersteps < imax)
     {
         int i = 0;
         double sigma = prandtl[s];
@@ -100,10 +101,9 @@ void timer(int filler)
         float blue[] = {0.0,0.0,0.0,0.0,1.0,1.0};
 
         xcoord = ycoord = zcoord = 1;
-        int imax = 50 / dt;
 
         glBegin(GL_LINE_STRIP);
-        for (i = 0; (i < itersteps) && (itersteps < imax); i++)
+        for (i = 0; i < itersteps; i++)
         {
             double dx = sigma * (ycoord-xcoord);
             double dy = xcoord * (rho-zcoord) - ycoord;
@@ -119,22 +119,25 @@ void timer(int filler)
         glEnd();
 
         itersteps += 1;
-        if (itersteps > (50/dt))
-        {
-            animate = false;
-        }
 
         /* redisplay scene */
         glutPostRedisplay();
         /* register timer function to itself to loop at 60 fps */
-        glutTimerFunc(1000.0/60.0, timer, 0);
+        // glutTimerFunc(1000.0/60.0, timer, 0);
+        glutTimerFunc(50, timer, 0);
+        
+        checkErrs("timer");
+
     }
-    else
-    {
-        animate = false;
-        /* redisplay scene */
-        glutPostRedisplay();
-    }
+    // else
+    // {
+    //     animate = false;
+    //     glutPostRedisplay();
+    //     glutTimerFunc(0, NULL, 0);
+
+    //     checkErrs("timer");
+    // }
+
 }
 
 /* Display scene */
@@ -172,10 +175,13 @@ void display()
     glRasterPos3d(0, 0, ax);
     gprint("Z");
 
-    /* Display current parameters in lower left corner */
+    /* set up variables */
     double sigma = prandtl[s];
     double rho = rayleigh[r];
     double dt = timesteps[t];
+    unsigned int imax = 50/dt;
+
+    /* Display current parameters in lower left corner */
     glWindowPos2i(5, 35);
     gprint("Animation on: %s", bool2str(animate));
     glWindowPos2i(5, 20);
@@ -184,18 +190,17 @@ void display()
     gprint("Lorenz Params s=%.2f b=%.4f r=%.2f, Initial condition (x,y,z)=(1,1,1)", sigma, beta, rho);
 
     /* Calculate and render lorenz values */
-    /* Derived from PrinMath lorenz.c and Qt example lorenz.cpp */   
+    /* Derived from PrinMath lorenz.c and Qt example lorenz.cpp */  
     if (!animate)
     {
         int i = 0;
-        float red[] = {1.0,1.0,1.0,0.0,0.0,0.0};
-        float green[] = {0.0,0.5,1.0,1.0,1.0,0.0};
-        float blue[] = {0.0,0.0,0.0,0.0,1.0,1.0};
+        float red[] = {1.0,0.8,0.6,0.4,0.2,0.0};
+        float green[] = {0.0,0.3,0.6,1.0,0.5,0.0};
+        float blue[] = {0.0,0.2,0.4,0.6,0.8,1.0};
 
         xcoord = ycoord = zcoord = 1;
 
         glBegin(GL_LINE_STRIP);
-        int imax = 50/dt; /* calculate number of steps for 50 time units */
         for (i = 0; i < imax; i++)
         {
             double dx = sigma * (ycoord-xcoord);
@@ -210,15 +215,24 @@ void display()
             glVertex3d(xcoord, ycoord, zcoord);
         }
         glEnd();
-    }
+    } 
     else
     {
-        timer(itersteps);
+        if (itersteps >= imax)
+        {
+            animate = false;
+            glutPostRedisplay();
+        }
+        else
+        {
+            glWindowPos2i(5, 50);
+            gprint("Step %i of %i", itersteps, imax);
+            timer();
+        }
     }
 
     /* Cleanup */
     checkErrs("display");
-    glFlush();
     glutSwapBuffers();
 }
 
@@ -296,6 +310,7 @@ void keybindings(unsigned char key, int xpos, int ypos)
         r = 6;
         t = 1;
         animate = false;
+        itersteps = 0;
     }
     /* decrease s parameter - s */
     else if (key == 115)
@@ -305,12 +320,14 @@ void keybindings(unsigned char key, int xpos, int ypos)
         {
             s = 10;
         }
+        itersteps = 0;
     }
     /* increase s parameter - S */
     else if (key == 83)
     {
         s += 1;
         s %= 11;
+        itersteps = 0;
     }
     /* decrease r parameter - r */
     else if (key == 114)
@@ -320,12 +337,14 @@ void keybindings(unsigned char key, int xpos, int ypos)
         {
             r = 9;
         }
+        itersteps = 0;
     }
     /* increase r parameter - R */
     else if (key == 82)
     {
         r += 1;
         r %= 10;
+        itersteps = 0;
     }
     /* increase time step - T */
     else if (key == 84)
@@ -335,12 +354,14 @@ void keybindings(unsigned char key, int xpos, int ypos)
         {
             t = 3;
         }
+        itersteps = 0;
     }
     /* decrease time step - t */
     else if (key == 116)
     {
         t += 1;
         t %= 4;
+        itersteps = 0;
     }
     /* toggle animation - a */
     /* with modded functionality based on nexusone post to Khronos forum */
@@ -350,7 +371,7 @@ void keybindings(unsigned char key, int xpos, int ypos)
         if (animate)
         {
             itersteps = 0;
-            glutTimerFunc(500, timer, 0);
+            glutTimerFunc(1000.0/60.0, timer, 0);
         }
     }
 
