@@ -44,7 +44,8 @@ int    t     = 1;
 int    theta = -45;
 int    phi   = 25;
 bool   animate = false; /* animate point drawing for system */
-int itersteps = 0;
+int itersteps = 0; /* track where in animation */
+/* initial conditions/coordinates for attractor system */
 double xcoord = 1;
 double ycoord = 1;
 double zcoord = 1;

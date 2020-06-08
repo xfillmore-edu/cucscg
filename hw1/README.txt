@@ -52,14 +52,21 @@ UPDATING PARAMETERS
 TOGGLING ANIMATION
   An animated lorenz attractor can be toggled on using 'a.'
   When animating, the window will inform the user that the animation is active
-  and specify which frame (step) of the animation is being shown.
+    and specify which frame (step) of the animation is being shown.
   The frames appear in further-apart chunks of time as the animation, and thus
-  the functions, become more complex. Any changes in viewing angle during
-  the animation also occur significantly slower than without the animation.
+    the functions, become more complex. Any changes in viewing angle during
+    the animation also occur significantly slower than without the animation.
   When the animation completes, it is turned off (false).
   When any parameter to the function is changed, the animation restarts.
+  The animation is set to 60 fps.
 
 Time spent
-~ 8 hours, 30 minutes
-[Status: Minimum Requirements met]
-+9h
+  ~ 13 hours, 15 minutes
+  [Status: Minimum Requirements met; Animation complete]
+Relative break down
+  4h - Initial set up of working skeleton code, Makefile, README, key bindings
+  1h - System configuration/debugging
+  2h - Setting up Lorenz attractor code and debugging
+  2h - Researching Lorenz attractor, Prandtl number, and Rayleigh's number and
+       updating code to modify parameters
+  4h - Animation set up, research, and debugging
