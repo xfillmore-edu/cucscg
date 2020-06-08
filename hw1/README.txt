@@ -49,6 +49,16 @@ UPDATING PARAMETERS
   The default values for each of these, as well as the initial display angle,
     can be quickly set using e (erase all modifications).
 
+TOGGLING ANIMATION
+  An animated lorenz attractor can be toggled on using 'a.'
+  When animating, the window will inform the user that the animation is active
+  and specify which frame (step) of the animation is being shown.
+  The frames appear in further-apart chunks of time as the animation, and thus
+  the functions, become more complex. Any changes in viewing angle during
+  the animation also occur significantly slower than without the animation.
+  When the animation completes, it is turned off (false).
+  When any parameter to the function is changed, the animation restarts.
+
 Time spent
 ~ 8 hours, 30 minutes
 [Status: Minimum Requirements met]
