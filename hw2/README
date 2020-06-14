@@ -1,0 +1,26 @@
+Xuedan Fillmore
+CSCI 4229 Computer Graphics
+11 June 2020
+
+Assignment 2 | 3D Scene
+
+PURPOSE
+  To gain practice producing different projection types
+  To understand construction of 3-dimensional objects
+  
+
+COMPILE
+  $ make
+
+LOCAL CONFIG
+  Windows OS 10 with mounted Ubuntu terminal
+  Start Xming
+  $ export DISPLAY=:0.0
+  $ ./hw1
+
+KEY BINDINGS
+
+
+Time Spent
++1h makefile, readme, header files setup
++1h planning
