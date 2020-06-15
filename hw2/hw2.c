@@ -8,8 +8,8 @@
  *
  */
 
-#include <config.h>
-#include <bmbObjects.h>
+#include "bmbObjects.h"
+#include "config.h"
 
 /* global variables */
 int theta    = 0;
