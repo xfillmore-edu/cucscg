@@ -24,7 +24,7 @@ CLEAN=rm -f $(EXE) *.o *.a
 endif
 
 # state dependencies for each object file
-hw2.o: hw2.c objects.h config.h
+hw2.o: hw2.c bmbObjects.h config.h
 checkErrs.o: checkErrs.c config.h
 fatal.o: fatal.c config.h
 gprint.o: gprint.c config.h
