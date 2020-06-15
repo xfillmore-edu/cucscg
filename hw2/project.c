@@ -17,11 +17,13 @@ void project(double fov, double aspratio, double dimension)
     /* remove previous transformations */
     glLoadIdentity();
 
+    /* not inherited from reshape() */
+
     /* perspective transformation */
     /* 0 - orthogonal */
     if (fov)
     {
-        gluPerspective(fov, aspratio, dimension/16, 16*dimension);
+        gluPerspective(fov, aspratio, dimension/4, 4*dimension);
     }
     else
     {

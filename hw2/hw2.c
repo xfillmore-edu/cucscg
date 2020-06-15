@@ -12,9 +12,17 @@
 #include "config.h"
 
 /* global variables */
-int theta    = 0;
-int phi      = 0;
-int viewmode = 0;
+int alpha    = 0;  /* view angle longitude */
+int beta     = 0;  /* view angle latitude */
+int viewmode = 0;  /* viewing mode (use p to switch) */
+int objmode  = 1;  /* which object(s) to view */
+int fov      = 0; /* field of view, perspective */
+double aspr  = 1;  /* aspect ratio */
+double dim   = 40; /* dimension - world size */
+
+/* * * * * * * * * * * * * * * * * * *
+ *        S H A P E S
+ * * * * * * * * * * * * * * * * * * */
 
 /* some parts reused from hw1 */
 void display()
@@ -24,14 +32,34 @@ void display()
     /* Reset prior transformations */
     glLoadIdentity();
     /* Set view angle */
-    glRotated(phi,   1, 0, 0);
-    glRotated(theta, 0, 1, 0);
+    glRotated(beta,  1, 0, 0);
+    glRotated(alpha, 0, 1, 0);
     /* Allow z-buffer */
     glEnable(GL_DEPTH_TEST);
 
-    // CODE BODY HERE
+    /* Draw and label X, Y, and Z axes */
+    int ax = 20;
+    glColor3f(0.8, 0.8, 0.8); /* light grey */
+    glBegin(GL_LINES);   /* connects each pair of specified vertices */
+    glVertex3d(0, 0, 0);  /* x begin */
+    glVertex3d(ax, 0, 0); /* x end   */
+    glVertex3d(0, 0, 0);  /* y begin */
+    glVertex3d(0, ax, 0); /* y end   */
+    glVertex3d(0, 0, 0);  /* z begin */
+    glVertex3d(0, 0, ax); /* z end   */
+    glEnd();
+    glRasterPos3d(ax, 0, 0);
+    gprint("X");
+    glRasterPos3d(0, ax, 0);
+    gprint("Y");
+    glRasterPos3d(0, 0, ax);
+    gprint("Z");
+
+    glWindowPos2i(5, 5);
+    gprint("Random number: %d", rand()%25 + 5);
+
     /* use rand()%maxsize + minsize */
-    cylinder(1, 10 + 4/20, 1, 10, 4);
+    cylinder(1, 10 + 4/10, 1, 10, 4);
     rhombohedron(1, 10, 1, 4);
     cylinder(1, 0, 1, 10, 4);
     
@@ -44,9 +72,9 @@ void display()
 
 /* called by GLUT when a standard key is pressed */
 /* KEYBINDINGS
- *
- * 
- * 
+ * q or ESC (27, 113) quit/close program
+ * p        (112)     switch between projection modes
+ * 1-6      (49-54)   switch between viewable objects
  * 
  * 
  * 
@@ -68,6 +96,51 @@ void keybindings(unsigned char key, int xpos, int ypos)
     {
         exit(0);
     }
+    else
+    {
+        /* switch between orthogonal, perspective, and 1st person projections */
+        if (key == 112)
+        {
+            viewmode++;
+            viewmode %= 3;
+            if (viewmode)
+            {
+                fov = 60;
+            }
+            else
+            {
+                fov = 0;
+            }
+        }
+        else if ((key > 48) || (key < 55))
+        {
+            switch(key)
+            {
+                case 49: /* (1) bamboo forest scene */
+                    objmode = 1;
+                    break;
+                case 50: /* (2) cylinder */
+                    objmode = 2;
+                    break;
+                case 51: /* (3) rhombohedron */
+                    objmode = 3;
+                    break;
+                case 52: /* (4) cone */
+                    objmode = 4;
+                    break;
+                case 53: /* (5) leaf */
+                    objmode = 5;
+                    break;
+                case 54: /* (6) single bamboo stalk */
+                    objmode = 6;
+                    break;
+
+            }
+        }
+        
+    }
+
+    glutPostRedisplay();
 }
 
 /* arrow functionalities different based on projection mode */
@@ -76,23 +149,26 @@ void specialkeybindings(int key, int xpos, int ypos)
     switch(key)
     { /* azimuth ~ longitude / elevation ~ latitude */
         case GLUT_KEY_RIGHT:
-            theta += 5;      /* increase longitudinal view 5 deg */
+            alpha += 5;      /* increase longitudinal view 5 deg */
             break;
         case GLUT_KEY_LEFT:
-            theta -= 5;      /* decrease longitudinal view 5 deg */
+            alpha -= 5;      /* decrease longitudinal view 5 deg */
             break;
         case GLUT_KEY_UP:
-            phi += 5;        /* increase latitudinal view 5 deg */
+            beta += 5;       /* increase latitudinal view 5 deg */
             break;
         case GLUT_KEY_DOWN:
-            phi -= 5;        /* decrease latitudinal view 5 deg */
+            beta -= 5;       /* decrease latitudinal view 5 deg */
+            if (beta < 0) beta = 0;
             break;
     }
 
     /* Maintain angle between 0 and 360 deg */
-    theta %= 360;
-    phi   %= 360;
+    alpha %= 360;
+    beta  %= 360;
 
+    /* update projection */
+    project(fov, aspr, dim);
     /* redisplay scene */
     glutPostRedisplay();
 }
@@ -103,27 +179,13 @@ void specialkeybindings(int key, int xpos, int ypos)
 void reshape(int width, int height)
 {
     /* ratio width:height */
-    double wh_ratio = (height > 0) ? (double)width/height : 1;
-    /* dimension of orthogonal box */
-    double dim = 50;
+    aspr = (height > 0) ? (double)width/height : 1;
 
     /* set viewport to entire window */
     glViewport(0, 0, width, height);
 
-    /* to manipulate projection matrix */
-    glMatrixMode(GL_PROJECTION);
-
-    /* Remove prev transformations */
-    glLoadIdentity();
-
-    /* Adjust projection box for new win aspect ratio */
-    glOrtho(-dim * wh_ratio, dim * wh_ratio, -dim, dim, -dim, dim);
-
-    /* Switch to manipulating model matrix */
-    glMatrixMode(GL_MODELVIEW);
-
-    /* Remove prev transformations */
-    glLoadIdentity();
+    /* update projection */
+    project(fov, aspr, dim);
 }
 
 /* initialize glut and register functions */
@@ -139,7 +201,7 @@ int main(int argc, char* argv[])
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
     /* Start with 500x500 px window */
-    glutInitWindowSize(500, 700);
+    glutInitWindowSize(700, 500);
 
     /* Create window with name */
     glutCreateWindow("Xuedan Fillmore | Assignment 2");

@@ -6,12 +6,15 @@ void rhombohedron(double xbase, double ybase, double zbase, double radius)
 
     int dd = 20; /* same precision as cylinders */
     int theta = 0;
-    double height = radius/20;
+    double height = radius/10.0;
+
+    /* save transformations */
+    glPushMatrix();
 
     glTranslated(xbase, ybase, zbase);
     glScaled(radius, 1, radius);
 
-    glColor3d(135/256, 224/256, 148/256);
+    glColor3d(135.0/256.0, 224.0/256.0, 148.0/256.0);
 
     /* bottom half */
     glBegin(GL_TRIANGLE_FAN);
@@ -30,4 +33,7 @@ void rhombohedron(double xbase, double ybase, double zbase, double radius)
         glVertex3d(sind(theta), height/2, cosd(theta));
     }
     glEnd();
+
+    /* replace transformations */
+    glPopMatrix();
 }
