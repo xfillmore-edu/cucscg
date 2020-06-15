@@ -23,14 +23,19 @@
 #include <GL/glut.h>
 #endif
 
+#define pi 3.14159265358979
+
 /* Sine and Cosine conversion macros */
-#define sind(x) sin(3.14159265358979 / 180*(x))
-#define cosd(x) cos(3.14159265358979 / 180*(x))
+#define sind(x) sin(pi/180 * (x))
+#define cosd(x) cos(pi/180 * (x))
+/* convert boolean true/false to string */
+#define bool2str(bvar) (bvar ? "true" : "false")
 
 /* function declarations */
 void checkErrs(char* fn);
 void gprint(const char* format, ...);
 void fatal(const char* format, ...);
 void project(double fov, double aspratio, double dimension);
+void scaleRGB(double* r, double* g, double* b);
 
 #endif /* config.h */
