@@ -1,6 +1,6 @@
 /* Error checking Function */
 
-#include <config.h>
+#include "config.h"
 
 /* takes string of function name as argument */
 void checkErrs (char* fn)

@@ -1,6 +1,6 @@
 /* Error catching routine */
 
-#include <config.h>
+#include "config.h"
 
 /* copied directly from ex10/Fatal.c */
 void fatal(const char* format , ...)

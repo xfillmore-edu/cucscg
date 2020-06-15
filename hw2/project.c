@@ -7,7 +7,7 @@
 
 
 
-#include <config.h>
+#include "config.h"
 
 void project(double fov, double aspratio, double dimension)
 {

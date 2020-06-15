@@ -1,4 +1,4 @@
-#include <bmbObjects.h>
+#include "bmbObjects.h"
 
 /* helper function for gl quad strip vertices */
 /* takes args: current angle pos, current height pos */

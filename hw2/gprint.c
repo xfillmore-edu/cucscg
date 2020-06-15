@@ -1,6 +1,6 @@
 /* OpenGL text output routine */
 
-#include <config.h>
+#include "config.h"
 /* #include stdarg.h */
 
 #define MAXSTRLEN 8192

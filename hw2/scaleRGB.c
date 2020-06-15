@@ -1,6 +1,6 @@
 /* Convert RGB int scale to OpenGL values */
 
-#include <config.h>
+#include "config.h"
 
 void scaleRGB(double* r, double* g, double* b)
 {
