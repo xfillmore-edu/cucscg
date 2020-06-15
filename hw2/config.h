@@ -24,11 +24,6 @@
 #include <GL/glut.h>
 #endif
 
-#define pi 3.14159265358979
-
-/* Sine and Cosine conversion macros */
-#define sind(x) sin(pi/180 * (x))
-#define cosd(x) cos(pi/180 * (x))
 /* convert boolean true/false to string */
 #define bool2str(bvar) (bvar ? "true" : "false")
 
