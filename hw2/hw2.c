@@ -30,16 +30,44 @@ void display()
     glEnable(GL_DEPTH_TEST);
 
     // CODE BODY HERE
-    /* use rand()%maxsize + minsize
+    /* use rand()%maxsize + minsize */
+    cylinder(1, 10 + 4/20, 1, 10, 4);
+    rhombohedron(1, 10, 1, 4);
+    cylinder(1, 0, 1, 10, 4);
+    
+    
 
     /* Cleanup */
     checkErrs("display");
     glutSwapBuffers();
 }
 
-void keybindings()
+/* called by GLUT when a standard key is pressed */
+/* KEYBINDINGS
+ *
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+/* key refers to the input character */
+/* xpos and ypos record mouse position at key input */
+void keybindings(unsigned char key, int xpos, int ypos)
 {
-    //
+    /* exit - q or ESC */
+    if (key == 27 || key == 113)
+    {
+        exit(0);
+    }
 }
 
 /* arrow functionalities different based on projection mode */
