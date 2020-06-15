@@ -3,6 +3,8 @@
 #ifndef bmbObjects
 #define bmbObjects
 
+#include <math.h>
+
 #define GL_GLEXT_PROTOTYPES
 /* Cross-OS compatability */
 #ifdef __APPLE__
