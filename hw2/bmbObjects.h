@@ -38,7 +38,7 @@ void cone();
 
 /* lame curve / hyperellipsoid */
 /* for section pieces along stem */
-/* params:  */
-void rhombohedron();
+/* params: xyz base position, stalk radius */
+void rhombohedron(double xbase, double ybase, double zbase, double radius);
 
 #endif
