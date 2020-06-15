@@ -7,7 +7,6 @@ Assignment 2 | 3D Scene
 PURPOSE
   To gain practice producing different projection types
   To understand construction of 3-dimensional objects
-  
 
 COMPILE
   $ make
@@ -24,3 +23,6 @@ KEY BINDINGS
 Time Spent
 +1h makefile, readme, header files setup
 +1h planning
++1h making sense of sphere code
++30m replanning
++1h cylinder code
