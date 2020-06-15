@@ -21,7 +21,7 @@ void project(double fov, double aspratio, double dimension)
     /* 0 - orthogonal */
     if (fov)
     {
-        gluePerspective(fov, aspratio, dimension/16, 16*dimension);
+        gluPerspective(fov, aspratio, dimension/16, 16*dimension);
     }
     else
     {
