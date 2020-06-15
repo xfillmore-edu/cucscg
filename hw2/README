@@ -15,7 +15,7 @@ LOCAL CONFIG
   Windows OS 10 with mounted Ubuntu terminal
   Start Xming
   $ export DISPLAY=:0.0
-  $ ./hw1
+  $ ./hw2
 
 KEY BINDINGS
 
@@ -26,3 +26,5 @@ Time Spent
 +1h making sense of sphere code
 +30m replanning
 +1h cylinder code
++30m cone code
++3h debugging/testing
