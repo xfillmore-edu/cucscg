@@ -29,11 +29,16 @@ checkErrs.o: checkErrs.c config.h
 fatal.o: fatal.c config.h
 gprint.o: gprint.c config.h
 project.o: project.c config.h
+scaleRGB.o: scaleRGB.c config.h
+cone.o: cone.c bmbObjects.h
+cylinder.o: cylinder.c bmbObjects.h
+leaf.o: leaf.c bmbObjects.h
+rhombohedron.o: rhombohedron.c bmbObjects.h
 
 # build archives
-config.a: checkErrs.o fatal.o gprint.o project.o
+config.a: checkErrs.o fatal.o gprint.o project.o scaleRGB.o
 	ar -rcs $@ $^
-bmbObjects.a: things.o
+bmbObjects.a: cone.o cylinder.o leaf.o rhombohedron.o
 	ar -rcs $@ $^
 
 # Compiling rules
