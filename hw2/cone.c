@@ -1,16 +1,17 @@
 #include "bmbObjects.h"
 
+float red   = 47.0  / 256.0;
+float green = 161.0 / 256.0;
+float blue  = 64.0  / 256.0;
+
 void cvertex(int th, double h)
 {
-    float red   = 47  / 256;
-    float green = 161 / 256;
-    float blue  = 64  / 256;
     glColor3f(red, green, blue);
     glVertex3d(cosd(th), h, sind(th));
 }
 
 /* need to create a rotation matrix...? */
-void cone(double xbase, double ybase, double zbase, double height, double radius, double ox, double oy, double oz)
+void cone(double xbase, double ybase, double zbase, double height, double radius, double dthy, double dthx)
 {
     /* use triangle fan with triangle fan base */
     int theta = 0;
@@ -21,13 +22,13 @@ void cone(double xbase, double ybase, double zbase, double height, double radius
 
     glTranslated(xbase, ybase, zbase);
     /* rotate(amount, unit axis/combo) */
-    glRotated(ox, ox, oy, oz);
-    glRotated(ox, ox, oy, oz);
+    glRotated(dthy, 0, 1, 0); /* rotate around y axis 2nd */
+    glRotated(dthx, 1, 0, 0); /* rotate around x axis 1st */
     glScaled(radius, height, radius);
 
     /* main cone body/top */
     glBegin(GL_TRIANGLE_FAN);
-    glColor3f(47/256, 161/256, 64/256);
+    glColor3f(red, green, blue);
     glVertex3d(0, 1, 0);
     for (theta = 0; theta <= 360; theta += dd)
     {
@@ -37,7 +38,7 @@ void cone(double xbase, double ybase, double zbase, double height, double radius
 
     /* cone base */
     glBegin(GL_TRIANGLE_FAN);
-    glColor3f(47/256, 161/256, 64/256);
+    glColor3f(red, green, blue);
     glVertex3d(0, 0, 0);
     for (theta = 360; theta >= 0; theta -= dd)
     {
