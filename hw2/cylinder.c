@@ -1,17 +1,5 @@
 #include "bmbObjects.h"
 
-float red   = 47.0  / 256.0;
-float green = 161.0 / 256.0;
-float blue  = 64.0  / 256.0;
-
-/* helper function for gl quad strip vertices */
-/* takes args: current angle pos, current height pos */
-void cvertex(int th, double h)
-{
-    glColor3f(red, green, blue);
-    glVertex3d(cosd(th), h, sind(th));
-}
-
 void cylinder(double xcen, double ycen, double zcen, double height, double radius)
 {
     int dd    = 20; /* change in degrees ~ visual precision */
@@ -35,7 +23,7 @@ void cylinder(double xcen, double ycen, double zcen, double height, double radiu
 
     /* cylinder cap */
     glBegin(GL_TRIANGLE_FAN);
-    glColor3f(red, green, blue);
+    glColor3f(205.0/rgbmax, 227.0/rgbmax, 157.0/rgbmax);
     cvertex(0, height);
     for (theta = 0; theta <= 360; theta += dd)
     {
@@ -45,7 +33,7 @@ void cylinder(double xcen, double ycen, double zcen, double height, double radiu
 
     /* cylinder base */
     glBegin(GL_TRIANGLE_FAN);
-    glColor3f(red, green, blue);
+    glColor3f(205.0/rgbmax, 227.0/rgbmax, 157.0/rgbmax);
     cvertex(0, 0);
     for (theta = 360; theta >= 0; theta -=dd)
     {

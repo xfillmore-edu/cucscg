@@ -23,7 +23,7 @@ void project(double fov, double aspratio, double dimension)
     /* 0 - orthogonal */
     if (fov)
     {
-        gluPerspective(fov, aspratio, dimension/4, 4*dimension);
+        gluPerspective(fov, aspratio, dimension/16, 16*dimension);
     }
     else
     {

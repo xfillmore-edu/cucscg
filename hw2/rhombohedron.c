@@ -14,7 +14,7 @@ void rhombohedron(double xbase, double ybase, double zbase, double radius)
     glTranslated(xbase, ybase, zbase);
     glScaled(radius, 1, radius);
 
-    glColor3d(135.0/256.0, 224.0/256.0, 148.0/256.0);
+    glColor3d(135.0/rgbmax, 224.0/rgbmax, 148.0/rgbmax);
 
     /* bottom half */
     glBegin(GL_TRIANGLE_FAN);

@@ -1,15 +1,5 @@
 #include "bmbObjects.h"
 
-float red   = 47.0  / 256.0;
-float green = 161.0 / 256.0;
-float blue  = 64.0  / 256.0;
-
-void cvertex(int th, double h)
-{
-    glColor3f(red, green, blue);
-    glVertex3d(cosd(th), h, sind(th));
-}
-
 /* need to create a rotation matrix...? */
 void cone(double xbase, double ybase, double zbase, double height, double radius, double dthy, double dthx)
 {
@@ -28,7 +18,7 @@ void cone(double xbase, double ybase, double zbase, double height, double radius
 
     /* main cone body/top */
     glBegin(GL_TRIANGLE_FAN);
-    glColor3f(red, green, blue);
+    glColor3f(205.0/rgbmax, 227.0/rgbmax, 157.0/rgbmax);
     glVertex3d(0, 1, 0);
     for (theta = 0; theta <= 360; theta += dd)
     {
@@ -38,7 +28,7 @@ void cone(double xbase, double ybase, double zbase, double height, double radius
 
     /* cone base */
     glBegin(GL_TRIANGLE_FAN);
-    glColor3f(red, green, blue);
+    glColor3f(205.0/rgbmax, 227.0/rgbmax, 157.0/rgbmax);
     glVertex3d(0, 0, 0);
     for (theta = 360; theta >= 0; theta -= dd)
     {

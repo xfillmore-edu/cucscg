@@ -9,7 +9,7 @@ void scaleRGB(double* r, double* g, double* b)
     unsigned char green = *g;
     unsigned char blue  = *b;
 
-    *r = red   / 256;
-    *g = green / 256;
-    *b = blue  / 256;
+    *r = red   / 255.0;
+    *g = green / 255.0;
+    *b = blue  / 255.0;
 }

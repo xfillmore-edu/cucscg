@@ -34,11 +34,12 @@ cone.o: cone.c bmbObjects.h
 cylinder.o: cylinder.c bmbObjects.h
 leaf.o: leaf.c bmbObjects.h
 rhombohedron.o: rhombohedron.c bmbObjects.h
+cvertex.o: cvertex.c bmbObjects.h
 
 # build archives
 config.a: checkErrs.o fatal.o gprint.o project.o scaleRGB.o
 	ar -rcs $@ $^
-bmbObjects.a: cone.o cylinder.o leaf.o rhombohedron.o
+bmbObjects.a: cone.o cylinder.o leaf.o rhombohedron.o cvertex.o
 	ar -rcs $@ $^
 
 # Compiling rules
