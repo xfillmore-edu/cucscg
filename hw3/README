@@ -1,0 +1,26 @@
+Xuedan Fillmore
+CSCI 4229 Computer Graphics
+16 June 2020
+
+Assignment 3 | Lighting and Texture
+
+PURPOSE
+  To gain practice establishing surface normals for objects
+  To learn how to create lighting in a scene
+  To understand how textures are integrated on objects.
+
+COMPILE
+  $ make
+
+LOCAL CONFIG
+  Windows OS 10 with mounted Ubuntu terminal
+  Start Xming
+  $ export DISPLAY=:0.0
+  $ ./hw3
+
+
+KEY BINDINGS
+q or ESC  exit program
+
+Time Spent
++3h setup, copying files over
