@@ -12,15 +12,14 @@ PURPOSE
 COMPILE
   $ make
 
+KEY BINDINGS
+  q or ESC  exit program
+
 LOCAL CONFIG
   Windows OS 10 with mounted Ubuntu terminal
   Start Xming
   $ export DISPLAY=:0.0
   $ ./hw3
-
-
-KEY BINDINGS
-q or ESC  exit program
 
 Time Spent
 +3h setup, copying files over

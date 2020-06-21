@@ -38,6 +38,6 @@ void checkErrs(char* fn);
 void gprint(const char* format, ...);
 void fatal(const char* format, ...);
 void project(double fov, double aspratio, double dimension);
-static int loadTexture(const char* filename);
+unsigned int loadTexture(const char* filename);
 
 #endif /* config.h */
