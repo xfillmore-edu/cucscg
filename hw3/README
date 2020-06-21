@@ -14,6 +14,11 @@ COMPILE
 
 KEY BINDINGS
   q or ESC  exit program
+  p         switch projection mode (orthogonal/perspective)
+  0         reset viewing parameters for current view mode
+  w,a,s,d   move laterally forward/left/back/right (perspective mode only)
+  i,j,k,l   rotate angular view up/left/down/right (perspective mode only)
+  arrows    rotate view (orthogonal mode only)
 
 LOCAL CONFIG
   Windows OS 10 with mounted Ubuntu terminal
@@ -23,3 +28,4 @@ LOCAL CONFIG
 
 Time Spent
 +3h setup, copying files over
++8h perspective work and debugging, texture application, and start of lighting
