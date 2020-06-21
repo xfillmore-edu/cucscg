@@ -21,19 +21,11 @@ KEY BINDINGS
 q, ESC   quit
 p        switch projection mode
 1-4      switch object being displayed
+arrows   change view angle
++/-      zoom out/in (orthographic and overhead perspective only)
+f/F      increase/decrease FOV (perspective modes only)
 
-NOTE
-  I wrote code for additional key bindings but spent too
-  much time trying to understand projection stuff that I
-  couldn't debug them.
+*w,a,s,d do not behave correctly
 
 Time Spent
-+1h makefile, readme, header files setup
-+1h planning
-+1h making sense of sphere code
-+30m replanning
-+1h cylinder code
-+30m cone code
-+3h debugging/testing
-+2h debugging
-+ some more time, forgot to track.
+Over 15 hours, with at least 1/3 being debugging

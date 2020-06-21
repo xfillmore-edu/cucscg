@@ -6,6 +6,8 @@
  *
  * See README for key bindings
  *
+ * With help from
+ * http://www.lighthouse3d.com/tutorials/glut-tutorial/keyboard-example-moving-around-the-world/
  */
 
 #include "bmbObjects.h"
@@ -13,17 +15,36 @@
 
 /* global variables */
 int alpha    = 0;  /* view angle longitude */
-int beta     = 0;  /* view angle latitude */
+int beta     = 10;  /* view angle latitude */
 int viewmode = 0;  /* viewing mode (use p to switch) */
 int objmode  = 1;  /* which object(s) to view */
 int fov      = 0; /* field of view, perspective */
 double aspr  = 1;  /* aspect ratio */
 double dim   = 40; /* dimension - world size */
-double Ex, Ey, Ez;
+double camx  = 15;
+double camy  = 5;
+double camz  = 15; /* eye pos */
+double dirx  = 0;
+double diry  = 6;
+double dirz  = 0; /* facing pos */
+float movspeed = 0.4;
 
-/* * * * * * * * * * * * * * * * * * *
- *        S H A P E S
- * * * * * * * * * * * * * * * * * * */
+char* vmode()
+{
+    if      (viewmode == 0) return "Orthogonal";
+    else if (viewmode == 1) return "Perspective";
+    else if (viewmode == 2) return "1st Person";
+    return "";
+}
+char* omode()
+{
+    if      (objmode == 1) return "Bamboo Stalk";
+    else if (objmode == 2) return "Cylinder";
+    else if (objmode == 3) return "Cone";
+    else if (objmode == 4) return "Rhombohedron";
+    else if (objmode == 5) return "Leaf";
+    return "";
+}
 
 /* some parts reused from hw1 */
 void display()
@@ -35,12 +56,30 @@ void display()
 
     /* copied from ex9 */
     /* http://www.opengl-tutorial.org/beginners-tutorials/tutorial-6-keyboard-and-mouse/ */
-    if (viewmode) /* set view for perspective projection */
+    if (viewmode == 1) /* set view for perspective projection */
     {
-        Ex = -2 * dim * sind(alpha) * cosd(beta);
-        Ey =  2 * dim               * sind(beta);
-        Ez =  2 * dim * cosd(alpha) * cosd(beta);
-        gluLookAt(Ex, Ey, Ez, 0, 0, 0, 0, cosd(beta), 0);
+        camx = -2 * dim * sind(alpha) * cosd(beta);
+        camy =  2 * dim               * sind(beta);
+        camz =  2 * dim * cosd(alpha) * cosd(beta);
+
+        /* gluLookAt args:
+         * eye x, eye y, eye z (cam pos)
+         * ref x, ref y, ref z (reference viewing point)
+         * up x, up y, up z (dir of up vec)
+         */
+        gluLookAt(camx, camy, camz, 0, 0, 0, 0, cosd(beta), 0);
+    }
+    else if (viewmode == 2)
+    {
+        // camx = dim * cosd(alpha) * sind(beta);
+        // camy = dim * sind(alpha) * sind(beta);
+        // camz = dim * cosd(beta);
+        dirx = sind(alpha);
+        // diry = 5*cosd(beta);
+        dirz = -cosd(alpha);
+
+        gluLookAt(camx, camy, camz, dirx, diry, dirz, 0, cosd(beta), 0);
+
     }
     else /* set view for orthogonal projection */
     {
@@ -51,52 +90,55 @@ void display()
     /* Allow z-buffer */
     glEnable(GL_DEPTH_TEST);
 
-    /* TEMPORARY - to show relative positioning of objects */
-    /* Draw and label X, Y, and Z axes */
-    int ax = 20;
-    glColor3f(0.8, 0.8, 0.8); /* light grey */
-    glBegin(GL_LINES);   /* connects each pair of specified vertices */
-    glVertex3d(0, 0, 0);  /* x begin */
-    glVertex3d(ax, 0, 0); /* x end   */
-    glVertex3d(0, 0, 0);  /* y begin */
-    glVertex3d(0, ax, 0); /* y end   */
-    glVertex3d(0, 0, 0);  /* z begin */
-    glVertex3d(0, 0, ax); /* z end   */
-    glEnd();
-    glRasterPos3d(ax, 0, 0);
-    gprint("X");
-    glRasterPos3d(0, ax, 0);
-    gprint("Y");
-    glRasterPos3d(0, 0, ax);
-    gprint("Z");
-
+    glColor3f(0.8, 0.8, 0.8);
+    if (viewmode == 2)
+    {
+        glWindowPos2i(5, 35);
+        gprint("Eye position: (%.1f, %.1f, %.1f)", camx, camy, camz);
+    }
     glWindowPos2i(5, 20);
     gprint("Viewing Angle: (%d, %d)", alpha, beta);
     glWindowPos2i(5, 5);
-    gprint("View Mode: %s (FOV %d)", viewmode?"Perspective":"Orthographic", fov);
+    // gprint("View Mode: %s (FOV %d)", viewmode?"Perspective":"Orthographic", fov);
+    gprint("View Mode: %s  Object: %s  FOV: %d", vmode(), omode(), fov);
 
     /* switch between viewing objects */
+    double height = 6.0;
+    double radius = 2.0;
+    double dr = radius * 1.2;
+    double dh = height/8.0;
     switch (objmode)
     {
-        case 1: /* bamboo stalk */
-            cylinder(1, 10 + 4/10, 1, 10, 4);
-            rhombohedron(1, 10, 1, 4);
-            cylinder(1, 0, 1, 10, 4);
+        case 1: /* bamboo stalk built from top to bottom */
+            /* Draw Floor */
+            glColor3f(122.0/rgbmax, 88.0/rgbmax, 40.0/rgbmax); /* brown */
+            glBegin(GL_QUADS);
+            glVertex3d(-40, 0, -40);
+            glVertex3d( 40, 0, -40);
+            glVertex3d( 40, 0,  40);
+            glVertex3d(-40, 0,  40);
+            glEnd();
+
+            cylinder(0, 3*height+3*dh, 0, height, radius, 1);
+            cylinder(0, 3*height+2*dh, 0, dh,     dr,     0);
+            cylinder(0, 2*height+2*dh, 0, height, radius, 1);
+            cylinder(0, 2*height+dh,   0, dh,     dr,     0);
+            cylinder(0, height+dh,     0, height, radius, 1);
+            cylinder(0, height,        0, dh,     dr,     0);
+            cylinder(0, 0,             0, height, radius, 1);
+
             break;
         case 2: /* cylinder */
-            cylinder (0, 0, 0, 5, 1);
+            cylinder (0, 0, 0, 15, 5, 1);
             break;
         case 3: /* cone */
-            cone(-2.5, -2.5, -2.5, 5, 1, 135, 45);
+            cone(-2.5, -2.5, -2.5, 15, 5, 135, 45);
             break;
         case 4: /* rhombohedron */
-            rhombohedron(0, 1, 0, 2);
+            rhombohedron(0, 4, 0, 10);
             break;
         /* case 5 ~ leaf, case 6 ~ forest */
     }
-    
-    
-    
 
     /* Cleanup */
     checkErrs("display");
@@ -131,17 +173,58 @@ void keybindings(unsigned char key, int xpos, int ypos)
     }
     /* switch between orthogonal, perspective, and 1st person projections */
     else if (key == 112)
-    {
+    { /* p */
         viewmode++;
         viewmode %= 3;
         if (viewmode)
         { /* reset fov */
             fov = 60;
+            camx = 15;
+            camy = 5;
+            camz = 15;
         }
         else
         { /* reset fov to 0 bc doesn't matter */
             fov = 0;
         }
+    }
+    else if ((viewmode == 2) && (key == 119 || key == 97 || key == 115 || key == 100))
+    {
+        switch (key)
+        { /* need cross products for a, s / lateral movement? */
+            case 119: /* w - move forward */
+                camx += dirx * movspeed;
+                camz += dirz * movspeed;
+                break;
+            case 97: /* a - move laterally left */
+                camx -= dirx * movspeed;
+                camz += dirz * movspeed;
+                break;
+            case 115: /* s - move backwards */
+                camx -= dirx * movspeed;
+                camz -= dirz * movspeed;
+                break;
+            case 100: /* d - move laterally right */
+                camx += dirx * movspeed;
+                camz -= dirz * movspeed;
+                break;
+        }
+    }
+    else if ((viewmode != 0) && (key == 70))
+    { /* upper case F */
+        fov++;
+    }
+    else if ((viewmode != 0) && (key == 102))
+    { /* lower case f */
+        fov--;
+    }
+    else if (key == 43)
+    { /* plus key */
+        dim++;
+    }
+    else if (key == 45)
+    { /* minus key */
+        dim--;
     }
     else if ((key > 48) || (key < 53))
     {
@@ -170,36 +253,6 @@ void keybindings(unsigned char key, int xpos, int ypos)
 
         }
     }
-    else if (key == 119 || key == 97 || key == 115 || key == 100)
-    {
-        switch (key)
-        {
-            case 119: /* w - move forward */
-                break;
-            case 97: /* a - move laterally left */
-                break;
-            case 115: /* s - move laterally right */
-                break;
-            case 100: /* d - move backwards */
-                break;
-        }
-    }
-    else if (key == 70)
-    { /* upper case F */
-        fov++;
-    }
-    else if (key == 102)
-    { /* lower case f */
-        fov--;
-    }
-    else if (key == 43)
-    { /* plus key */
-        dim++;
-    }
-    else if (key == 45)
-    { /* minus key */
-        dim--;
-    }
 
     /* update projection/redisplay scene */
     project(fov, aspr, dim);
@@ -213,17 +266,31 @@ void specialkeybindings(int key, int xpos, int ypos)
     { /* azimuth ~ longitude / elevation ~ latitude */
         case GLUT_KEY_RIGHT:
             alpha += 5;      /* increase longitudinal view 5 deg */
+            dirx = 3 * abs(sind(alpha)); /* circulates back around..... no bueno */
+            dirz = 3 * -abs(cosd(alpha));
             break;
         case GLUT_KEY_LEFT:
             alpha -= 5;      /* decrease longitudinal view 5 deg */
+            dirx = -3 * abs(sind(alpha));
+            dirz = -3 * -abs(cosd(alpha));
             break;
         case GLUT_KEY_UP:
             beta += 5;       /* increase latitudinal view 5 deg */
-            if ((viewmode==2) && (beta > 55)) beta = 55;
+            diry += 3;
+            if ((viewmode==2) && (diry > 80 || beta > 80))
+            {
+                diry = 80;
+                beta = 80;
+            }
             break;
         case GLUT_KEY_DOWN:
             beta -= 5;       /* decrease latitudinal view 5 deg */
-            if ((viewmode==2) && (beta < 0)) beta = 0;
+            diry -= 3;
+            if ((viewmode==2) && (diry < -10 || beta < -70))
+            {
+                diry = -10;
+                beta = -70;
+            }
             break;
     }
 

@@ -4,6 +4,7 @@
 #define bmbObjects
 
 #include <math.h>
+#include <stdbool.h>
 
 #define GL_GLEXT_PROTOTYPES
 /* Cross-OS compatability */
@@ -26,12 +27,12 @@
 
 /* helper function */
 /* takes args: current angle pos, current height pos */
-void cvertex(int th, double h);
+void cvertex(int th, double h, bool color);
 
 /* cylinder */
 /* for core stem segments - all vertical */
 /* params: xyz centered at base, height, radius */
-void cylinder(double xcen, double ycen, double zcen, double height, double radius);
+void cylinder(double xcen, double ycen, double zcen, double height, double radius, bool main);
 
 /* consisting of semi-circular flat segments and rounded segments */
 /* for the leaves */

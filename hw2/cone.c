@@ -22,7 +22,7 @@ void cone(double xbase, double ybase, double zbase, double height, double radius
     glVertex3d(0, 1, 0);
     for (theta = 0; theta <= 360; theta += dd)
     {
-        cvertex(theta, 0);
+        cvertex(theta, 0, 1);
     }
     glEnd();
 
@@ -32,7 +32,7 @@ void cone(double xbase, double ybase, double zbase, double height, double radius
     glVertex3d(0, 0, 0);
     for (theta = 360; theta >= 0; theta -= dd)
     {
-        cvertex(theta, 0);
+        cvertex(theta, 0, 1);
     }
     glEnd();
 
