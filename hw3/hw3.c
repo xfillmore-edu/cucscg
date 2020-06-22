@@ -8,18 +8,24 @@
  *
  * https://github.com/mattearly/TheOnlyEscapeIsESC/blob/master/code/camera.h
  * https://www.tomdalling.com/blog/modern-opengl/04-cameras-vectors-and-input/
- * KEYSITE https://thepentamollisproject.blogspot.com/2018/02/setting-up-first-person-camera-in.html
+ * http://math.hws.edu/graphicsbook/c4/s2.html
+ * 
+ * KEYSITE:
+ *     Ratul Thakur's Pentamollis Project
+ *     https://thepentamollisproject.blogspot.com/2018/02/setting-up-first-person-camera-in.html
  */
 
 
 #include "config.h"
 #include "bmbObjects.h"
 
-/* global variables */
-int theta = 0; /* azimuth (left/right) angle */
-int phi   = 0; /* elevation (up/down) angle */
+/****************** global variables ************************/
+/* texture variables */
 unsigned int textures[2]; /* array holding texture references */
 unsigned int curtex = 0; /* current texture */
+/* viewing variables */
+int theta = 0; /* azimuth (left/right) angle */
+int phi   = 0; /* elevation (up/down) angle */
 int dim  = 30; /* dimension / world size */
 int aspr = 1; /* aspect ratio (viewport/window) */
 int fov  = 60; /* field of view */
@@ -27,20 +33,20 @@ double camx = 0; /* x eye pos (perspective) */
 double camy = 5; /* constant view height (perspective) */
 double camz = 10; /* z eye pos (perspective) */
 bool viewmode = 1; /* 1st person perspective ~ orthographic */
+/* lighting variables */
 int ambient   = 10; /* percent ambient intensity */
 int diffuse   = 50; /* percent diffuse intensity */
 int specular  = 0; /* percent specular (reflective spot) intensity */
 int shininess = 0; /* pow2 shininess */
-int emission  = 100; /* percent emission intensity */
 int lposy     = 5; /* height of light source */
 int lposxz    = 0; /* radial position of light */
+/*****************************************************************/
 
 /* create the scene's source of "sunlight" */
 /* derived from ex13.c */
 void lightsrc(double xposl, double yposl, double zposl)
 {
-    float emis[] = {0.0, 0.0, 0.01 * emission, 1.0};
-    float ylwcorrection[] = {1.0, 1.0, 0.0, 1.0};
+    float emis[] = {0.0, 0.2, 0.8, 1.0};
 
     /* save current transformations */
     glPushMatrix();
@@ -49,7 +55,6 @@ void lightsrc(double xposl, double yposl, double zposl)
     glScaled(0.1, 0.1, 0.1);
     //  White ball
     glColor3f(1,1,1);
-    glMaterialfv(GL_FRONT,GL_SPECULAR, ylwcorrection);
     glMaterialfv(GL_FRONT,GL_EMISSION, emis);
     
     /* the polygon (tetrahedron) itself */
@@ -168,7 +173,6 @@ void display()
     cylinder(0, 2*height, 0, height, radius, 0xffffff);
     cylinder(0,   height, 0, height, radius, 0xffffff);
     cylinder(0, 0,        0, height, radius, 0xffffff);
-
     checkErrs("display::objects");
 
     /* disable individual aspects of scene */
@@ -206,9 +210,8 @@ void keybindings(unsigned char key, int xpos, int ypos)
         {
             fov = 60;
             dim = 30;
-            camx = 0;
-            camy = 5;
-            camz = 10;
+            phi = 0;
+            theta = 0;
         }
         else
         {
@@ -222,13 +225,13 @@ void keybindings(unsigned char key, int xpos, int ypos)
         if (viewmode)
         {
             fov = 60;
-            dim = 30;
             phi = 0;
             theta = 0;
+            camx = 0;
+            camz = 10;
         }
         else
         {
-            fov = 0;
             theta = -5;
             phi = 20;
             dim = 30;
