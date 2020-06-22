@@ -188,7 +188,7 @@ void display()
  * wasd     (119, 97, 115, 100)  change lateral position
  * ijkl     (105, 106, 107, 108) change angular perspective
  * f/F      (102, 70) decrease/increase field of view
- * 
+ * +/-      (43, 45)  increase/decrease dimension
  */
 /* key refers to the input character */
 /* xpos and ypos record mouse position at key input */
@@ -231,6 +231,7 @@ void keybindings(unsigned char key, int xpos, int ypos)
             fov = 0;
             theta = -5;
             phi = 20;
+            dim = 30;
         }
     }
     else if (viewmode && (key == 119 || key == 97 || key == 115 || key == 100))
@@ -292,6 +293,17 @@ void keybindings(unsigned char key, int xpos, int ypos)
         /* maintain reasonable fov range */
         if (fov < 45) fov = 46;
         if (fov > 81) fov = 80;
+    }
+    else if (!viewmode && (key == 43 || key == 45))
+    { /* +/- increase/decrease dimension/zoom */
+        if (key == 43)
+        { /* plus key */
+            dim += 2;
+        }
+        else
+        { /* minus key */
+            dim -= 2;
+        }
     }
 
     /* tell glut to redisplay after key press */

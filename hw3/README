@@ -14,12 +14,15 @@ COMPILE
 
 KEY BINDINGS
   q or ESC  exit program
-  p         switch projection mode (orthogonal/perspective)
+  p         switch projection mode (orthographic/perspective)
   r         reset viewing parameters for current view mode
-  w,a,s,d   move laterally forward/left/back/right (perspective mode only)
-  i,j,k,l   rotate angular view up/left/down/right (perspective mode only)
-  arrows    rotate view (orthogonal mode only)
-  f, F      decrease, increase field of view (perspective mode only)
+  PERSPECTIVE MODE (default)
+    w,a,s,d   move laterally forward/left/back/right
+    i,j,k,l   rotate angular view up/left/down/right
+    f, F      decrease, increase field of view
+  ORTHOGRAPHIC MODE
+    arrows    rotate view
+    +, -      increase, decrease dimension/zoom
 
 LOCAL CONFIG
   Windows OS 10 with mounted Ubuntu terminal
