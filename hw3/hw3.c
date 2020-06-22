@@ -8,6 +8,7 @@
  *
  * https://github.com/mattearly/TheOnlyEscapeIsESC/blob/master/code/camera.h
  * https://www.tomdalling.com/blog/modern-opengl/04-cameras-vectors-and-input/
+ * https://thepentamollisproject.blogspot.com/2018/02/setting-up-first-person-camera-in.html
  */
 
 
@@ -15,7 +16,7 @@
 #include "bmbObjects.h"
 
 /* global variables */
-int theta = -45; /* azimuth (left/right) angle */
+int theta = 0; /* azimuth (left/right) angle */
 int phi = 0; /* elevation (up/down) angle */
 unsigned int textures[2]; /* array holding texture references */
 unsigned int curtex = 0; /* current texture */
@@ -28,16 +29,16 @@ double camx, camy, camz;
 // double camy = 5;
 // double camz = 10;
 /* facing direction coordinates (perspective mode) */
-int dirx = 0;
-int diry = 15; /* take the sind of this angle */
-int dirz = 0;
+// int dirx = 0;
+// int diry = 5; /* take the sind of this angle */
+// int dirz = 0;
 bool viewmode = 1; /* 1st person perspective ~ orthographic */
 int ambient = 10; /* percent ambient intensity */
 int diffuse = 50; /* percent diffuse intensity */
 int specular = 0; /* percent specular (reflective spot) intensity */
 int shininess = 0; /* pow2 shininess */
 int emission = 100; /* percent emission intensity */
-int lposy = 15; /* height of light source */
+int lposy = 5; /* height of light source */
 int lposxz = 0; /* radial position of light */
 
 /* create the scene's source of "sunlight" */
@@ -86,14 +87,11 @@ void display()
     glColor3f(0.8, 0.8, 0.8); /* make text light grey */
     if (viewmode)
     {
-        camx = (dim/2) * sind(theta) * cosd(phi);
-        camy = (dim/2) * sind(phi);
-        // camy = 15;
-        camz = (dim/2) * cosd(theta) * cosd(phi);
+        camy = 5;
 
-        dirx = cosd(theta) * cosd(phi);
-        diry = sind(phi);
-        dirz = sind(theta) * cos(phi);
+        // dirx = cosd(theta) * cosd(phi);
+        // diry = sind(phi);
+        // dirz = sind(theta) * cos(phi);
 
         /* cross product */
         // double upx = camy * dirz - camz * diry;
@@ -107,13 +105,16 @@ void display()
         // upz /= uplen;
 
         /* set current view */
-        gluLookAt(camx, camy, camz, dirx, diry, dirz, 0, cosd(phi), 0);
+        glRotatef(-phi,   1, 0, 0);
+        glRotatef(-theta, 0, 1, 0);
+        glTranslatef(-camx, -camy, -camz);
+        // gluLookAt(camx, camy, camz, dirx, diry, dirz, 0, cosd(phi), 0);
 
         /* display viewing settings */
-        glWindowPos2i(5, 35);
-        gprint("Current eye position: (%.1f, %.1f, %.1f)", camx, camy, camz);
-        glWindowPos2i(5, 20);
-        gprint("Looking at: (%.1f, %.1f, %.1f)", dirx, diry, dirz);
+        // glWindowPos2i(5, 35);
+        // gprint("Current eye position: (%.1f, %.1f, %.1f)", camx, camy, camz);
+        // glWindowPos2i(5, 20);
+        // gprint("Looking at: (%.1f, %.1f, %.1f)", dirx, diry, dirz);
         glWindowPos2i(5, 5);
         gprint("1st Person Perspective Projection (FOV %.1f)", fov);
     }
@@ -138,7 +139,7 @@ void display()
     float Diffuse[]  = {0.01*diffuse,  0.01*diffuse,  0.01*diffuse,  1.0};
     float Specular[] = {0.01*specular, 0.01*specular, 0.01*specular, 1.0};
     //  Light position
-    float lightposition[] = {2 * dim * cosd(lposxz) /3, lposy, 2 * dim * sind(lposxz) /3, 1.0};
+    float lightposition[] = {dim * cosd(lposxz) /3, lposy, dim * sind(lposxz) /3, 1.0};
     /* draw source object for the light */
     lightsrc(lightposition[0], lightposition[1], lightposition[2]);
     /*  Tell OpenGL to normalize normal vectors */
@@ -185,10 +186,18 @@ void display()
     checkErrs("display::floor");
     /* END OF FLOOR */
 
-    double height = 20;
+    /* bamboo stalk ~ more sections for more vertices */
+    double height = 1;
     double radius = 0.5;
     glBindTexture(GL_TEXTURE_2D, textures[0]);
-    cylinder(0, 0, 0, height, radius, 0xffffff);
+    cylinder(0, 5*height, 0, height, radius, 0xffffff);
+    cylinder(0, 4*height, 0, height, radius, 0xffffff);
+    cylinder(0, 3*height, 0, height, radius, 0xffffff);
+    cylinder(0, 2*height, 0, height, radius, 0xffffff);
+    cylinder(0,   height, 0, height, radius, 0xffffff);
+    cylinder(0, 0,        0, height, radius, 0xffffff);
+
+    checkErrs("display::objects");
 
     /* disable individual aspects of scene */
     glDisable(GL_TEXTURE_2D);
@@ -196,6 +205,7 @@ void display()
 
     checkErrs("display");
     glFlush();
+    project(fov, aspr, dim);
     glutSwapBuffers();
 }
 
@@ -205,7 +215,7 @@ void display()
  * 0        (0)       reset view in the current mode
  * wasd
  * ijkl
- * 
+ * f/F      (102, 70) decrease/increase field of view
  * 
  */
 /* key refers to the input character */
@@ -227,9 +237,9 @@ void keybindings(unsigned char key, int xpos, int ypos)
             camx = 10;
             camy = 15;
             camz = 10;
-            dirx = 0;
-            diry = 15;
-            dirz = 0;
+            // dirx = 0;
+            // diry = 15;
+            // dirz = 0;
         }
         else
         {
@@ -255,15 +265,24 @@ void keybindings(unsigned char key, int xpos, int ypos)
     }
     else if (viewmode && (key == 119 || key == 97 || key == 115 || key == 100))
     { /* w, a, s, d lateral movement of camera/eye */
+        float movspeed = 2.0;
         switch (key)
         {
             case 119: /* w - lateral forward */
+                camx += cosd(theta+90) / movspeed;
+                camz -= sind(theta+90) / movspeed;
                 break;
             case 115: /* s - lateral backward */
+                camx += cosd(theta+270) / movspeed;
+                camz -= sind(theta+270) / movspeed;
                 break;
             case 97:  /* a - lateral left */
+                camx += cosd(theta+180) / movspeed;
+                camz -= sind(theta+180) / movspeed;
                 break;
             case 100: /* d - lateral right */
+                camx += cosd(theta) / movspeed;
+                camz -= sind(theta) / movspeed;
                 break;
         }
     }
@@ -273,10 +292,12 @@ void keybindings(unsigned char key, int xpos, int ypos)
         switch (key)
         {
             case 105: /* i - angular up */
-                phi -= 2.5;
+                phi += 2.5;
+                if (phi > 70) phi = 70;
                 break;
             case 107: /* k - angular down */
-                phi += 2.5;
+                phi -= 2.5;
+                if (phi < -60) phi = -60;
                 break;
             case 106: /* j - angular left */
                 theta += 2.5;
@@ -285,6 +306,21 @@ void keybindings(unsigned char key, int xpos, int ypos)
                 theta -= 2.5;
                 break;
         }
+    }
+    else if (viewmode && (key == 102 || key == 70))
+    { /* f/F increase/decrease field of view */
+        if (key == 102)
+        {
+            fov -= 2;
+        }
+        else
+        {
+            fov += 2;
+        }
+
+        /* maintain reasonable fov range */
+        if (fov < 45) fov = 46;
+        if (fov > 81) fov = 80;
     }
 
     /* tell glut to redisplay after key press */
