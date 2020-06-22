@@ -23,7 +23,9 @@ unsigned int curtex = 0; /* current texture */
 int dim  = 30; /* dimension / world size */
 int aspr = 1; /* aspect ratio (viewport/window) */
 int fov  = 60; /* field of view */
-double camx, camy, camz; /* eye/camera position (perspective mode) */
+double camx = 0; /* x eye pos (perspective) */
+double camy = 5; /* constant view height (perspective) */
+double camz = 10; /* z eye pos (perspective) */
 bool viewmode = 1; /* 1st person perspective ~ orthographic */
 int ambient   = 10; /* percent ambient intensity */
 int diffuse   = 50; /* percent diffuse intensity */
@@ -79,8 +81,6 @@ void display()
     glColor3f(0.8, 0.8, 0.8); /* make text light grey */
     if (viewmode)
     {
-        camy = 5;
-
         /* set current view */
         /* derived from walkthrough at KEYSITE */
         glRotatef(-phi,   1, 0, 0);
@@ -184,9 +184,9 @@ void display()
 /* called by GLUT when a standard key is pressed */
 /* KEYBINDINGS
  * q or ESC (27, 113) quit/close program
- * 0        (0)       reset view in the current mode
- * wasd
- * ijkl
+ * r        (114)     reset view in the current mode
+ * wasd     (119, 97, 115, 100)  change lateral position
+ * ijkl     (105, 106, 107, 108) change angular perspective
  * f/F      (102, 70) decrease/increase field of view
  * 
  */
@@ -206,8 +206,8 @@ void keybindings(unsigned char key, int xpos, int ypos)
         {
             fov = 60;
             dim = 30;
-            camx = 10;
-            camy = 15;
+            camx = 0;
+            camy = 5;
             camz = 10;
         }
         else
@@ -217,12 +217,14 @@ void keybindings(unsigned char key, int xpos, int ypos)
             phi = 20;
         }
     }
-    else if (key == 0) /* 0 - reset scene */
+    else if (key == 114) /* r - reset scene */
     {
         if (viewmode)
         {
             fov = 60;
             dim = 30;
+            phi = 0;
+            theta = 0;
         }
         else
         {
