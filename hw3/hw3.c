@@ -36,32 +36,39 @@ int ambient = 10; /* percent ambient intensity */
 int diffuse = 50; /* percent diffuse intensity */
 int specular = 0; /* percent specular (reflective spot) intensity */
 int shininess = 0; /* pow2 shininess */
-int emission = 0; /* percent emission intensity */
+int emission = 100; /* percent emission intensity */
 int lposy = 15; /* height of light source */
 int lposxz = 0; /* radial position of light */
 
-void lightsrc()
+/* create the scene's source of "sunlight" */
+/* derived from ex13.c */
+void lightsrc(double xposl, double yposl, double zposl)
 {
-    int th, ph;
     float emis[] = {0.0, 0.0, 0.01 * emission, 1.0};
+    float ylwcorrection[] = {1.0, 1.0, 0.0, 1.0};
 
     /* save current transformations */
     glPushMatrix();
     /*  Offset, scale and rotate */
-    glTranslated(x,y,z);
-    glScaled(0.3, 0.3, 0.3);
+    glTranslated(xposl, yposl, zposl);
+    glScaled(0.1, 0.1, 0.1);
     //  White ball
     glColor3f(1,1,1);
-    glMaterialf(GL_FRONT,GL_SHININESS,shiny);
-    glMaterialfv(GL_FRONT,GL_SPECULAR,yellow);
-    glMaterialfv(GL_FRONT,GL_EMISSION,emis);
+    glMaterialfv(GL_FRONT,GL_SPECULAR, ylwcorrection);
+    glMaterialfv(GL_FRONT,GL_EMISSION, emis);
     
-    /* the polygon itself */
+    /* the polygon (tetrahedron) itself */
+    /* coordinates assumed from https://en.wikipedia.org/wiki/Tetrahedron */
     glBegin(GL_TRIANGLE_STRIP);
-    
+    glVertex3d( 0.9428,       0, -0.3333);
+    glVertex3d(-0.4714,  0.8165, -0.3333);
+    glVertex3d(-0.4714, -0.8165, -0.3333); /* 3rd vertex close 1st side */
+    glVertex3d(      0,       0,       1); /* 4th vertex close 2nd side */
+    glVertex3d(-0.4714,  0.8165, -0.3333); /* repeat 2nd vertex to close 3rd side */
+    glVertex3d(-0.4714, -0.8165, -0.3333); /* repeat 3rd vertex to close 4th side */
     glEnd();
 
-    //  Undo transofrmations
+    /* replace transofrmations */
     glPopMatrix();
 }
 
@@ -76,28 +83,28 @@ void display()
     glEnable(GL_DEPTH_TEST);
 
     /* View mode specific settings and text panel */
-    glColor3f(0.8, 0.8, 0.8); /* make text white */
+    glColor3f(0.8, 0.8, 0.8); /* make text light grey */
     if (viewmode)
     {
-        camx = (dim/2); //* sind(theta) * cosd(phi);
-        // camy = (dim/2); //* sind(phi);
-        camy = 15;
-        camz = (dim/2); //* cosd(theta) * cosd(phi);
+        camx = (dim/2) * sind(theta) * cosd(phi);
+        camy = (dim/2) * sind(phi);
+        // camy = 15;
+        camz = (dim/2) * cosd(theta) * cosd(phi);
 
         dirx = cosd(theta) * cosd(phi);
         diry = sind(phi);
         dirz = sind(theta) * cos(phi);
 
         /* cross product */
-        double upx = camy * dirz - camz * diry;
-        double upy = camz * dirx - camx * dirz;
-        double upz = camx * diry - camy * dirx;
+        // double upx = camy * dirz - camz * diry;
+        // double upy = camz * dirx - camx * dirz;
+        // double upz = camx * diry - camy * dirx;
         /* normalize each */
-        /* written with help from https://stackoverflow.com/a/28490779 */
-        double uplen = sqrt(upx*upx + upy*upy + upz*upz);
-        upx /= uplen;
-        upy /= uplen;
-        upz /= uplen;
+        /* https://stackoverflow.com/a/28490779 */
+        // double uplen = sqrt(upx*upx + upy*upy + upz*upz);
+        // upx /= uplen;
+        // upy /= uplen;
+        // upz /= uplen;
 
         /* set current view */
         gluLookAt(camx, camy, camz, dirx, diry, dirz, 0, cosd(phi), 0);
@@ -126,31 +133,28 @@ void display()
 
     /* set light in scene */
     /* derived from ex13.c */
-    //  Translate intensity to color vectors
-    float Ambient[]   = {0.01*ambient ,0.01*ambient ,0.01*ambient ,1.0};
-    float Diffuse[]   = {0.01*diffuse ,0.01*diffuse ,0.01*diffuse ,1.0};
-    float Specular[]  = {0.01*specular,0.01*specular,0.01*specular,1.0};
+    /*  Translate intensity to rgba color vectors */
+    float Ambient[]  = {0.01*ambient,  0.01*ambient,  0.01*ambient,  1.0};
+    float Diffuse[]  = {0.01*diffuse,  0.01*diffuse,  0.01*diffuse,  1.0};
+    float Specular[] = {0.01*specular, 0.01*specular, 0.01*specular, 1.0};
     //  Light position
-    float Position[]  = {distance*Cos(lposxz), lposy, distance*Sin(lposxz),1.0};
-    //  Draw light position as ball (still no lighting here)
-    glColor3f(1,1,1);
-    lightsrc(Position[0],Position[1],Position[2] , 0.1);
-    //  OpenGL should normalize normal vectors
+    float lightposition[] = {2 * dim * cosd(lposxz) /3, lposy, 2 * dim * sind(lposxz) /3, 1.0};
+    /* draw source object for the light */
+    lightsrc(lightposition[0], lightposition[1], lightposition[2]);
+    /*  Tell OpenGL to normalize normal vectors */
     glEnable(GL_NORMALIZE);
-    //  Enable lighting
+    /* Enable lighting */
     glEnable(GL_LIGHTING);
-    //  Location of viewer for specular calculations
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,local);
-    //  glColor sets ambient and diffuse color materials
+    /* set ambient and diffuse color materials */
     glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
     glEnable(GL_COLOR_MATERIAL);
-    //  Enable light 0
+    /* Enable light 0 */
     glEnable(GL_LIGHT0);
-    //  Set ambient, diffuse, specular components and position of light 0
-    glLightfv(GL_LIGHT0,GL_AMBIENT ,Ambient);
-    glLightfv(GL_LIGHT0,GL_DIFFUSE ,Diffuse);
-    glLightfv(GL_LIGHT0,GL_SPECULAR,Specular);
-    glLightfv(GL_LIGHT0,GL_POSITION,Position);
+    /* Set ambient, diffuse, specular components and position of light 0 */
+    glLightfv(GL_LIGHT0, GL_AMBIENT,  Ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE,  Diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, Specular);
+    glLightfv(GL_LIGHT0, GL_POSITION, lightposition);
 
     checkErrs("display::lighting");
 
@@ -186,7 +190,9 @@ void display()
     glBindTexture(GL_TEXTURE_2D, textures[0]);
     cylinder(0, 0, 0, height, radius, 0xffffff);
 
+    /* disable individual aspects of scene */
     glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
 
     checkErrs("display");
     glFlush();
@@ -267,14 +273,16 @@ void keybindings(unsigned char key, int xpos, int ypos)
         switch (key)
         {
             case 105: /* i - angular up */
-                phi += 2.5;
-                break;
-            case 107: /* k - angular down */
                 phi -= 2.5;
                 break;
+            case 107: /* k - angular down */
+                phi += 2.5;
+                break;
             case 106: /* j - angular left */
+                theta += 2.5;
                 break;
             case 108: /* l - angular right */
+                theta -= 2.5;
                 break;
         }
     }
@@ -328,6 +336,18 @@ void reshape(int width, int height)
     project(0, aspr, dim);
 }
 
+/* run this function when no key presses are happening */
+/* copied from ex13.c */
+void idle()
+{
+    /* elapsed time, seconds */
+    double t = glutGet(GLUT_ELAPSED_TIME)/1000.0;
+    lposxz = fmod(90*t, 360.0);
+
+    /* redisplay scene (light is moving) */
+    glutPostRedisplay();
+}
+
 int main(int argc, char* argv[])
 {
     srand((unsigned)time(NULL));
@@ -349,6 +369,9 @@ int main(int argc, char* argv[])
 
     /* register 'reshape' as window resizing fn */
     glutReshapeFunc(reshape);
+
+    /* idle function */
+    glutIdleFunc(idle);
 
     /* register key bindings for keyboard and arrows */
     glutSpecialFunc(specialkeybindings);
