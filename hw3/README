@@ -31,7 +31,11 @@ LOCAL CONFIG
   $ ./hw3
 
 Time Spent
-+3h setup, copying files over
-+8h perspective work and debugging, texture application, and start of lighting
-+2h perspective debugging and fixed light source
-+3.5 h perspective and lighting debugging. Fixed perspective.
+19+ hours
+  Relative breakdown
+  +3h setup, copying files over
+  +8h perspective work and debugging, texture application, and start of lighting
+  +2h perspective debugging and fixed light source
+  +3.5 h perspective and lighting debugging. Fixed perspective.
+  +1h perspective adjustments
+  +2h cylinder lighting...
