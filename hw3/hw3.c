@@ -8,7 +8,7 @@
  *
  * https://github.com/mattearly/TheOnlyEscapeIsESC/blob/master/code/camera.h
  * https://www.tomdalling.com/blog/modern-opengl/04-cameras-vectors-and-input/
- * https://thepentamollisproject.blogspot.com/2018/02/setting-up-first-person-camera-in.html
+ * KEYSITE https://thepentamollisproject.blogspot.com/2018/02/setting-up-first-person-camera-in.html
  */
 
 
@@ -17,29 +17,21 @@
 
 /* global variables */
 int theta = 0; /* azimuth (left/right) angle */
-int phi = 0; /* elevation (up/down) angle */
+int phi   = 0; /* elevation (up/down) angle */
 unsigned int textures[2]; /* array holding texture references */
 unsigned int curtex = 0; /* current texture */
-int dim = 30; /* dimension / world size */
+int dim  = 30; /* dimension / world size */
 int aspr = 1; /* aspect ratio (viewport/window) */
-int fov = 60; /* field of view */
-/* eye/camera position starting coordinates (perspective mode) */
-double camx, camy, camz;
-// double camx = 10;
-// double camy = 5;
-// double camz = 10;
-/* facing direction coordinates (perspective mode) */
-// int dirx = 0;
-// int diry = 5; /* take the sind of this angle */
-// int dirz = 0;
+int fov  = 60; /* field of view */
+double camx, camy, camz; /* eye/camera position (perspective mode) */
 bool viewmode = 1; /* 1st person perspective ~ orthographic */
-int ambient = 10; /* percent ambient intensity */
-int diffuse = 50; /* percent diffuse intensity */
-int specular = 0; /* percent specular (reflective spot) intensity */
+int ambient   = 10; /* percent ambient intensity */
+int diffuse   = 50; /* percent diffuse intensity */
+int specular  = 0; /* percent specular (reflective spot) intensity */
 int shininess = 0; /* pow2 shininess */
-int emission = 100; /* percent emission intensity */
-int lposy = 5; /* height of light source */
-int lposxz = 0; /* radial position of light */
+int emission  = 100; /* percent emission intensity */
+int lposy     = 5; /* height of light source */
+int lposxz    = 0; /* radial position of light */
 
 /* create the scene's source of "sunlight" */
 /* derived from ex13.c */
@@ -89,34 +81,14 @@ void display()
     {
         camy = 5;
 
-        // dirx = cosd(theta) * cosd(phi);
-        // diry = sind(phi);
-        // dirz = sind(theta) * cos(phi);
-
-        /* cross product */
-        // double upx = camy * dirz - camz * diry;
-        // double upy = camz * dirx - camx * dirz;
-        // double upz = camx * diry - camy * dirx;
-        /* normalize each */
-        /* https://stackoverflow.com/a/28490779 */
-        // double uplen = sqrt(upx*upx + upy*upy + upz*upz);
-        // upx /= uplen;
-        // upy /= uplen;
-        // upz /= uplen;
-
         /* set current view */
+        /* derived from walkthrough at KEYSITE */
         glRotatef(-phi,   1, 0, 0);
         glRotatef(-theta, 0, 1, 0);
         glTranslatef(-camx, -camy, -camz);
-        // gluLookAt(camx, camy, camz, dirx, diry, dirz, 0, cosd(phi), 0);
 
-        /* display viewing settings */
-        // glWindowPos2i(5, 35);
-        // gprint("Current eye position: (%.1f, %.1f, %.1f)", camx, camy, camz);
-        // glWindowPos2i(5, 20);
-        // gprint("Looking at: (%.1f, %.1f, %.1f)", dirx, diry, dirz);
         glWindowPos2i(5, 5);
-        gprint("1st Person Perspective Projection (FOV %.1f)", fov);
+        gprint("1st Person Perspective Projection (FOV %d)", fov);
     }
     else
     {
@@ -237,9 +209,6 @@ void keybindings(unsigned char key, int xpos, int ypos)
             camx = 10;
             camy = 15;
             camz = 10;
-            // dirx = 0;
-            // diry = 15;
-            // dirz = 0;
         }
         else
         {
@@ -248,13 +217,12 @@ void keybindings(unsigned char key, int xpos, int ypos)
             phi = 20;
         }
     }
-    else if (key == 0)
+    else if (key == 0) /* 0 - reset scene */
     {
         if (viewmode)
         {
             fov = 60;
             dim = 30;
-
         }
         else
         {
@@ -265,6 +233,7 @@ void keybindings(unsigned char key, int xpos, int ypos)
     }
     else if (viewmode && (key == 119 || key == 97 || key == 115 || key == 100))
     { /* w, a, s, d lateral movement of camera/eye */
+        /* derived from tutorial at KEYSITE (Pentamollis Project) */
         float movspeed = 2.0;
         switch (key)
         {
