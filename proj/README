@@ -1,0 +1,39 @@
+Xuedan Fillmore
+CSCI 4229 Computer Graphics
+26 June 2020
+
+Project | Typewriter
+
+CONCEPT
+  An interactive typewriter demonstrating the following:
+    Application of textures in OpenGL
+    Proper use of lighting
+    First person perspective projection
+    Selection in three dimensions
+    Synchronization of visual behaviors
+
+COMPILE
+  $ make
+
+RUN
+  $ typewriter
+
+LOCAL CONFIG
+  Windows OS 10 with mounted Ubuntu terminal
+  Start Xming
+  $ export DISPLAY=:0.0
+  $ ./typewriter
+
+KEY BINDINGS
+q, ESC   quit program
+r        reset view to default
+arrows   change angular view
+w,a,s,d  change lateral position
+         forward, left, backward, right
+F/f      increase/decrease field of view (zoom)
+z        increase elevation (eye height)
+x        decrease elevation (eye height)
+
+Time Estimation
++ 2h
++ 8h
