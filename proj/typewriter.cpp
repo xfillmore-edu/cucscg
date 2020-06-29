@@ -8,7 +8,6 @@
  * https://www.glprogramming.com/red/chapter13.html
  * https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPickMatrix.xml
  * https://community.khronos.org/t/i-want-to-draw-two-objects-then-just-move-one-of-them/16733/3
- * https://learnopengl.com/Lighting/Basic-Lighting
  */
 
 #include "config.hpp"
@@ -18,21 +17,17 @@
 // texture
 unsigned int textures[36];
 // lighting
-float ambient   = 10.0; // percent ambient intensity 
-float diffuse   = 50.0; // percent diffuse intensity 
-float specular  = 0.0; // percent specular (reflective spot) intensity 
-float shininess = 0.0; // pow2 shininess 
-float lposy     = 5; // height of light source 
-float lposxz    = 0; // radial position of light 
+float lposy  = 5; // height of light source 
+float lposxz = 0; // radial position of light 
 // viewing
 int theta  = 0;   // azimuth (left/right) angle 
-int phi    = -30;   // elevation (up/down) angle 
-float dim  = 30.0;   // dimension / world size 
-float aspr = 1;    // aspect ratio (viewport/window) 
-int fov    = 60;   // field of view 
-float camx = 0; // x eye pos (perspective) 
-float camy = 20; // constant view height (perspective) 
-float camz = 5; // z eye pos (perspective) 
+int phi    = -30; // elevation (up/down) angle 
+int fov    = 60;  // field of view
+int dim    = 30;  // dimension / world size 
+int aspr   = 1;   // aspect ratio (viewport/window) 
+float camx = 0;   // x eye pos (perspective) 
+float camy = 20;  // constant view height (perspective) 
+float camz = 5;   // z eye pos (perspective) 
 // controls
 bool figkey = 0;
 bool capkey = 0;
@@ -41,7 +36,7 @@ bool capkey = 0;
 // copied from hw3
 void lightsrc(double xposl, double yposl, double zposl)
 {
-    float emis[] = {0.0, 0.2, 0.8, 1.0};
+    float emis[] = {0.2, 0.3, 0.7, 1.0};
 
     // save current transformations
     glPushMatrix();
@@ -88,14 +83,14 @@ void display()
     checkErrs("display::setup");
 
     // set light in scene
-    // copied from hw3
+    // derived from hw3
     // translate intensity to rgba color vectors
-    float amb = 0.01 * (float)ambient;
-    float dif = 0.01 * (float)diffuse;
-    float spe = 0.01 * (float)specular;
-    float Ambient[]  = {amb, amb, amb, 1.0};
-    float Diffuse[]  = {dif, dif, dif, 1.0};
-    float Specular[] = {spe, spe, spe, 1.0};
+    float amb = 0.2; // percent ambient intensity
+    float dif = 0.7; // percent diffuse intensity
+    float spe = 0.1; // percent specular intensity (spot)
+    float ambient[]  = {amb, amb, amb, 1.0};
+    float diffuse[]  = {dif, dif, dif, 1.0};
+    float specular[] = {spe, spe, spe, 1.0};
     //  Light position
     float lightposition[] = {dim * cosd(lposxz) /6, lposy, dim * sind(lposxz) /6, 1.0};
     // draw source object for the light
@@ -110,9 +105,9 @@ void display()
     // Enable light 0
     glEnable(GL_LIGHT0);
     // Set ambient, diffuse, specular components and position of light 0
-    glLightfv(GL_LIGHT0, GL_AMBIENT,  Ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE,  Diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, Specular);
+    glLightfv(GL_LIGHT0, GL_AMBIENT,  ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE,  diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
     glLightfv(GL_LIGHT0, GL_POSITION, lightposition);
 
     checkErrs("display::lighting");
