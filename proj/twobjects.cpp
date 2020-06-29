@@ -1,6 +1,6 @@
 #include "twobjects.hpp"
 
-double pinHeight = 1.2;
+float pinHeight = 1.2;
 unsigned int white = 0xffffff;
 
 // texture binding code written with help from
@@ -12,9 +12,9 @@ unsigned int white = 0xffffff;
 void cvertex(int th, double h, unsigned int hexcolor)
 {
     // convert hex color to rgb colors
-    unsigned char red =   ((hexcolor>>4) & 0x0000ff) / RGBMAX;
+    unsigned char red   = ((hexcolor>>4) & 0x0000ff) / RGBMAX;
     unsigned char green = ((hexcolor>>2) & 0x0000ff) / RGBMAX;
-    unsigned char blue =  (hexcolor      & 0x0000ff) / RGBMAX;
+    unsigned char blue  = ( hexcolor     & 0x0000ff) / RGBMAX;
 
     // apply color argument to polygon vertex
     glColor3f((float) red, (float) green, (float) blue);
@@ -132,10 +132,11 @@ void keyRod()
 {
     // construct pin body below the key head
     int dd = 60; // 6-sided precision
-    float th = 0.0;
-    int rad = 0.1;
+    int th = 0;
+    int rad = 0.2;
 
     glPushMatrix();
+    glEnable(GL_RESCALE_NORMAL);
 
     glScaled(rad, 1, rad);
     
@@ -144,13 +145,10 @@ void keyRod()
     glColor3f(1.0, 1.0, 1.0);
     for (th = 0; th <= 360; th += dd)
     {
-        float ang = th / 360.0;
+        gColor3fRGB(157.0, 162.0, 166.0);
         glNormal3f(cosd(th), 0, sind(th));
 
-        glTexCoord2f(ang, 1.0);
         glVertex3f(cosd(th), pinHeight, sind(th));
-
-        glTexCoord2f(ang, 0.0);
         glVertex3f(cosd(th), 0, sind(th));
     }
     glEnd();
@@ -737,11 +735,113 @@ void Typewriter::addKeySpace(unsigned int tex)
     glPopMatrix();
 
     // rounded ends (go 180 deg)
-    // float rad = 0.5;
-    // float th = 0;
-    // glPushMatrix();
+    float rad = 0.5;
+    float th = 0;
+    float dd = 20; // rotation precision
+    glPushMatrix();
+    glTranslatef(8, 3.3, -1.3); // right top round end
+    glRotatef(90, 0, 1, 0);
+    glScalef(rad, 1, rad);
+    glBegin(GL_TRIANGLE_FAN);
+    glNormal3f(0, 1, 0);
+    glColor3f(1.0, 1.0, 1.0);
+    glTexCoord2f(0.5f, 0.5f);
+    glVertex3f(0, 0, 0);
+    for (th = 0; th <= 180; th += dd)
+    {
+        glNormal3f(0, 1, 0);
+        glTexCoord2f(0.5f * sind(th) + 0.5f, 0.5f * cosd(th) + 0.5f);
+        cvertex(th, 0, white);
+    }
+    glEnd();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(8, 3.2, -1.3); // right bottom round end
+    glRotatef(90, 0, 1, 0);
+    glScalef(rad, 1, rad);
+    glBegin(GL_TRIANGLE_FAN);
+    glNormal3f(0, 1, 0);
+    glColor3f(1.0, 1.0, 1.0);
+    glTexCoord2f(0.5f, 0.5f);
+    glVertex3f(0, 0, 0);
+    for (th = 180; th >= 0; th -= dd)
+    {
+        glNormal3f(0, 1, 0);
+        glTexCoord2f(0.5f * sind(th) + 0.5f, 0.5f * cosd(th) + 0.5f);
+        cvertex(th, 0, white);
+    }
+    glEnd();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(-3.6, 3.3, -1.3); // left top round end
+    glRotatef(-90, 0, 1, 0);
+    glScalef(rad, 1, rad);
+    glBegin(GL_TRIANGLE_FAN);
+    glNormal3f(0, 1, 0);
+    glColor3f(1.0, 1.0, 1.0);
+    glTexCoord2f(0.5f, 0.5f);
+    glVertex3f(0, 0, 0);
+    for (th = 0; th <= 180; th += dd)
+    {
+        glNormal3f(0, 1, 0);
+        glTexCoord2f(0.5f * sind(th) + 0.5f, 0.5f * cosd(th) + 0.5f);
+        cvertex(th, 0, white);
+    }
+    glEnd();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(-3.6, 3.2, -1.3); // left bottom round end
+    glRotatef(-90, 0, 1, 0);
+    glScalef(rad, 1, rad);
+    glBegin(GL_TRIANGLE_FAN);
+    glNormal3f(0, 1, 0);
+    glColor3f(1.0, 1.0, 1.0);
+    glTexCoord2f(0.5f, 0.5f);
+    glVertex3f(0, 0, 0);
+    for (th = 180; th >= 0; th -= dd)
+    {
+        glNormal3f(0, 1, 0);
+        glTexCoord2f(0.5f * sind(th) + 0.5f, 0.5f * cosd(th) + 0.5f);
+        cvertex(th, 0, white);
+    }
+    glEnd();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(8, 3.2, -1.3); // right round rim
+    glRotatef(90, 0, 1, 0);
+    glScalef(0.5, 1, 0.5);
+    glBegin(GL_QUAD_STRIP);
+    for (th = 0; th <= 180; th += dd)
+    {
+        glNormal3f(cosd(th), 0, sind(th));
+        float ang = th / 180.0;
 
-    // glPopMatrix();
+        glTexCoord2f(ang, 0);
+        cvertex(th, 0, white);
+
+        glTexCoord2f(ang, 1.0);
+        cvertex(th, 0.1, white);
+    }
+    glEnd();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(-3.6, 3.2, -1.3); // left round rim
+    glRotatef(-90, 0, 1, 0);
+    glScalef(0.5, 1, 0.5);
+    glBegin(GL_QUAD_STRIP);
+    for (th = 0; th <= 180; th += dd)
+    {
+        glNormal3f(cosd(th), 0, sind(th));
+        float ang = th / 180.0;
+
+        glTexCoord2f(ang, 0);
+        cvertex(th, 0, white);
+
+        glTexCoord2f(ang, 1.0);
+        cvertex(th, 0.1, white);
+    }
+    glEnd();
+    glPopMatrix();
 
     
     glDisable(GL_TEXTURE_2D);
