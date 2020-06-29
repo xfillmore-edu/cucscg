@@ -12,15 +12,14 @@
 
 #define GL_GLEXT_PROTOTYPES
 
-/* Cross-OS compatability */
+// Cross-OS compatability
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
 #endif
 
-/* function declarations */
-// (char*) str2chararr(std::string s);
+// function declarations
 void checkErrs(std::string fn);
 void gprint(const char* format, ...);
 void fatal(const char* format, ...);
