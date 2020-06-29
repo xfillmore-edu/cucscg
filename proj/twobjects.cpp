@@ -12,12 +12,12 @@ unsigned int white = 0xffffff;
 void cvertex(int th, double h, unsigned int hexcolor)
 {
     // convert hex color to rgb colors
-    unsigned char red =   ((hexcolor & 0xff0000)>>4) / RGBMAX;
-    unsigned char green = ((hexcolor & 0x00ff00)>>2) / RGBMAX;
-    unsigned char blue =  (hexcolor & 0x0000ff)      / RGBMAX;
+    unsigned char red =   ((hexcolor>>4) & 0x0000ff) / RGBMAX;
+    unsigned char green = ((hexcolor>>2) & 0x0000ff) / RGBMAX;
+    unsigned char blue =  (hexcolor      & 0x0000ff) / RGBMAX;
 
     // apply color argument to polygon vertex
-    glColor3f((double) red, (double) green, (double) blue);
+    glColor3f((float) red, (float) green, (float) blue);
     
     // place vertex
     glVertex3d(cosd(th), h, sind(th));
@@ -40,7 +40,7 @@ void keyFace(bool type)
 
     // lighting effects 
     float shiny[] = {30};
-    float whtsp[] = {0.2, 0.4, 0.7, 1.0};
+    float whtsp[] = {1.0, 1.0, 1.0, 1.0};
     glMaterialfv(GL_FRONT, GL_SHININESS, shiny);
     glMaterialfv(GL_FRONT, GL_SPECULAR, whtsp);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, whtsp);
