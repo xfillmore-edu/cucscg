@@ -13,6 +13,7 @@
  * http://newton.uam.mx/xgeorge/uea/graficacion/Archivos_relacionados_a_varias_temas_del_curso/Selection/OpenGl%20-%20Tutorial%2027%20%20Object%20Selection.htm
  * http://medialab.di.unipi.it/web/IUM/Waterloo/node87.html
  * https://people.clarkson.edu/class/ee465/lectures/lecture_27/lecture_27.html
+ * http://jerome.jouvie.free.fr/opengl-tutorials/Tutorial20.php // 2d bitmap font
  */
 
 
@@ -23,7 +24,7 @@
 // texture
 unsigned int textures[36];
 // lighting
-float lposy  = 5; // height of light source 
+float lposy  = 10; // height of light source 
 float lposxz = 0; // radial position of light 
 // viewing
 int theta  = 0;   // azimuth (left/right) angle 
@@ -78,23 +79,6 @@ void display()
     // set up for new buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear current image
     glLoadIdentity(); // Reset prior transformations
-
-    // set up selection buffer and name stack
-    glSelectBuffer(sbuffs, sbuff);
-    glRenderMode(GL_SELECT);
-    glInitNames();
-    glPushName(0);
-
-    // build typewriter for selection purposes
-    Typewriter tw;
-    tw.buildTypewriter(textures);
-
-    checkErrs("display::twInitSelect");
-
-    // records number of objects selected while in selection mode
-    // and reverts to rendering mode
-    GLint hits = glRenderMode(GL_RENDER);
-
     glEnable(GL_DEPTH_TEST); // Allow z-buffer
 
     // View mode specific settings and text panel
@@ -102,9 +86,6 @@ void display()
     glRotatef(-phi,   1, 0, 0);
     glRotatef(-theta, 0, 1, 0);
     glTranslatef(-camx, -camy, -camz);
-    // glColor3f(0.8, 0.8, 0.8); // make text light grey
-    // glWindowPos2i(5, 5);
-    // gprint("1st Person Perspective Projection (FOV %d)", fov);
 
     // check for any errors during set up
     checkErrs("display::setup");
@@ -139,7 +120,13 @@ void display()
 
     checkErrs("display::lighting");
 
+    // enable texture for rendering
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glEnable(GL_RESCALE_NORMAL);
+
     // build typewriter for rendering purposes
+    Typewriter tw;
     tw.buildTypewriter(textures);
 
     checkErrs("display::twInitRender");
@@ -148,10 +135,11 @@ void display()
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_LIGHTING);
 
+
     // clean up and redisplay
     checkErrs("display");
     glFlush();
-    project(fov, aspr, dim, mxpos, mypos);
+    project(fov, aspr, dim);
     glutSwapBuffers();
 }
 
@@ -169,6 +157,8 @@ void keybindings(unsigned char key, int xpos, int ypos)
         dim = 30.0;
         aspr = 1.0;
         fov = 60;
+        theta = 0;
+        phi = -30;
     }
     else if (key == 119 || key == 97 || key == 115 || key == 100)
     { // w, a, s, d lateral movement of camera/eye
@@ -219,7 +209,7 @@ void keybindings(unsigned char key, int xpos, int ypos)
     mypos = ypos;
 
     // tell GLUT to redisplay after key press
-    project(fov, aspr, dim, mxpos, mypos);
+    project(fov, aspr, dim);
     glutPostRedisplay();
 }
 
@@ -251,7 +241,7 @@ void specialkeybindings(int key, int xpos, int ypos)
 
 
     // tell GLUT to redisplay after key press
-    project(fov, aspr, dim, mxpos, mypos);
+    project(fov, aspr, dim);
     glutPostRedisplay();
 }
 
@@ -264,7 +254,7 @@ void reshape(int width, int height)
     glViewport(0, 0, width, height);
 
     // update projection
-    project(fov, aspr, dim, mxpos, mypos);
+    project(fov, aspr, dim);
 }
 
 void idle()
