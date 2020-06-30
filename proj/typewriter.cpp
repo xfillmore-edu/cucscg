@@ -8,7 +8,13 @@
  * https://www.glprogramming.com/red/chapter13.html
  * https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPickMatrix.xml
  * https://community.khronos.org/t/i-want-to-draw-two-objects-then-just-move-one-of-them/16733/3
+ * http://unknownware.com/rtfm/graphics/glselection.html
+ * http://web.cse.ohio-state.edu/~shen.94/581/Site/Slides_files/picking.pdf
+ * http://newton.uam.mx/xgeorge/uea/graficacion/Archivos_relacionados_a_varias_temas_del_curso/Selection/OpenGl%20-%20Tutorial%2027%20%20Object%20Selection.htm
+ * http://medialab.di.unipi.it/web/IUM/Waterloo/node87.html
+ * https://people.clarkson.edu/class/ee465/lectures/lecture_27/lecture_27.html
  */
+
 
 #include "config.hpp"
 #include "twobjects.hpp"
@@ -31,6 +37,10 @@ float camz = 5;   // z eye pos (perspective)
 // controls
 bool figkey = 0;
 bool capkey = 0;
+const unsigned int sbuffs = 64;
+GLuint sbuff[sbuffs];
+int mxpos = 0; // mouse x position
+int mypos = 0; // mouse y position
 
 // create the scene's source of "sunlight"
 // copied from hw3
@@ -68,6 +78,23 @@ void display()
     // set up for new buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear current image
     glLoadIdentity(); // Reset prior transformations
+
+    // set up selection buffer and name stack
+    glSelectBuffer(sbuffs, sbuff);
+    glRenderMode(GL_SELECT);
+    glInitNames();
+    glPushName(0);
+
+    // build typewriter for selection purposes
+    Typewriter tw;
+    tw.buildTypewriter(textures);
+
+    checkErrs("display::twInitSelect");
+
+    // records number of objects selected while in selection mode
+    // and reverts to rendering mode
+    GLint hits = glRenderMode(GL_RENDER);
+
     glEnable(GL_DEPTH_TEST); // Allow z-buffer
 
     // View mode specific settings and text panel
@@ -75,9 +102,9 @@ void display()
     glRotatef(-phi,   1, 0, 0);
     glRotatef(-theta, 0, 1, 0);
     glTranslatef(-camx, -camy, -camz);
-    glColor3f(0.8, 0.8, 0.8); // make text light grey
-    glWindowPos2i(5, 5);
-    gprint("1st Person Perspective Projection (FOV %d)", fov);
+    // glColor3f(0.8, 0.8, 0.8); // make text light grey
+    // glWindowPos2i(5, 5);
+    // gprint("1st Person Perspective Projection (FOV %d)", fov);
 
     // check for any errors during set up
     checkErrs("display::setup");
@@ -112,15 +139,10 @@ void display()
 
     checkErrs("display::lighting");
 
-    // enable texture application
-    // glEnable(GL_TEXTURE_2D);
-    // glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-    // build typewriter, passing texture array as argument
-    Typewriter tw;
+    // build typewriter for rendering purposes
     tw.buildTypewriter(textures);
 
-    checkErrs("display::twInit");
+    checkErrs("display::twInitRender");
 
     // disable individual aspects of scene
     glDisable(GL_TEXTURE_2D);
@@ -129,7 +151,7 @@ void display()
     // clean up and redisplay
     checkErrs("display");
     glFlush();
-    project(fov, aspr, dim);
+    project(fov, aspr, dim, mxpos, mypos);
     glutSwapBuffers();
 }
 
@@ -193,13 +215,18 @@ void keybindings(unsigned char key, int xpos, int ypos)
         if (fov > 81) fov = 80;
     }
 
+    mxpos = xpos;
+    mypos = ypos;
+
     // tell GLUT to redisplay after key press
-    project(fov, aspr, dim);
+    project(fov, aspr, dim, mxpos, mypos);
     glutPostRedisplay();
 }
 
 void specialkeybindings(int key, int xpos, int ypos)
 {
+    mxpos = xpos;
+    mypos = ypos;
     switch(key)
     { // azimuth ~ longitude / elevation ~ latitude
         case GLUT_KEY_RIGHT:
@@ -224,7 +251,7 @@ void specialkeybindings(int key, int xpos, int ypos)
 
 
     // tell GLUT to redisplay after key press
-    project(fov, aspr, dim);
+    project(fov, aspr, dim, mxpos, mypos);
     glutPostRedisplay();
 }
 
@@ -237,7 +264,7 @@ void reshape(int width, int height)
     glViewport(0, 0, width, height);
 
     // update projection
-    project(fov, aspr, dim);
+    project(fov, aspr, dim, mxpos, mypos);
 }
 
 void idle()
