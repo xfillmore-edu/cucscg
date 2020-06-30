@@ -23,7 +23,7 @@
 void checkErrs(std::string fn);
 void gprint(const char* format, ...);
 void fatal(const char* format, ...);
-void project(double fov, double aspratio, double dimension, int mxpos, int mypos);
+void project(double fov, double aspratio, double dimension);
 unsigned int loadTexture(const char* filename);
 
 #endif

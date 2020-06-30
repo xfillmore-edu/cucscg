@@ -3,19 +3,13 @@
 
 #include "config.hpp"
 
-void project(double fov, double aspratio, double dimension, int mxpos, int mypos)
+void project(double fov, double aspratio, double dimension)
 {
     // manipulate projection matrix
     glMatrixMode(GL_PROJECTION);
 
     // remove previous transformations
     glLoadIdentity();
-
-    // Picking/Selection modifiers
-    // http://unknownware.com/rtfm/graphics/glselection.html
-    GLint viewport[4];
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    gluPickMatrix((GLdouble)mxpos, (GLdouble)(viewport[3]-mypos), 0.2, 0.2, viewport );
 
     // perspective transformation
     // 0 - orthogonal
