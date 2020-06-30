@@ -189,7 +189,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[15];
 
             // position individual key
-            glTranslatef(-4.9, r2y, r2z);
+            glTranslatef(-5.9, r2y, r2z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -203,7 +203,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[30];
             
             // position individual key
-            glTranslatef(1.4, r1y, r1z);
+            glTranslatef(0.4, r1y, r1z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -217,7 +217,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[28];
             
             // position individual key
-            glTranslatef(-1.4, r1y, r1z);
+            glTranslatef(-2.4, r1y, r1z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -231,7 +231,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[17];
             
             // position individual key
-            glTranslatef(-2.1, r2y, r2z);
+            glTranslatef(-3.1, r2y, r2z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -245,7 +245,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[7];
             
             // position individual key
-            glTranslatef(-2.8, r3y, r3z);
+            glTranslatef(-3.8, r3y, r3z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -259,7 +259,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[18];
             
             // position individual key
-            glTranslatef(-0.7, r2y, r2z);
+            glTranslatef(-1.7, r2y, r2z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -273,7 +273,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[19];
             
             // position individual key
-            glTranslatef(0.7, r2y, r2z);
+            glTranslatef(-0.3, r2y, r2z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -287,7 +287,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[21];
             
             // position individual key
-            glTranslatef(2.1, r2y, r2z);
+            glTranslatef(1.1, r2y, r2z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -301,7 +301,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[12];
             
             // position individual key
-            glTranslatef(4.2, r3y, r3z);
+            glTranslatef(3.2, r3y, r3z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -315,7 +315,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[22];
             
             // position individual key
-            glTranslatef(3.5, r2y, r2z);
+            glTranslatef(2.5, r2y, r2z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -329,7 +329,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[23];
             
             // position individual key
-            glTranslatef(4.9, r2y, r2z);
+            glTranslatef(3.9, r2y, r2z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -343,7 +343,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[24];
             
             // position individual key
-            glTranslatef(6.3, r2y, r2z);
+            glTranslatef(5.3, r2y, r2z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -357,7 +357,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[32];
             
             // position individual key
-            glTranslatef(4.2, r1y, r1z);
+            glTranslatef(3.2, r1y, r1z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -371,7 +371,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[31];
             
             // position individual key
-            glTranslatef(2.8, r1y, r1z);
+            glTranslatef(1.8, r1y, r1z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -385,7 +385,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[13];
             
             // position individual key
-            glTranslatef(5.6, r3y, r3z);
+            glTranslatef(4.6, r3y, r3z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -399,7 +399,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[14];
             
             // position individual key
-            glTranslatef(7, r3y, r3z);
+            glTranslatef(6, r3y, r3z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -413,7 +413,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[5];
             
             // position individual key
-            glTranslatef(-5.6, r3y, r3z);
+            glTranslatef(-6.6, r3y, r3z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -427,7 +427,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[8];
             
             // position individual key
-            glTranslatef(-1.4, r3y, r3z);
+            glTranslatef(-2.4, r3y, r3z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -441,7 +441,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[16];
             
             // position individual key
-            glTranslatef(-3.5, r2y, r2z);
+            glTranslatef(-4.5, r2y, r2z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -455,7 +455,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[9];
             
             // position individual key
-            glTranslatef(0, r3y, r3z);
+            glTranslatef(-1, r3y, r3z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -469,7 +469,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[11];
             
             // position individual key
-            glTranslatef(2.8, r3y, r3z);
+            glTranslatef(1.8, r3y, r3z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -483,7 +483,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[29];
             
             // position individual key
-            glTranslatef(0, r1y, r1z);
+            glTranslatef(-1, r1y, r1z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -497,7 +497,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[6];
             
             // position individual key
-            glTranslatef(-4.2, r3y, r3z);
+            glTranslatef(-5.2, r3y, r3z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -511,7 +511,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[27];
             
             // position individual key
-            glTranslatef(-2.8, r1y, r1z);
+            glTranslatef(-3.8, r1y, r1z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -525,7 +525,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[10];
             
             // position individual key
-            glTranslatef(1.4, r3y, r3z);
+            glTranslatef(0.4, r3y, r3z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -539,7 +539,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[26];
             
             // position individual key
-            glTranslatef(-4.2, r1y, r1z);
+            glTranslatef(-5.2, r1y, r1z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -553,7 +553,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[3];
             
             // position individual key
-            glTranslatef(-5.8, r2y, -2.2);
+            glTranslatef(-6.8, r1y, -2.2);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -567,7 +567,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[4];
             
             // position individual key
-            glTranslatef(-6.5, r2y, -4.4);
+            glTranslatef(-7.5, r2y, -4.4);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -581,7 +581,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[35];
             
             // position individual key
-            glTranslatef(8.4, r1y, r1z);
+            glTranslatef(7.4, r1y, r1z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -595,7 +595,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[34];
             
             // position individual key
-            glTranslatef(7, r1y, r1z);
+            glTranslatef(6, r1y, r1z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -609,7 +609,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[33];
             
             // position individual key
-            glTranslatef(5.6, r1y, r1z);
+            glTranslatef(4.6, r1y, r1z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -623,7 +623,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             ktex = textures[25];
             
             // position individual key
-            glTranslatef(7.7, r2y, r2z);
+            glTranslatef(6.7, r2y, r2z);
 
             // build key
             glBindTexture(GL_TEXTURE_2D, ktex);
@@ -654,11 +654,11 @@ void Typewriter::addKeySpace(unsigned int tex)
 
     // two rods
     glPushMatrix();
-    glTranslatef(-2.8, 2, -1.3);
+    glTranslatef(-3.8, 2, -1.3);
     keyRod();
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(7, 2, -1.3);
+    glTranslatef(6, 2, -1.3);
     keyRod();
     glPopMatrix();
 
@@ -667,7 +667,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     glTranslatef(2.2, 0, 0);
     glBindTexture(GL_TEXTURE_2D, tex);
     // rectangles across to increase lightable vertices
-    float x = -5.8; // min x to +5.8 max x
+    float x = -6.8; // min x to +5.8 max x
     float t;
     glBegin(GL_QUAD_STRIP);
     glNormal3f(0, 1, 0); // top
@@ -684,7 +684,7 @@ void Typewriter::addKeySpace(unsigned int tex)
         x += 1.16;
     }
     glEnd();
-    x = 5.8;
+    x = 4.8;
     glBegin(GL_QUAD_STRIP);
     glNormal3f(0, -1, 0); // bottom
     for (int i = 10; i >= 0; i--)
@@ -700,7 +700,7 @@ void Typewriter::addKeySpace(unsigned int tex)
         x -= 1.16;
     }
     glEnd();
-    x = -5.8;
+    x = -6.8;
     glBegin(GL_QUAD_STRIP);
     glNormal3f(0, 0, 1); // front side
     for (int i = 0; i <= 10; i++)
@@ -716,7 +716,7 @@ void Typewriter::addKeySpace(unsigned int tex)
         x += 1.16;
     }
     glEnd();
-    x = 5.8;
+    x = 4.8;
     glBegin(GL_QUAD_STRIP);
     glNormal3f(0, 0, -1); // back side
     for (int i = 10; i >= 0; i--)
@@ -739,7 +739,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     float th = 0;
     float dd = 20; // rotation precision
     glPushMatrix();
-    glTranslatef(8, 3.3, -1.3); // right top round end
+    glTranslatef(7, 3.3, -1.3); // right top round end
     glRotatef(90, 0, 1, 0);
     glScalef(rad, 1, rad);
     glBegin(GL_TRIANGLE_FAN);
@@ -756,7 +756,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     glEnd();
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(8, 3.2, -1.3); // right bottom round end
+    glTranslatef(7, 3.2, -1.3); // right bottom round end
     glRotatef(90, 0, 1, 0);
     glScalef(rad, 1, rad);
     glBegin(GL_TRIANGLE_FAN);
@@ -773,7 +773,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     glEnd();
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(-3.6, 3.3, -1.3); // left top round end
+    glTranslatef(-4.6, 3.3, -1.3); // left top round end
     glRotatef(-90, 0, 1, 0);
     glScalef(rad, 1, rad);
     glBegin(GL_TRIANGLE_FAN);
@@ -790,7 +790,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     glEnd();
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(-3.6, 3.2, -1.3); // left bottom round end
+    glTranslatef(-4.6, 3.2, -1.3); // left bottom round end
     glRotatef(-90, 0, 1, 0);
     glScalef(rad, 1, rad);
     glBegin(GL_TRIANGLE_FAN);
@@ -807,7 +807,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     glEnd();
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(8, 3.2, -1.3); // right round rim
+    glTranslatef(7, 3.2, -1.3); // right round rim
     glRotatef(90, 0, 1, 0);
     glScalef(0.5, 1, 0.5);
     glBegin(GL_QUAD_STRIP);
@@ -825,7 +825,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     glEnd();
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(-3.6, 3.2, -1.3); // left round rim
+    glTranslatef(-4.6, 3.2, -1.3); // left round rim
     glRotatef(-90, 0, 1, 0);
     glScalef(0.5, 1, 0.5);
     glBegin(GL_QUAD_STRIP);
@@ -850,6 +850,189 @@ void Typewriter::addKeySpace(unsigned int tex)
 void Typewriter::twBody(unsigned int* textures)
 {
     // main lower body of typewriter, including hammers
+
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    unsigned int ptex = textures[1]; // plastic body texture
+
+    // lighting effects 
+    float shiny[] = {30};
+    float whtsp[] = {1.0, 1.0, 1.0, 1.0};
+    glMaterialfv(GL_FRONT, GL_SHININESS, shiny);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, whtsp);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, whtsp);
+    glEnable(GL_RESCALE_NORMAL);
+
+    // bind plastic texture for all faces
+    glColor3f(1.0, 1.0, 1.0);
+    glBindTexture(GL_TEXTURE_2D, ptex);
+
+    // body lower front face
+    glNormal3f(0, 0.4, 2); // slant forward (+y, +z)
+    glBegin(GL_QUAD_STRIP);
+    // build lower strip of quads
+    float xpos = -9.1;
+    for (int j = 0; j <= 14; j++)
+    {
+        float t = j / 14.0;
+        glTexCoord2f(t, 0.5);
+        glVertex3f(xpos, 1, 0.2);
+
+        glTexCoord2f(t, 0);
+        glVertex3f(xpos, 0, 0.4);
+        xpos += 1.3;
+    }
+    glEnd();
+    glBegin(GL_QUAD_STRIP);
+    // build upper strip of quads
+    xpos = -9.1;
+    for (int j = 0; j <= 14; j++)
+    {
+        float t = j / 14.0;
+        glTexCoord2f(t, 1);
+        glVertex3f(xpos, 2, 0.0);
+
+        glTexCoord2f(t, 0.5);
+        glVertex3f(xpos, 1, 0.2);
+        xpos += 1.3;
+    }
+    glEnd();
+
+    // body lower left face
+    glNormal3f(-1, 0, 0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(-9.1, 0, -8);
+    glTexCoord2f(1, 0);
+    glVertex3f(-9.1, 0, 0.4);
+    glTexCoord2f(1, 1);
+    glVertex3f(-9.1, 2, 0);
+    glTexCoord2f(0, 1);
+    glVertex3f(-9.1, 4.8, -8);
+    glEnd();
+
+    // body lower right face
+    glNormal3f(1, 0, 0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(9.1, 0, 0.4);
+    glTexCoord2f(1, 0);
+    glVertex3f(9.1, 0, -8);
+    glTexCoord2f(1, 1);
+    glVertex3f(9.1, 4.8, -8);
+    glTexCoord2f(0, 1);
+    glVertex3f(9.1, 2, 0);
+    glEnd();
+
+    // body lower top
+    glNormal3f(0, 8, 2.8);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(-9.1, 2, 0);
+    glTexCoord2f(1, 0);
+    glVertex3f(9.1, 2, 0);
+    glTexCoord2f(1, 1);
+    glVertex3f(9.1, 4.8,-8);
+    glTexCoord2f(0, 1);
+    glVertex3f(-9.1, 4.8, -8);
+    glEnd();
+
+    // body underside base
+    glNormal3f(0, -1, 0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(-9.1, 0, -16);
+    glTexCoord2f(1, 0);
+    glVertex3f(9.1, 0, -16);
+    glTexCoord2f(1, 1);
+    glVertex3f(9.1, 0, 0.4);
+    glTexCoord2f(0, 1);
+    glVertex3f(-9.1, 0, 0.4);
+    glEnd();
+
+    // body upper front face
+    glNormal3f(0, 0, 1);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(-9.1, 4.8, -8);
+    glTexCoord2f(1, 0);
+    glVertex3f(9.1, 4.8, -8);
+    glTexCoord2f(1, 1);
+    glVertex3f(9.1, 6.8, -8);
+    glTexCoord2f(0, 1);
+    glVertex3f(-9.1, 6.8, -8);
+    glEnd();
+
+    // body upper left face
+    glNormal3f(-1, 0, 0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(-9.1, 0, -16);
+    glTexCoord2f(1, 0);
+    glVertex3f(-9.1, 0, -8);
+    glTexCoord2f(1, 1);
+    glVertex3f(-9.1, 6.8, -8);
+    glTexCoord2f(0, 1);
+    glVertex3f(-9.1, 6.8, -16);
+    glEnd();
+
+    // body upper right face
+    glNormal3f(1, 0, 0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(9.1, 0, -8);
+    glTexCoord2f(1, 0);
+    glVertex3f(9.1, 0, -16);
+    glTexCoord2f(1, 1);
+    glVertex3f(9.1, 6.8, -16);
+    glTexCoord2f(0, 1);
+    glVertex3f(9.1, 6.8, -8);
+    glEnd();
+
+    // // body upper top left
+    // glNormal3f(0, 1, 0);
+    // glBegin(GL_QUADS);
+    // glTexCoord2f(0, 0);
+    // glVertex3f();
+    // glTexCoord2f(1, 0);
+    // glVertex3f();
+    // glTexCoord2f(1, 1);
+    // glVertex3f();
+    // glTexCoord2f(0, 1);
+    // glVertex3f();
+    // glEnd();
+
+    // // body upper top right
+    // glNormal3f(0, 1, 0);
+    // glBegin(GL_QUADS);
+    // glTexCoord2f(0, 0);
+    // glVertex3f();
+    // glTexCoord2f(1, 0);
+    // glVertex3f();
+    // glTexCoord2f(1, 1);
+    // glVertex3f();
+    // glTexCoord2f(0, 1);
+    // glVertex3f();
+    // glEnd();
+
+    // body back
+    glNormal3f(0, 0, -1);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(9.1, 0, -16);
+    glTexCoord2f(1, 0);
+    glVertex3f(-9.1, 0, -16);
+    glTexCoord2f(1, 1);
+    glVertex3f(-9.1, 6.8, -16);
+    glTexCoord2f(0, 1);
+    glVertex3f(9.1, 6.8, -16);
+    glEnd();
+
+
+
+    glDisable(GL_TEXTURE_2D);
+
 }
 
 void Typewriter::twpTray()
@@ -859,20 +1042,31 @@ void Typewriter::twpTray()
 
 void Typewriter::buildTypewriter(unsigned int* textures)
 {
+    int sname = 1;
     // add each key
     for (int k = 97; k <= 122; k++)
     { // a through z keys
+        glLoadName(sname);
         addKey(k, textures);
+        sname++;
     }
     // remaining punctuation and control keys
+    glLoadName(27);
     addKey(44, textures);
+    glLoadName(28);
     addKey(45, textures);
+    glLoadName(29);
     addKey(46, textures);
+    glLoadName(30);
     addKey(63, textures);
+    glLoadName(31);
     addKey(128, textures);
+    glLoadName(32);
     addKey(129, textures);
 
+    glPushName(33);
     addKeySpace(textures[0]);
+    glPopName(); // to stop objects that are part of this name
 
     // build typewriter body around keys
     twBody(textures);
