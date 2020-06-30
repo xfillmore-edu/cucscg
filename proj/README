@@ -53,3 +53,26 @@ To-Do List
   Interactivity - hammer motion
   Interactivity - paper update
   Interactivity - carriage return
+
+EXTERNAL RESOURCES/ACKNOWLEDGEMENTS
+  Picking, Selection Mode
+    > https://www.glprogramming.com/red/chapter13.html
+    > https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPickMatrix.xml
+    > https://community.khronos.org/t/i-want-to-draw-two-objects-then-just-move-one-of-them/16733/3
+    > http://unknownware.com/rtfm/graphics/glselection.html
+    > http://web.cse.ohio-state.edu/~shen.94/581/Site/Slides_files/picking.pdf
+    > http://newton.uam.mx/xgeorge/uea/graficacion/Archivos_relacionados_a_varias_temas_del_curso/Selection/OpenGl%20-%20Tutorial%2027%20%20Object%20Selection.htm
+    > http://medialab.di.unipi.it/web/IUM/Waterloo/node87.html
+    > https://people.clarkson.edu/class/ee465/lectures/lecture_27/lecture_27.html
+  Bitmap Fonts
+    > http://jerome.jouvie.free.fr/opengl-tutorials/Tutorial20.php
+  Color Selection, Frame Buffer
+    > http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-an-opengl-hack/
+    > 
+  Projection and Movement (foundational past code)
+    > https://thepentamollisproject.blogspot.com/2018/02/setting-up-first-person-camera-in.html
+    > http://math.hws.edu/graphicsbook/c4/s2.html
+    > https://www.tomdalling.com/blog/modern-opengl/04-cameras-vectors-and-input/
+    > https://github.com/mattearly/TheOnlyEscapeIsESC/blob/master/code/camera.h
+    > http://www.lighthouse3d.com/tutorials/glut-tutorial/keyboard-example-moving-around-the-world/
+    > http://www.opengl-tutorial.org/beginners-tutorials/tutorial-6-keyboard-and-mouse/

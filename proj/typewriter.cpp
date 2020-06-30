@@ -4,16 +4,6 @@
  * 
  * Project ~ Typewriter simulator
  * 
- * REFERENCES
- * https://www.glprogramming.com/red/chapter13.html
- * https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPickMatrix.xml
- * https://community.khronos.org/t/i-want-to-draw-two-objects-then-just-move-one-of-them/16733/3
- * http://unknownware.com/rtfm/graphics/glselection.html
- * http://web.cse.ohio-state.edu/~shen.94/581/Site/Slides_files/picking.pdf
- * http://newton.uam.mx/xgeorge/uea/graficacion/Archivos_relacionados_a_varias_temas_del_curso/Selection/OpenGl%20-%20Tutorial%2027%20%20Object%20Selection.htm
- * http://medialab.di.unipi.it/web/IUM/Waterloo/node87.html
- * https://people.clarkson.edu/class/ee465/lectures/lecture_27/lecture_27.html
- * http://jerome.jouvie.free.fr/opengl-tutorials/Tutorial20.php // 2d bitmap font
  */
 
 
