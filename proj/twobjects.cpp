@@ -44,7 +44,6 @@ void keyFace(bool type)
     glMaterialfv(GL_FRONT, GL_SHININESS, shiny);
     glMaterialfv(GL_FRONT, GL_SPECULAR, whtsp);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, whtsp);
-    glEnable(GL_RESCALE_NORMAL);
 
     // save transformations 
     glPushMatrix();
@@ -160,10 +159,7 @@ void keyRod()
 void Typewriter::addKey(unsigned int character, unsigned int* textures)
 { // see README for character arguments
     // Select and bind texture for key
-    // Specify coordinates for key
-
-    glEnable(GL_TEXTURE_2D);
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    // Specify coordinates for key    
 
     glPushMatrix();
 
@@ -636,21 +632,16 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
     }
 
     glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
-
 }
 
 void Typewriter::addKeySpace(unsigned int tex)
 {
-    glEnable(GL_TEXTURE_2D);
-
     // lighting effects 
     float shiny[] = {60};
     float whtsp[] = {1.0, 1.0, 1.0, 0.6};
     glMaterialfv(GL_FRONT, GL_SHININESS, shiny);
     glMaterialfv(GL_FRONT, GL_SPECULAR, whtsp);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, whtsp);
-    glEnable(GL_RESCALE_NORMAL);
 
     // two rods
     glPushMatrix();
@@ -843,16 +834,11 @@ void Typewriter::addKeySpace(unsigned int tex)
     glEnd();
     glPopMatrix();
 
-    
-    glDisable(GL_TEXTURE_2D);
 }
 
 void Typewriter::twBody(unsigned int* textures)
 {
     // main lower body of typewriter, including hammers
-
-    glEnable(GL_TEXTURE_2D);
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
     unsigned int ptex = textures[1]; // plastic body texture
 
@@ -862,7 +848,6 @@ void Typewriter::twBody(unsigned int* textures)
     glMaterialfv(GL_FRONT, GL_SHININESS, shiny);
     glMaterialfv(GL_FRONT, GL_SPECULAR, whtsp);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, whtsp);
-    glEnable(GL_RESCALE_NORMAL);
 
     // bind plastic texture for all faces
     glColor3f(1.0, 1.0, 1.0);
@@ -1030,9 +1015,6 @@ void Typewriter::twBody(unsigned int* textures)
     glEnd();
 
 
-
-    glDisable(GL_TEXTURE_2D);
-
 }
 
 void Typewriter::twpTray()
@@ -1042,26 +1024,17 @@ void Typewriter::twpTray()
 
 void Typewriter::buildTypewriter(unsigned int* textures)
 {
-    int sname = 1;
     // add each key
     for (int k = 97; k <= 122; k++)
     { // a through z keys
-        glLoadName(sname);
         addKey(k, textures);
-        sname++;
     }
     // remaining punctuation and control keys
-    glLoadName(27);
     addKey(44, textures);
-    glLoadName(28);
     addKey(45, textures);
-    glLoadName(29);
     addKey(46, textures);
-    glLoadName(30);
     addKey(63, textures);
-    glLoadName(31);
     addKey(128, textures);
-    glLoadName(32);
     addKey(129, textures);
 
     glPushName(33);
