@@ -35,15 +35,19 @@ z        increase elevation (eye height)
 x        decrease elevation (eye height)
 
 Time Estimation
-+ 2h
-+ 8h
++ 2h -> initial setup
++ 8h -> setup and typewriter keys (construction and making textures)
++ 4h -> c to c++ debugging, typewriter body and key adjustments
++ 5h -> 3d selection research/setup
 
 To-Do List
   Typewriter body/box
+  Increase body vertices for lighting
   Fix key pins/rods
   Hammer area
   Paper roll/carriage/tray
   Paper itself
+  Fix lighting source
   Interactivity - key pressing
   Interactivity - hammer motion
   Interactivity - paper update
