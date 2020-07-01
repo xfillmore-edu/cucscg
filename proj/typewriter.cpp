@@ -255,6 +255,28 @@ void processSelection(int button, int state, int x, int y)
             return;
         }
 
+        unsigned char character = getChar(figkey, capkey, id);
+        if (character == 0) return; // id didn't match keys
+        if (character == 1)
+        {
+            figkey  = !figkey;
+            capkey = 0;
+        }
+        else if (character == 2)
+        {
+            capkey = !capkey;
+            figkey = 0;
+        }
+        else
+        {
+            // registered a character
+            // unflip fig and cap keys, if applicable
+            if (figkey) figkey = 0;
+            if (capkey) capkey = 0;
+
+            // add character to string matrix
+        }
+
         // find which key has this id and store its letter.
         // also perform key press animation?
     }
