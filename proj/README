@@ -40,6 +40,8 @@ Time Estimation
 + 4h -> c to c++ debugging, typewriter body and key adjustments
 + 5h -> 3d selection research/setup
 + 4h -> 3d selection research/reversal
++ 1h -> color selection research
++ 2h -> color selection setup
 
 To-Do List
   Typewriter body/box
@@ -55,7 +57,7 @@ To-Do List
   Interactivity - carriage return
 
 EXTERNAL RESOURCES/ACKNOWLEDGEMENTS
-  Picking, Selection Mode
+  Picking, Selection Mode (reverted)
     > https://www.glprogramming.com/red/chapter13.html
     > https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPickMatrix.xml
     > https://community.khronos.org/t/i-want-to-draw-two-objects-then-just-move-one-of-them/16733/3
@@ -68,6 +70,9 @@ EXTERNAL RESOURCES/ACKNOWLEDGEMENTS
     > http://jerome.jouvie.free.fr/opengl-tutorials/Tutorial20.php
   Color Selection, Frame Buffer
     > http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-an-opengl-hack/
+    > https://www.opengl.org/resources/libraries/glut/spec3/node50.html
+    > https://www.lighthouse3d.com/tutorials/opengl-selection-tutorial/
+    > https://moddb.fandom.com/wiki/OpenGL_Selection_Using_Unique_Color_IDs
     > 
   Projection and Movement (foundational past code)
     > https://thepentamollisproject.blogspot.com/2018/02/setting-up-first-person-camera-in.html
