@@ -30,8 +30,7 @@ bool figkey = 0;
 bool capkey = 0;
 const unsigned int sbuffs = 64;
 GLuint sbuff[sbuffs];
-int mxpos = 0; // mouse x position
-int mypos = 0; // mouse y position
+
 
 // create the scene's source of "sunlight"
 // copied from hw3
@@ -195,9 +194,6 @@ void keybindings(unsigned char key, int xpos, int ypos)
         if (fov > 81) fov = 80;
     }
 
-    mxpos = xpos;
-    mypos = ypos;
-
     // tell GLUT to redisplay after key press
     project(fov, aspr, dim);
     glutPostRedisplay();
@@ -205,8 +201,6 @@ void keybindings(unsigned char key, int xpos, int ypos)
 
 void specialkeybindings(int key, int xpos, int ypos)
 {
-    mxpos = xpos;
-    mypos = ypos;
     switch(key)
     { // azimuth ~ longitude / elevation ~ latitude
         case GLUT_KEY_RIGHT:
