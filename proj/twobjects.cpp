@@ -209,7 +209,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyRod();
 
             break;
-        case 99:  // c and question mark
+        case 99:  // c and tilde
             ktex = textures[28];
             
             // position individual key

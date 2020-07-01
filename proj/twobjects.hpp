@@ -47,9 +47,13 @@ class Typewriter
         Typewriter();
         ~Typewriter();
         void buildTypewriter(unsigned int* textures);
+        void fboTypewriter();
 };
 
 void cvertex(int th, double h, unsigned int hexcolor);
+
+// Hex conversion macro
+void gColor3fHEX(unsigned int hexcolor);
 
 
 
