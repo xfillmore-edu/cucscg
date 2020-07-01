@@ -235,6 +235,37 @@ void specialkeybindings(int key, int xpos, int ypos)
     glutPostRedisplay();
 }
 
+void processSelection(int button, int state, int x, int y)
+{
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+    {
+        glFlush();
+        glFinish();
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+        GLint viewport[4];
+        glGetIntegerv(GL_VIEWPORT, viewport);
+
+        unsigned char pixdat[3];
+        glReadPixels(x, viewport[3]-y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixdat);
+
+        // get pixel data integer id by converting to hex
+        unsigned int id = 0x000000; // start with black/0
+        id = id & (pixdat[0] & 0xff0000); // get red value
+        id = id & (pixdat[1] & 0x00ff00); // get green value
+        id = id & (pixdat[2] & 0x0000ff); // get blue value
+
+        if (id == 0x000000)
+        { // no color id picked up -> empty
+            return;
+        }
+
+        // find which key has this id and store its letter.
+        // also perform key press animation?
+    }
+}
+
 void reshape(int width, int height)
 {
     // ratio width:height
@@ -285,6 +316,9 @@ int main(int argc, char* argv[])
     // register key bindings for keyboard and arrows
     glutSpecialFunc(specialkeybindings);
     glutKeyboardFunc(keybindings);
+
+    // register mouse clicking
+    glutMouseFunc(processSelection);
 
     // check for initialization errors
     checkErrs("main::init");
