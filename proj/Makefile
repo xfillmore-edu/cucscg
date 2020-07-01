@@ -32,11 +32,12 @@ project.o: project.cpp config.hpp
 loadTexture.o: loadTexture.cpp config.hpp
 twobjects.o: twobjects.cpp twobjects.hpp
 selection.o: selection.cpp twobjects.hpp
+getChar.o: getChar.cpp twobjects.hpp
 
 # build archives
 config.a: checkErrs.o fatal.o gprint.o project.o loadTexture.o
 	ar -rcs $@ $^
-twobjects.a: twobjects.o selection.o
+twobjects.a: twobjects.o selection.o getChar.o
 	ar -rcs $@ $^
 
 # Compiling rules

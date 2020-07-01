@@ -55,6 +55,10 @@ void cvertex(int th, double h, unsigned int hexcolor);
 // Hex conversion macro
 void gColor3fHEX(unsigned int hexcolor);
 
+// converts returned key id to its ascii equivalent
+// includes considerations for figkey and capkey
+unsigned char getChar(bool figkey, bool capkey, unsigned int id);
+
 
 
 #endif
