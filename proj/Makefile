@@ -31,11 +31,12 @@ gprint.o: gprint.cpp config.hpp
 project.o: project.cpp config.hpp
 loadTexture.o: loadTexture.cpp config.hpp
 twobjects.o: twobjects.cpp twobjects.hpp
+selection.o: selection.cpp twobjects.hpp
 
 # build archives
 config.a: checkErrs.o fatal.o gprint.o project.o loadTexture.o
 	ar -rcs $@ $^
-twobjects.a: twobjects.o
+twobjects.a: twobjects.o selection.o
 	ar -rcs $@ $^
 
 # Compiling rules
