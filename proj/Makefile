@@ -59,6 +59,8 @@ typewriter: typewriter.o twobjects.a config.a
 	$(info F, f       increase, decrease field of view)
 	$(info i, k       increase, decrease light height)
 	$(info l, j       increase, decrease light radius)
+	$(info space      increment carriage position)
+	$(info backspace  decrement carriage position)
 	$(info ============================================) $(info )
 
 #  Clean
