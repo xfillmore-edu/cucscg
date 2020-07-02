@@ -46,6 +46,7 @@ Time Estimation
 + 1h -> color selection research/more setup
 + 4h -> color selection work/typewriter body
 + 4h -> typewriter body
++ 1h -> typewriter body
 
 To-Do List
   Typewriter body/box
@@ -77,7 +78,7 @@ EXTERNAL RESOURCES/ACKNOWLEDGEMENTS
     > https://www.opengl.org/resources/libraries/glut/spec3/node50.html
     > https://www.lighthouse3d.com/tutorials/opengl-selection-tutorial/
     > https://moddb.fandom.com/wiki/OpenGL_Selection_Using_Unique_Color_IDs
-    > 
+    > http://what-when-how.com/opengl-programming-guide/object-selection-using-the-back-buffer-opengl-programming/
   Projection and Movement (foundational past code)
     > https://thepentamollisproject.blogspot.com/2018/02/setting-up-first-person-camera-in.html
     > http://math.hws.edu/graphicsbook/c4/s2.html
