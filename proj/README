@@ -4,10 +4,10 @@ CSCI 4229 Computer Graphics
 
 Project | Typewriter
 
-CONCEPT
+ORIGINAL CONCEPT
   An interactive typewriter demonstrating the following:
     Application of textures in OpenGL
-    Proper use of lighting
+    OpenGL lighting
     First person perspective projection
     Selection in three dimensions
     Synchronization of visual behaviors
@@ -36,8 +36,11 @@ x        decrease elevation (eye height)
 i,k      increase/decrease height of light source
 j        decrease radius of light source movement
 l        increase radius of light source movement
+space    shift carriage position (left)
+backspace shift carriage position (right)
 
 Time Estimation
+(total ~ 44 hours)
 + 2h -> initial setup
 + 8h -> setup and typewriter keys (construction and making textures)
 + 4h -> c to c++ debugging, typewriter body and key adjustments
@@ -51,19 +54,49 @@ Time Estimation
 + 4h -> typewriter body
 + 1h -> typewriter body
 + 1h -> fixed key rods and added light controls
++ 3h -> carriage construction and interaction
++ 3h -> carriage detail construction
 
-To-Do List
-  Typewriter body/box
-  Increase body vertices for lighting
-  Fix key pins/rods
-  Hammer area
-  Paper roll/carriage/tray
+Wishful Thinking...
   Paper itself
-  Fix lighting source
+  Carriage return handle
+  Fix coloring and texture lines
   Interactivity - key pressing
   Interactivity - hammer motion
   Interactivity - paper update
   Interactivity - carriage return
+
+The Selection Challenge
+  I started with the intention of using OpenGL's built-in selection mode. I set up the name stack, pick matrix,
+  and various other aspects that sites recommended. However, I ran into a display issue wherein my selection
+  consumed the viewport. I could not find a resource that I understood and could use that explained how to
+  avoid this predicament, so I decided to try a new method. From my initial searches for implementing
+  3d selection, I had run into some ray casting, but my time limitation and knowledge limitation with OpenGL
+  turned me instead toward color-based selection. The idea is that the pickable items are rendered in a 
+  unique, solid color in the back frame buffer (using double buffer, not swapping). When the user clicks on
+  a particular color, its color id is then matched with the item that is actually visible to the user and
+  whatever action(s) is/are then performed. I failed to get this to work, though. When I checked the coloring
+  of the back buffer, only a couple of colors rendered, the rest of the objects being black with the
+  background. My inability to overcome this confusing outcome prevented me from implementing interactive selection.
+  Despite this, I feel I learned a lot about selection in OpenGL and would not be afraid to try it again
+  on a future project, if I were to do another.
+
+The Texture Challenge
+  All of the alphanumeric/symbolic keys sharing the same style were produced in Adobe PhotoShop. All other
+  textures are just converted off of the internet, though the typewriter's body texture has much to be desired,
+  especially considering the visible lines at the edges of the bitmap border.
+  It was impossible to find a complete set of keyboard keys that met my aesthetic preferences, didn't have a
+  watermark, and had a usable angle on the keys, so I took it upon myself to build a set with all of my own
+  preferences, influenced by various vintage and modern typewriters in Google Images.
+
+The Build Challenge
+  This was the first time I implemented face culling. While not a difficult thing to do, it did require me to
+  refactor the organization of many of my vertices that I had drawn initially. The most time-consuming challenge
+  I dealt with in terms of building the typewriter body was the two faces that are sloped. Slapping down four
+  vertices would have been no problem, and in fact I did do that as a temporary placeholder. But when it came to
+  giving the surfaces enough vertices to look reasonable when lit, I had to recursively generate vertices on
+  a slope and translating the simple math of the polygon into GL vertices was quite confusing, especially as
+  I tried to work from foundational code that I didn't fully understand.
 
 EXTERNAL RESOURCES/ACKNOWLEDGEMENTS
   Picking, Selection Mode (reverted)
@@ -90,3 +123,6 @@ EXTERNAL RESOURCES/ACKNOWLEDGEMENTS
     > https://github.com/mattearly/TheOnlyEscapeIsESC/blob/master/code/camera.h
     > http://www.lighthouse3d.com/tutorials/glut-tutorial/keyboard-example-moving-around-the-world/
     > http://www.opengl-tutorial.org/beginners-tutorials/tutorial-6-keyboard-and-mouse/
+
+Source Code Repository
+  github.com/xfillmore/cucscg/
