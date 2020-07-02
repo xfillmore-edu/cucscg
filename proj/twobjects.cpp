@@ -866,7 +866,7 @@ void Typewriter::twBody(unsigned int* textures)
     float z2 =   -8; // z second depth
     float z3 =  -16; // z third depth
     float zb =  -18; // z back depth
-    float half1, half2, dy, ddy, dz, ddz;
+    float half1, half2, dy;
 
     int repx = 12; // repetition in x dir (num quads x)
     int repy = 6;  // repetition in y dir (num quads y)
@@ -936,19 +936,21 @@ void Typewriter::twBody(unsigned int* textures)
     // body lower top
     // glNormal3f(0, 8, 2.8);
     glNormal3f(0, 0.944, 0.33);
-    half1 = 1.4;
     dy = (ym-yl) / repy;
     glBegin(GL_QUADS);
     for (int i = 0; i < repx; i++)
     {
         for (int j = 0; j < repy; j++)
         {
-            dz =  -((half1 * dy * j) - 2) / 0.35;
-            ddz = -((half1*dy*(j+1)) - 2) / 0.35;
-            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xr * rx * (i)  -xr, half1 * dy * j, dz);
-            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xr * rx * (i+1)-xr, half1 * dy * j, dz);
-            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xr * rx * (i+1)-xr, half1 * dy * (j+1), ddz);
-            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xr * rx * (i)  -xr, half1 * dy * (j+1), ddz);
+            float y = (dy * j) + yl;
+            float z = -(y - 2) / 0.35;
+            float y2 = (dy * (j+1)) + yl;
+            float z2 = -(y2 - 2) / 0.35;
+
+            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xr * rx * (i)  -xr, y, z);
+            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xr * rx * (i+1)-xr, y, z);
+            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xr * rx * (i+1)-xr, y2, z2);
+            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xr * rx * (i)  -xr, y2, z2);
         }
     }
     glEnd();
@@ -987,6 +989,7 @@ void Typewriter::twBody(unsigned int* textures)
     }
     glEnd();
 
+    glDisable(GL_CULL_FACE);
     // body upper left face
     glNormal3f(-1, 0, 0);
     half1 = (z3 - z2) / 2.0;
@@ -1042,6 +1045,7 @@ void Typewriter::twBody(unsigned int* textures)
     glTexCoord2f(1, 1); glVertex3f(xr, yh, z2);
     glTexCoord2f(0, 1); glVertex3f(xr, yh, z3);
     glEnd();
+    glEnable(GL_CULL_FACE);
 
     // body back
     glNormal3f(0, 0, -1);
@@ -1127,6 +1131,26 @@ void Typewriter::twBody(unsigned int* textures)
     glTexCoord2f(0, 1); glVertex3f(xl, yh, z3);
     glEnd();
     glEnable(GL_CULL_FACE);
+
+    // hammers "hidden" inside typewriter body
+    // lighting effects 
+    shiny[0] = {10};
+    float eff[] = {0.6, 0.6, 0.6, 0.6};
+    glMaterialfv(GL_FRONT, GL_SHININESS, shiny);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, eff);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, eff);
+    // texture cover
+    glBindTexture(GL_TEXTURE_2D, textures[2]);
+    // glNormal3f(0, 8, -1);
+    glNormal3f(0, 0.9923, 0.124);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0); glVertex3f(xr, yb, z3);
+    glTexCoord2f(1, 0); glVertex3f(xl, yb, z3);
+    glTexCoord2f(1, 1); glVertex3f(xl, yh, z2);
+    glTexCoord2f(0, 1); glVertex3f(xr, yh, z2);
+    glEnd();
+    
+
 
 }
 
