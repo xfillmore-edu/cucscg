@@ -42,7 +42,7 @@ class Typewriter
         void addKey(unsigned int character, unsigned int* textures);
         void addKeySpace(unsigned int tex);
         void twBody(unsigned int* textures);
-        void twpTray();
+        void twpTray(float xshift);
     public:
         Typewriter();
         ~Typewriter();
