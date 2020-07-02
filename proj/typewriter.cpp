@@ -18,7 +18,7 @@ float lposy  = 10; // height of light source
 float lposxz = 0; // radial position of light 
 // viewing
 int theta  = 0;   // azimuth (left/right) angle 
-int phi    = -30; // elevation (up/down) angle 
+int phi    = -40; // elevation (up/down) angle 
 int fov    = 60;  // field of view
 int dim    = 30;  // dimension / world size 
 int aspr   = 1;   // aspect ratio (viewport/window) 
@@ -69,12 +69,18 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear current image
     glLoadIdentity(); // Reset prior transformations
     glEnable(GL_DEPTH_TEST); // Allow z-buffer
+    glEnable(GL_DITHER); // disabled in back buffer selecting, enabled by default
+    glEnable(GL_CULL_FACE);
 
     // View mode specific settings and text panel
     // copied from hw3
     glRotatef(-phi,   1, 0, 0);
     glRotatef(-theta, 0, 1, 0);
     glTranslatef(-camx, -camy, -camz);
+
+    glColor3f(0.8, 0.8, 0.8);
+    glWindowPos2i(5, 5);
+    gprint("FIG [%s] CAP [%s]", figkey?"on":"off", capkey?"on":"off");
 
     // check for any errors during set up
     checkErrs("display::setup");
@@ -88,19 +94,13 @@ void display()
     float ambient[]  = {amb, amb, amb, 1.0};
     float diffuse[]  = {dif, dif, dif, 1.0};
     float specular[] = {spe, spe, spe, 1.0};
-    //  Light position
-    float lightposition[] = {dim * cosd(lposxz) /6, lposy, dim * sind(lposxz) /6, 1.0};
-    // draw source object for the light
-    lightsrc(lightposition[0], lightposition[1], lightposition[2]);
-    //  Tell OpenGL to normalize normal vectors
-    glEnable(GL_NORMALIZE);
-    // Enable lighting
-    glEnable(GL_LIGHTING);
-    // set ambient and diffuse color materials
-    glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
+    float lightposition[] = {dim * cosd(lposxz) /6, lposy, dim * sind(lposxz) /6, 1.0}; //  Light position
+    lightsrc(lightposition[0], lightposition[1], lightposition[2]); // draw source object for the light
+    glEnable(GL_NORMALIZE); //  Tell OpenGL to normalize normal vectors
+    glEnable(GL_LIGHTING); // Enable lighting
+    glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE); // set ambient and diffuse color materials
     glEnable(GL_COLOR_MATERIAL);
-    // Enable light 0
-    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT0); // Enable light 0
     // Set ambient, diffuse, specular components and position of light 0
     glLightfv(GL_LIGHT0, GL_AMBIENT,  ambient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE,  diffuse);
@@ -120,16 +120,28 @@ void display()
 
     checkErrs("display::twInitRender");
 
-    // disable individual aspects of scene
-    glDisable(GL_TEXTURE_2D);
-    glDisable(GL_LIGHTING);
-
-
     // clean up and redisplay
     checkErrs("display");
     glFlush();
     project(fov, aspr, dim);
     glutSwapBuffers();
+
+    // Reset back buffer to hidden frame buffer, but don't swap to front
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // clear to black (rgba)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear current image
+    glLoadIdentity(); // Reset prior transformations
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_DITHER);
+    glDisable(GL_CULL_FACE);
+    glRotatef(-phi,   1, 0, 0);
+    glRotatef(-theta, 0, 1, 0);
+    glTranslatef(-camx, -camy, -camz);
+    tw.fboTypewriter();
+    // checkErrs("display");
+    // glFlush();
+    // project(fov, aspr, dim);
+    // glutSwapBuffers();
 }
 
 void keybindings(unsigned char key, int xpos, int ypos)
@@ -236,6 +248,7 @@ void processSelection(int button, int state, int x, int y)
         glFlush();
         glFinish();
 
+        glReadBuffer(GL_BACK);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
         GLint viewport[4];
@@ -245,10 +258,11 @@ void processSelection(int button, int state, int x, int y)
         glReadPixels(x, viewport[3]-y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixdat);
 
         // get pixel data integer id by converting to hex
+        // pixdat[n] is clamped to range [0.0, 1.0]
         unsigned int id = 0x000000; // start with black/0
-        id = id & (pixdat[0] & 0xff0000); // get red value
-        id = id & (pixdat[1] & 0x00ff00); // get green value
-        id = id & (pixdat[2] & 0x0000ff); // get blue value
+        id = id & ((unsigned int)(pixdat[0]*RGBMAX) << 4); // get red value
+        id = id & ((unsigned int)(pixdat[1]*RGBMAX) << 2); // get green value
+        id = id & ((unsigned int)(pixdat[2]*RGBMAX)     ); // get blue value
 
         if (id == 0x000000)
         { // no color id picked up -> empty
@@ -280,6 +294,7 @@ void processSelection(int button, int state, int x, int y)
         // find which key has this id and store its letter.
         // also perform key press animation?
     }
+    glutPostRedisplay();
 }
 
 void reshape(int width, int height)
