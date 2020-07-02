@@ -58,7 +58,7 @@ void keyFace(bool type)
     glColor3f(1.0, 1.0, 1.0);
     glTexCoord2f(0.5f, 0.5f);
     glVertex3f(0, keyHeight, 0);
-    for (theta = 0; theta <= 360; theta += dd)
+    for (theta = 360; theta >= 0; theta -= dd)
     {
         glNormal3f(0, 1, 0);
         glTexCoord2f(0.5f * sind(theta+90) + 0.5f, 0.5f * cosd(theta+90) + 0.5f);
@@ -116,7 +116,7 @@ void keyBody(bool type)
     glNormal3f(0, -1, 0); // set normal facing down
     gColor3fRGB(157.0, 162.0, 166.0); // light grey, dropper color from rim metallic grey
     glVertex3d(0, 0, 0); // base center
-    for (theta = 360; theta >= 0; theta -=dd)
+    for (theta = 0; theta <= 360; theta +=dd)
     {
         cvertex(theta, 0, 0x9da2a6);
     }
@@ -683,10 +683,10 @@ void Typewriter::addKeySpace(unsigned int tex)
         t = 1 - (i/10.0);
         
         glTexCoord2f(t, 0);
-        glVertex3f(x, 3.2, -0.8);
+        glVertex3f(x, 3.2, -1.8);
 
         glTexCoord2f(t, 1);
-        glVertex3f(x, 3.2, -1.8);
+        glVertex3f(x, 3.2, -0.8);
 
         x -= 1.16;
     }
@@ -715,10 +715,10 @@ void Typewriter::addKeySpace(unsigned int tex)
         t = 1- (i/10.0);
         
         glTexCoord2f(t, 0);
-        glVertex3f(x, 3.2, -1.8);
+        glVertex3f(x, 3.3, -1.8);
 
         glTexCoord2f(t, 1);
-        glVertex3f(x, 3.3, -1.8);
+        glVertex3f(x, 3.2, -1.8);
 
         x -= 1.16;
     }
@@ -738,7 +738,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     glColor3f(1.0, 1.0, 1.0);
     glTexCoord2f(0.5f, 0.5f);
     glVertex3f(0, 0, 0);
-    for (th = 0; th <= 180; th += dd)
+    for (th = 180; th >= 0; th -= dd)
     {
         glNormal3f(0, 1, 0);
         glTexCoord2f(0.5f * sind(th) + 0.5f, 0.5f * cosd(th) + 0.5f);
@@ -755,7 +755,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     glColor3f(1.0, 1.0, 1.0);
     glTexCoord2f(0.5f, 0.5f);
     glVertex3f(0, 0, 0);
-    for (th = 180; th >= 0; th -= dd)
+    for (th = 0; th <= 180; th += dd)
     {
         glNormal3f(0, 1, 0);
         glTexCoord2f(0.5f * sind(th) + 0.5f, 0.5f * cosd(th) + 0.5f);
@@ -772,7 +772,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     glColor3f(1.0, 1.0, 1.0);
     glTexCoord2f(0.5f, 0.5f);
     glVertex3f(0, 0, 0);
-    for (th = 0; th <= 180; th += dd)
+    for (th = 180; th >= 0; th -= dd)
     {
         glNormal3f(0, 1, 0);
         glTexCoord2f(0.5f * sind(th) + 0.5f, 0.5f * cosd(th) + 0.5f);
@@ -789,7 +789,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     glColor3f(1.0, 1.0, 1.0);
     glTexCoord2f(0.5f, 0.5f);
     glVertex3f(0, 0, 0);
-    for (th = 180; th >= 0; th -= dd)
+    for (th = 0; th <= 180; th += dd)
     {
         glNormal3f(0, 1, 0);
         glTexCoord2f(0.5f * sind(th) + 0.5f, 0.5f * cosd(th) + 0.5f);
@@ -853,8 +853,29 @@ void Typewriter::twBody(unsigned int* textures)
     glColor3f(1.0, 1.0, 1.0);
     glBindTexture(GL_TEXTURE_2D, ptex);
 
+    // key shared coordinates
+    float xl = -9.1; // x left
+    float xr =  9.1; // x right
+    float y0 =    0; // y base
+    float yl =    2; // y lower front tier
+    float ym =  4.8; // y mid front tier
+    float yh =  6.8; // y high/top tier
+    float yb =  5.8; // y back tier
+    float z0 =    0; // z near front (0)
+    float zf =  0.4; // z base front
+    float z2 =   -8; // z second depth
+    float z3 =  -16; // z third depth
+    float zb =  -18; // z back depth
+    float half1, half2, dy, ddy, dz, ddz;
+
+    int repx = 12; // repetition in x dir (num quads x)
+    int repy = 6;  // repetition in y dir (num quads y)
+    float rx = 2.0 / repx;
+    float ry = 2.0 / repy;
+
     // body lower front face
-    glNormal3f(0, 0.4, 2); // slant forward (+y, +z)
+    // glNormal3f(0, 0.4, 2); // slant forward (+y, +z)
+    glNormal3f(0, 0.196, 0.981);
     glBegin(GL_QUAD_STRIP);
     // build lower strip of quads
     float xpos = -9.1;
@@ -886,134 +907,226 @@ void Typewriter::twBody(unsigned int* textures)
 
     // body lower left face
     glNormal3f(-1, 0, 0);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(-9.1, 0, -8);
-    glTexCoord2f(1, 0);
-    glVertex3f(-9.1, 0, 0.4);
-    glTexCoord2f(1, 1);
-    glVertex3f(-9.1, 2, 0);
-    glTexCoord2f(0, 1);
-    glVertex3f(-9.1, 4.8, -8);
+    glBegin(GL_TRIANGLE_FAN);
+    glTexCoord2f(0.5f, 0.5f); glVertex3f(xl, ym/2.0, (z2+zf)/2.0); // center
+    glTexCoord2f(1.0f, 0.5f); glVertex3f(xl, yl/2.0, zf/2.0);     // mid right
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(xl, yl,     z0);     // top right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(xl, ym,     z2);     // top left
+    glTexCoord2f(0.0f, 0.5f); glVertex3f(xl, ym/2.0, z2); // mid left
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(xl, y0,     z2);     // lower left
+    glTexCoord2f(0.5f, 0.0f); glVertex3f(xl, y0,     (zf+z2)/2.0); // mid bottom
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(xl, y0,     zf);     // lower right
+    glTexCoord2f(1.0f, 0.5f); glVertex3f(xl, yl/2.0, zf/2.0);     // mid right again
     glEnd();
 
     // body lower right face
     glNormal3f(1, 0, 0);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(9.1, 0, 0.4);
-    glTexCoord2f(1, 0);
-    glVertex3f(9.1, 0, -8);
-    glTexCoord2f(1, 1);
-    glVertex3f(9.1, 4.8, -8);
-    glTexCoord2f(0, 1);
-    glVertex3f(9.1, 2, 0);
+    glBegin(GL_TRIANGLE_FAN);
+    glTexCoord2f(0.5f, 0.5f); glVertex3f(xr, ym/2.0, (z2-zf)/2.0); // center
+    glTexCoord2f(1.0f, 0.5f); glVertex3f(xr, ym/2.0, z2);     // mid right
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(xr, ym,     z2);     // top right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(xr, yl,     z0);     // top left
+    glTexCoord2f(0.0f, 0.5f); glVertex3f(xr, yl/2.0, zf/2.0); // mid left
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(xr, y0,     zf);     // lower left
+    glTexCoord2f(0.5f, 0.0f); glVertex3f(xr, y0,     z2/2.0); // mid bottom
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(xr, y0,     z2);     // lower right
+    glTexCoord2f(1.0f, 0.5f); glVertex3f(xr, ym/2.0, z2);     // mid right again
     glEnd();
 
     // body lower top
-    glNormal3f(0, 8, 2.8);
+    // glNormal3f(0, 8, 2.8);
+    glNormal3f(0, 0.944, 0.33);
+    half1 = 1.4;
+    dy = (ym-yl) / repy;
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(-9.1, 2, 0);
-    glTexCoord2f(1, 0);
-    glVertex3f(9.1, 2, 0);
-    glTexCoord2f(1, 1);
-    glVertex3f(9.1, 4.8,-8);
-    glTexCoord2f(0, 1);
-    glVertex3f(-9.1, 4.8, -8);
+    for (int i = 0; i < repx; i++)
+    {
+        for (int j = 0; j < repy; j++)
+        {
+            dz =  -((half1 * dy * j) - 2) / 0.35;
+            ddz = -((half1*dy*(j+1)) - 2) / 0.35;
+            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xr * rx * (i)  -xr, half1 * dy * j, dz);
+            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xr * rx * (i+1)-xr, half1 * dy * j, dz);
+            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xr * rx * (i+1)-xr, half1 * dy * (j+1), ddz);
+            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xr * rx * (i)  -xr, half1 * dy * (j+1), ddz);
+        }
+    }
     glEnd();
 
     // body underside base
     glNormal3f(0, -1, 0);
+    half1 = (zb - z0) / 2.0;
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(-9.1, 0, -16);
-    glTexCoord2f(1, 0);
-    glVertex3f(9.1, 0, -16);
-    glTexCoord2f(1, 1);
-    glVertex3f(9.1, 0, 0.4);
-    glTexCoord2f(0, 1);
-    glVertex3f(-9.1, 0, 0.4);
+    for (int i = 0; i < repx; i++)
+    {
+        for (int j = 0; j < repy; j++)
+        {
+            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xr * rx * (i+1)-xr, 0, (half1 * ry * (j)  ));
+            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xr * rx * (i)  -xr, 0, (half1 * ry * (j)  ));
+            
+            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xr * rx * (i)  -xr, 0, (half1 * ry * (j+1)));
+            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xr * rx * (i+1)-xr, 0, (half1 * ry * (j+1)));
+            
+        }
+    }
     glEnd();
 
     // body upper front face
+    half1 = 1;
     glNormal3f(0, 0, 1);
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(-9.1, 4.8, -8);
-    glTexCoord2f(1, 0);
-    glVertex3f(9.1, 4.8, -8);
-    glTexCoord2f(1, 1);
-    glVertex3f(9.1, 6.8, -8);
-    glTexCoord2f(0, 1);
-    glVertex3f(-9.1, 6.8, -8);
+    for (int i = 0; i < repx; i++)
+    {
+        for (int j = 0; j < repy; j++)
+        {
+            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xr * rx * (i)  -xr, (half1 * ry * (j)  + ym), z2);
+            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xr * rx * (i+1)-xr, (half1 * ry * (j)  + ym), z2);
+            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xr * rx * (i+1)-xr, (half1 * ry * (j+1)+ ym), z2);
+            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xr * rx * (i)  -xr, (half1 * ry * (j+1)+ ym), z2);
+        }
+    }
     glEnd();
 
     // body upper left face
     glNormal3f(-1, 0, 0);
+    half1 = (z3 - z2) / 2.0;
+    half2 = (yh - y0) / 2.0;
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(-9.1, 0, -16);
-    glTexCoord2f(1, 0);
-    glVertex3f(-9.1, 0, -8);
-    glTexCoord2f(1, 1);
-    glVertex3f(-9.1, 6.8, -8);
-    glTexCoord2f(0, 1);
-    glVertex3f(-9.1, 6.8, -16);
+    for (int i = 0; i < repx; i++)
+    {
+        for (int j = 0; j < repy; j++)
+        {
+            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xl, half2 * rx * (i)  , (half1 * ry * (j)  )+z2);
+            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xl, half2 * rx * (i+1), (half1 * ry * (j)  )+z2);
+            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xl, half2 * rx * (i+1), (half1 * ry * (j+1))+z2);
+            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xl, half2 * rx * (i)  , (half1 * ry * (j+1))+z2);
+        }
+    }
     glEnd();
 
     // body upper right face
     glNormal3f(1, 0, 0);
+    half1 = (z3 - z2) / 2.0;
+    half2 = (yh - y0) / 2.0;
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(9.1, 0, -8);
-    glTexCoord2f(1, 0);
-    glVertex3f(9.1, 0, -16);
-    glTexCoord2f(1, 1);
-    glVertex3f(9.1, 6.8, -16);
-    glTexCoord2f(0, 1);
-    glVertex3f(9.1, 6.8, -8);
+    for (int i = 0; i < repx; i++)
+    {
+        for (int j = 0; j < repy; j++)
+        {
+            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xr, half2 * rx * (i+1), (half1 * ry * (j)  )+z2);
+            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xr, half2 * rx * (i)  , (half1 * ry * (j)  )+z2);
+            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xr, half2 * rx * (i)  , (half1 * ry * (j+1))+z2);
+            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xr, half2 * rx * (i+1), (half1 * ry * (j+1))+z2);
+            
+        }
+    }
     glEnd();
 
-    // // body upper top left
-    // glNormal3f(0, 1, 0);
-    // glBegin(GL_QUADS);
-    // glTexCoord2f(0, 0);
-    // glVertex3f();
-    // glTexCoord2f(1, 0);
-    // glVertex3f();
-    // glTexCoord2f(1, 1);
-    // glVertex3f();
-    // glTexCoord2f(0, 1);
-    // glVertex3f();
-    // glEnd();
+    // body upper top left
+    glNormal3f(0, 1, 0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0); glVertex3f(xl, yh, z3);
+    glTexCoord2f(1, 0); glVertex3f(xl, yh, z2);
+    glTexCoord2f(1, 1); glVertex3f(-2, yh, -11);
+    glTexCoord2f(0, 1); glVertex3f(-0.5, yh, z3);
 
-    // // body upper top right
-    // glNormal3f(0, 1, 0);
-    // glBegin(GL_QUADS);
-    // glTexCoord2f(0, 0);
-    // glVertex3f();
-    // glTexCoord2f(1, 0);
-    // glVertex3f();
-    // glTexCoord2f(1, 1);
-    // glVertex3f();
-    // glTexCoord2f(0, 1);
-    // glVertex3f();
-    // glEnd();
+    // upper top middle
+    glTexCoord2f(0, 0.4); glVertex3f(-2, yh, -11);
+    glTexCoord2f(1, 0); glVertex3f(xl, yh, z2);
+    glTexCoord2f(1, 1); glVertex3f(xr, yh, z2);
+    glTexCoord2f(0, 0.6); glVertex3f(2, yh, -11);
+
+    // body upper top right
+    glTexCoord2f(0, 0); glVertex3f(0.5, yh, z3);
+    glTexCoord2f(1, 0); glVertex3f(2, yh, -11);
+    glTexCoord2f(1, 1); glVertex3f(xr, yh, z2);
+    glTexCoord2f(0, 1); glVertex3f(xr, yh, z3);
+    glEnd();
 
     // body back
     glNormal3f(0, 0, -1);
+    half1 = (yb - y0)/2.0;
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(9.1, 0, -16);
-    glTexCoord2f(1, 0);
-    glVertex3f(-9.1, 0, -16);
-    glTexCoord2f(1, 1);
-    glVertex3f(-9.1, 6.8, -16);
-    glTexCoord2f(0, 1);
-    glVertex3f(9.1, 6.8, -16);
+    for (int i = 0; i < repx; i++)
+    {
+        for (int j = 0; j < repy; j++)
+        {
+            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xr * rx * (i+1)-xr, (half1 * ry * (j)  + y0), zb);
+            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xr * rx * (i)  -xr, (half1 * ry * (j)  + y0), zb);
+            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xr * rx * (i)  -xr, (half1 * ry * (j+1)+ y0), zb);
+            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xr * rx * (i+1)-xr, (half1 * ry * (j+1)+ y0), zb);
+            
+        }
+    }
     glEnd();
 
+    // body back top
+    glNormal3f(0, 1, 0);
+    half1 = (zb - z3) / 2.0;
+    glBegin(GL_QUADS);
+    for (int i = 0; i < repx; i++)
+    {
+        for (int j = 0; j < repy; j++)
+        {
+            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xr * rx * (i)  -xr, yb, (half1 * ry * (j)  )+z3);
+            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xr * rx * (i+1)-xr, yb, (half1 * ry * (j)  )+z3);
+            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xr * rx * (i+1)-xr, yb, (half1 * ry * (j+1))+z3);
+            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xr * rx * (i)  -xr, yb, (half1 * ry * (j+1))+z3);
+        }
+    }
+    glEnd();
+
+    // back right face
+    glNormal3f(1, 0, 0);
+    half1 = (zb - z3) / 2.0;
+    half2 = (yb - y0) / 2.0;
+    glBegin(GL_QUADS);
+    for (int i = 0; i < repx; i++)
+    {
+        for (int j = 0; j < repy; j++)
+        {
+            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xr, half2 * rx * (i+1), (half1 * ry * (j)  )+z3);
+            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xr, half2 * rx * (i)  , (half1 * ry * (j)  )+z3);
+            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xr, half2 * rx * (i)  , (half1 * ry * (j+1))+z3);
+            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xr, half2 * rx * (i+1), (half1 * ry * (j+1))+z3);
+            
+        }
+    }
+    glEnd();
+
+    // back left face
+    glNormal3f(-1, 0, 0);
+    half1 = (zb - z3) / 2.0;
+    half2 = (yb - y0) / 2.0;
+    glBegin(GL_QUADS);
+    for (int i = 0; i < repx; i++)
+    {
+        for (int j = 0; j < repy; j++)
+        {
+            glTexCoord2d(rx * (i),   ry * (j)  ); glVertex3d(xl, half2 * rx * (i)  , (half1 * ry * (j)  )+z3);
+            glTexCoord2d(rx * (i+1), ry * (j)  ); glVertex3d(xl, half2 * rx * (i+1), (half1 * ry * (j)  )+z3);
+            glTexCoord2d(rx * (i+1), ry * (j+1)); glVertex3d(xl, half2 * rx * (i+1), (half1 * ry * (j+1))+z3);
+            glTexCoord2d(rx * (i),   ry * (j+1)); glVertex3d(xl, half2 * rx * (i)  , (half1 * ry * (j+1))+z3);
+        }
+    }
+    glEnd();
+
+    // upper back right
+    glDisable(GL_CULL_FACE);
+    glNormal3f(0, 0, -1);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0); glVertex3f(xr, yh, z3);
+    glTexCoord2f(1, 0); glVertex3f(xr, yb, z3);
+    glTexCoord2f(1, 1); glVertex3f(0, yb, z3);
+    glTexCoord2f(0, 1); glVertex3f(0.5, yh, z3);
+    
+    // upper back left
+    glTexCoord2f(0, 0); glVertex3f(-0.5, yh, z3);
+    glTexCoord2f(1, 0); glVertex3f(0, yb, z3);
+    glTexCoord2f(1, 1); glVertex3f(xl, yb, z3);
+    glTexCoord2f(0, 1); glVertex3f(xl, yh, z3);
+    glEnd();
+    glEnable(GL_CULL_FACE);
 
 }
 
