@@ -57,6 +57,8 @@ typewriter: typewriter.o twobjects.a config.a
 	$(info z, x       increase, decrease elevation)
 	$(info arrows     change angular view)
 	$(info F, f       increase, decrease field of view)
+	$(info i, k       increase, decrease light height)
+	$(info l, j       increase, decrease light radius)
 	$(info ============================================) $(info )
 
 #  Clean

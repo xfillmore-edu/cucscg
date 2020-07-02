@@ -15,7 +15,8 @@
 unsigned int textures[36];
 // lighting
 float lposy  = 20; // height of light source 
-float lposxz = 0; // radial position of light 
+float lposxz = 0; // radial position of light
+float   pfactor = 1; // radius impact
 // viewing
 int theta  = 0;   // azimuth (left/right) angle 
 int phi    = -40; // elevation (up/down) angle 
@@ -94,7 +95,7 @@ void display()
     float ambient[]  = {amb, amb, amb, 1.0};
     float diffuse[]  = {dif, dif, dif, 1.0};
     float specular[] = {spe, spe, spe, 1.0};
-    float lightposition[] = {dim * cosd(lposxz) /6, lposy, dim * sind(lposxz) /6, 1.0}; //  Light position
+    float lightposition[] = {pfactor*dim * cosd(lposxz) /6, lposy, pfactor*dim * sind(lposxz) /6, 1.0}; //  Light position
     lightsrc(lightposition[0], lightposition[1], lightposition[2]); // draw source object for the light
     glEnable(GL_NORMALIZE); //  Tell OpenGL to normalize normal vectors
     glEnable(GL_LIGHTING); // Enable lighting
@@ -160,6 +161,7 @@ void keybindings(unsigned char key, int xpos, int ypos)
         fov = 60;
         theta = 0;
         phi = -30;
+        lposy = 20;
     }
     else if (key == 119 || key == 97 || key == 115 || key == 100)
     { // w, a, s, d lateral movement of camera/eye
@@ -204,6 +206,30 @@ void keybindings(unsigned char key, int xpos, int ypos)
         /* maintain reasonable fov range */
         if (fov < 45) fov = 46;
         if (fov > 81) fov = 80;
+    }
+    else if (key == 105 || key == 107)
+    { // i - increase light src height, k - decrease height
+        if (key == 105)
+        {
+            lposy += 2;
+        }
+        else
+        {
+            lposy -=2;
+        }
+    }
+    else if (key == 106 || key == 108)
+    { // j - decrease light radius, l - increase light radius
+        if (key == 106)
+        {
+            pfactor -= 0.2;
+            if (pfactor < 0.2) pfactor = 0.2;
+        }
+        else
+        {
+            pfactor += 0.2;
+            if (pfactor > 6) pfactor = 6;
+        }
     }
 
     // tell GLUT to redisplay after key press

@@ -33,6 +33,9 @@ w,a,s,d  change lateral position
 F/f      increase/decrease field of view (zoom)
 z        increase elevation (eye height)
 x        decrease elevation (eye height)
+i,k      increase/decrease height of light source
+j        decrease radius of light source movement
+l        increase radius of light source movement
 
 Time Estimation
 + 2h -> initial setup
@@ -47,6 +50,7 @@ Time Estimation
 + 4h -> color selection work/typewriter body
 + 4h -> typewriter body
 + 1h -> typewriter body
++ 1h -> fixed key rods and added light controls
 
 To-Do List
   Typewriter body/box
