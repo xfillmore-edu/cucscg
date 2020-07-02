@@ -14,7 +14,7 @@
 // texture
 unsigned int textures[36];
 // lighting
-float lposy  = 10; // height of light source 
+float lposy  = 20; // height of light source 
 float lposxz = 0; // radial position of light 
 // viewing
 int theta  = 0;   // azimuth (left/right) angle 
@@ -357,7 +357,7 @@ int main(int argc, char* argv[])
     // load texture files to be used
     textures[0]  = loadTexture("./tex/keyrim_metal.bmp");
     textures[1]  = loadTexture("./tex/body_plastic2.bmp");
-    // textures[2]  = loadTexture("./tex/.bmp"); // NO TEXTURE HERE
+    textures[2]  = loadTexture("./tex/hammers.bmp");
     textures[3]  = loadTexture("./tex/keys_0cap.bmp");
     textures[4]  = loadTexture("./tex/keys_0fig.bmp");
     textures[5]  = loadTexture("./tex/keys_q.bmp");
