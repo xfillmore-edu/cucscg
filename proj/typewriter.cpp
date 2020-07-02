@@ -2,7 +2,7 @@
  * 22 June 2020
  * CSCI 4229 Computer Graphics
  * 
- * Project ~ Typewriter simulator
+ * Project ~ Typewriter simulator... not quite
  * 
  */
 
@@ -31,13 +31,14 @@ bool figkey = 0;
 bool capkey = 0;
 const unsigned int sbuffs = 64;
 GLuint sbuff[sbuffs];
+float carriageoffset = 7;
 
 
 // create the scene's source of "sunlight"
 // copied from hw3
 void lightsrc(double xposl, double yposl, double zposl)
 {
-    float emis[] = {0.2, 0.3, 0.7, 1.0};
+    float emis[] = {0.3, 0.4, 0.6, 1.0};
 
     // save current transformations
     glPushMatrix();
@@ -117,7 +118,7 @@ void display()
 
     // build typewriter for rendering purposes
     Typewriter tw;
-    tw.buildTypewriter(textures);
+    tw.buildTypewriter(textures, carriageoffset);
 
     checkErrs("display::twInitRender");
 
@@ -229,6 +230,19 @@ void keybindings(unsigned char key, int xpos, int ypos)
         {
             pfactor += 0.2;
             if (pfactor > 6) pfactor = 6;
+        }
+    }
+    else if (key == 32 || key == 8)
+    {
+        if (key == 8)
+        {
+            carriageoffset += 0.5;
+            if (carriageoffset > 7) carriageoffset = 7;
+        }
+        else
+        {
+            carriageoffset -= 0.5;
+            if (carriageoffset < -7.5) carriageoffset = -7.5;
         }
     }
 
