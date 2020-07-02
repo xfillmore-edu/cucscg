@@ -123,38 +123,30 @@ void keyBody(bool type)
     glEnd();
 
     glPopMatrix();
-}
 
-// helper construction function
-// supporting key rods
-void keyRod()
-{
     // construct pin body below the key head
-    int dd = 60; // 6-sided precision
-    int th = 0;
-    int rad = 0.2;
+    dd = 40; // 9-sided precision
+    theta = 0;
+    radius = 0.2;
 
     glPushMatrix();
     glEnable(GL_RESCALE_NORMAL);
 
-    glScaled(rad, 1, rad);
+    glScaled(radius, 1, radius);
     
     // create cylindrical tube without a top or bottom
     glBegin(GL_QUAD_STRIP);
-    glColor3f(1.0, 1.0, 1.0);
-    for (th = 0; th <= 360; th += dd)
+    for (theta = 0; theta <= 360; theta += dd)
     {
-        gColor3fRGB(157.0, 162.0, 166.0);
-        glNormal3f(cosd(th), 0, sind(th));
+        glNormal3f(cosd(theta), 0, sind(theta));
 
-        glVertex3f(cosd(th), pinHeight, sind(th));
-        glVertex3f(cosd(th), 0, sind(th));
+        cvertex(theta, 0,         0x9da2a6);
+        cvertex(theta, pinHeight, 0x9da2a6);
     }
     glEnd();
 
     glPopMatrix();
 }
-
 
 void Typewriter::addKey(unsigned int character, unsigned int* textures)
 { // see README for character arguments
@@ -192,7 +184,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 98:  // b and double quote
@@ -206,7 +198,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 99:  // c and tilde
@@ -220,7 +212,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 100: // d and percent
@@ -234,7 +226,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 101: // e and 3
@@ -248,7 +240,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 102: // f and ampersand
@@ -262,7 +254,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 103: // g and underscore
@@ -276,7 +268,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 104: // h and asterisk
@@ -290,7 +282,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 105: // i and 8
@@ -304,7 +296,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 106: // j and forward slash
@@ -318,7 +310,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 107: // k and equals
@@ -332,7 +324,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 108: // l and pound
@@ -346,7 +338,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 109: // m and semicolon
@@ -360,7 +352,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 110: // n and colon
@@ -374,7 +366,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 111: // o and 9
@@ -388,7 +380,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 112: // p and 0
@@ -402,7 +394,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 113: // q and 1
@@ -416,7 +408,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 114: // r and 4
@@ -430,7 +422,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 115: // s and dollar
@@ -444,7 +436,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 116: // t and 5
@@ -458,7 +450,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 117: // u and 7
@@ -472,7 +464,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 118: // v and single quote
@@ -486,7 +478,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 119: // w and 2
@@ -500,7 +492,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 120: // x and close parenthesis
@@ -514,7 +506,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 121: // y and 6
@@ -528,7 +520,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 122: // z and open parenthesis
@@ -542,7 +534,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 128: // cap
@@ -556,7 +548,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(0);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(0);
-            keyRod();
+            
 
             break;
         case 129: // fig
@@ -570,7 +562,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(0);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(0);
-            keyRod();
+            
 
             break;
         case 45:  // minus and plus
@@ -584,7 +576,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 46:  // period and right angle bracket
@@ -598,7 +590,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 44:  // comma and left angle bracket
@@ -612,7 +604,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
         case 63: // question mark and back slash
@@ -626,7 +618,7 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
             keyFace(1);
             glBindTexture(GL_TEXTURE_2D, mtex);
             keyBody(1);
-            keyRod();
+            
 
             break;
     }
@@ -644,13 +636,37 @@ void Typewriter::addKeySpace(unsigned int tex)
     glMaterialfv(GL_FRONT, GL_DIFFUSE, whtsp);
 
     // two rods
+    int dd = 40; // 9-sided precision
+    int theta = 0;
+    float radius = 0.2;
+    glEnable(GL_RESCALE_NORMAL);
     glPushMatrix();
     glTranslatef(-3.8, 2, -1.3);
-    keyRod();
+    glScaled(radius, 1, radius);    
+    // create cylindrical tube without a top or bottom
+    glBegin(GL_QUAD_STRIP);
+    for (theta = 0; theta <= 360; theta += dd)
+    {
+        glNormal3f(cosd(theta), 0, sind(theta));
+
+        cvertex(theta, 0,         0x9da2a6);
+        cvertex(theta, pinHeight, 0x9da2a6);
+    }
+    glEnd();
     glPopMatrix();
     glPushMatrix();
     glTranslatef(6, 2, -1.3);
-    keyRod();
+    glScaled(radius, 1, radius);  
+    glBegin(GL_QUAD_STRIP);
+    for (theta = 0; theta <= 360; theta += dd)
+    {
+        glNormal3f(cosd(theta), 0, sind(theta));
+
+        cvertex(theta, 0,         0x9da2a6);
+        cvertex(theta, pinHeight, 0x9da2a6);
+    }
+    glEnd();
+
     glPopMatrix();
 
     // rectangular prism body
@@ -728,7 +744,7 @@ void Typewriter::addKeySpace(unsigned int tex)
     // rounded ends (go 180 deg)
     float rad = 0.5;
     float th = 0;
-    float dd = 20; // rotation precision
+    dd = 20; // rotation precision
     glPushMatrix();
     glTranslatef(7, 3.3, -1.3); // right top round end
     glRotatef(90, 0, 1, 0);
@@ -1149,14 +1165,85 @@ void Typewriter::twBody(unsigned int* textures)
     glTexCoord2f(1, 1); glVertex3f(xl, yh, z2);
     glTexCoord2f(0, 1); glVertex3f(xr, yh, z2);
     glEnd();
+
+    // rails
+    glDisable(GL_TEXTURE_2D);
+    float sq = 0.3;
+    float z1 = -16.5;
+          z2 = -17.2;
+    // square ends
+    // gColor3fHEX(0x9da2a6);
+    glColor3f(0.6, 0.6, 0.6);
+    glBegin(GL_QUADS);
+    glNormal3f(1, 0, 0);
+    glVertex3f(xr, yb+sq, z1); // right front end
+    glVertex3f(xr, yb, z1);
+    glVertex3f(xr, yb, z1-sq);
+    glVertex3f(xr, yb+sq, z1-sq);
+
+    glVertex3f(xr, yb+sq, z2); // right back end
+    glVertex3f(xr, yb, z2);
+    glVertex3f(xr, yb, z2-sq);
+    glVertex3f(xr, yb+sq, z2-sq);
+
+    glNormal3f(-1, 0, 0);
+    glVertex3f(xl, yb+sq, z2-sq); // left back end
+    glVertex3f(xl, yb, z2-sq);
+    glVertex3f(xl, yb, z2);
+    glVertex3f(xl, yb+sq, z2);
+
+    glVertex3f(xl, yb+sq, z1-sq); // left front end
+    glVertex3f(xl, yb, z1-sq);
+    glVertex3f(xl, yb, z1);
+    glVertex3f(xl, yb+sq, z1);
+    glEnd();
+    
+    // rails ~ long rods
+    glBegin(GL_QUADS);
+    glNormal3f(0, 0, -1);
+    glVertex3f(xr, yb+sq, z2-sq); // back bar back
+    glVertex3f(xr, yb,    z2-sq);
+    glVertex3f(xl, yb,    z2-sq);
+    glVertex3f(xl, yb+sq, z2-sq);
+
+    glVertex3f(xr, yb+sq, z1-sq); // front bar back
+    glVertex3f(xr, yb,    z1-sq);
+    glVertex3f(xl, yb,    z1-sq);
+    glVertex3f(xl, yb+sq, z1-sq);
+
+    glNormal3f(0, 1, 0);
+    glVertex3f(xr, yb+sq, z2); // back bar top
+    glVertex3f(xr, yb+sq, z2-sq);
+    glVertex3f(xl, yb+sq, z2-sq);
+    glVertex3f(xl, yb+sq, z2);
+
+    glVertex3f(xr, yb+sq, z1); // front bar top
+    glVertex3f(xr, yb+sq, z1-sq);
+    glVertex3f(xl, yb+sq, z1-sq);
+    glVertex3f(xl, yb+sq, z1);
+
+    glNormal3f(0, 0, 1);
+    glVertex3f(xr, yb,    z2); // back bar front
+    glVertex3f(xr, yb+sq, z2);
+    glVertex3f(xl, yb+sq, z2);
+    glVertex3f(xl, yb,    z2);
+
+    glVertex3f(xr, yb,    z1); // front bar front
+    glVertex3f(xr, yb+sq, z1);
+    glVertex3f(xl, yb+sq, z1);
+    glVertex3f(xl, yb,    z1);
+    glEnd();
+
+    glEnable(GL_TEXTURE_2D);
     
 
 
 }
 
-void Typewriter::twpTray()
+void Typewriter::twpTray(float xshift)
 {
-    // paper tray, carriage return, and upper parts of typewriter
+    // paper tray, carriage return, and mobile upper parts of typewriter
+    // xhift argument determines the offset positioning of the carriage/tray
 }
 
 void Typewriter::buildTypewriter(unsigned int* textures)
@@ -1182,7 +1269,7 @@ void Typewriter::buildTypewriter(unsigned int* textures)
     twBody(textures);
 
     // build paper tray
-    twpTray();
+    twpTray(0);
 }
 
 Typewriter::Typewriter(){}
