@@ -46,7 +46,7 @@ class Typewriter
     public:
         Typewriter();
         ~Typewriter();
-        void buildTypewriter(unsigned int* textures);
+        void buildTypewriter(unsigned int* textures, float coffset);
         void fboTypewriter();
 };
 

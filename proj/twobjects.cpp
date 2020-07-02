@@ -629,8 +629,8 @@ void Typewriter::addKey(unsigned int character, unsigned int* textures)
 void Typewriter::addKeySpace(unsigned int tex)
 {
     // lighting effects 
-    float shiny[] = {60};
-    float whtsp[] = {1.0, 1.0, 1.0, 0.6};
+    float shiny[] = {80};
+    float whtsp[] = {1.0, 1.0, 0.8, 1.0};
     glMaterialfv(GL_FRONT, GL_SHININESS, shiny);
     glMaterialfv(GL_FRONT, GL_SPECULAR, whtsp);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, whtsp);
@@ -1232,21 +1232,247 @@ void Typewriter::twBody(unsigned int* textures)
     glVertex3f(xr, yb+sq, z1);
     glVertex3f(xl, yb+sq, z1);
     glVertex3f(xl, yb,    z1);
-    glEnd();
+    glEnd(); // rail
 
     glEnable(GL_TEXTURE_2D);
-    
-
-
 }
 
 void Typewriter::twpTray(float xshift)
 {
     // paper tray, carriage return, and mobile upper parts of typewriter
     // xhift argument determines the offset positioning of the carriage/tray
+    glEnable(GL_RESCALE_NORMAL);
+    glDisable(GL_TEXTURE_2D);
+
+    glPushMatrix();
+    glTranslatef(xshift, 0, 0);
+
+    // cylinder
+    glPushMatrix();
+    glTranslatef(-9, 6.9, -17);
+    glRotatef(-90, 0, 0, 1);
+    glScalef(0.75, 18, 0.75);
+    int th = 0;
+    int dd = 15; // 24-sided precision
+    gColor3fRGB(74, 74, 74); // dark grey
+    // top (right end)
+    glBegin(GL_TRIANGLE_FAN);
+    glNormal3f(0, 1, 0);
+    glVertex3f(0, 1, 0);
+    for (th = 360; th >= 0; th -= dd)
+    {
+        cvertex(th, 1, 0x4a4a4a);
+    }
+    glEnd();
+    // bottom (left end)
+    glBegin(GL_TRIANGLE_FAN);
+    glNormal3f(0, -1, 0);
+    glVertex3f(0, 0, 0);
+    for (th = 0; th <= 360; th += dd)
+    {
+        cvertex(th, 0, 0x4a4a4a);
+    }
+    glEnd();
+    // main roll
+    glBegin(GL_QUAD_STRIP);
+    for (th = 0; th <= 360; th += dd)
+    {
+        glNormal3f(cosd(th), 0, sind(th));
+        cvertex(th, 0, 0x4a4a4a);
+        cvertex(th, 1, 0x4a4a4a);
+    }
+    glEnd();
+    
+    glPopMatrix(); // end cylinder
+
+    // rail bar (bottom/support)
+    glPushMatrix();
+    glTranslatef(-9.2, 5.8, -17.2);
+    glScalef(18.4, 0.3, 0.4);
+    gColor3fRGB(150, 150, 150);
+    // draw basic cube and then squish it around
+    glBegin(GL_QUADS);
+    glNormal3f( 0,  1,  0); // top
+    glVertex3f(0, 1, 0);
+    glVertex3f(0, 1, 1);
+    glVertex3f(1, 1, 1);
+    glVertex3f(1, 1, 0);
+    glNormal3f( 0,  0,  1); // front
+    glVertex3f(0, 1, 1);
+    glVertex3f(0, 0, 1);
+    glVertex3f(1, 0, 1);
+    glVertex3f(1, 1, 1);
+    glNormal3f( 0, -1,  0); // bottom
+    glVertex3f(0, 0, 1);
+    glVertex3f(0, 0, 0);
+    glVertex3f(1, 0, 0);
+    glVertex3f(1, 0, 1);
+    glNormal3f( 0,  0, -1); // back
+    glVertex3f(1, 1, 0);
+    glVertex3f(1, 0, 0);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0, 1, 0);
+    glNormal3f( 1,  0,  0); // right end
+    glVertex3f(1, 1, 1);
+    glVertex3f(1, 0, 1);
+    glVertex3f(1, 0, 0);
+    glVertex3f(1, 1, 0);
+    glNormal3f(-1,  0,  0); // left end
+    glVertex3f(0, 1, 0);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0, 0, 1);
+    glVertex3f(0, 1, 1);
+    glEnd();
+    glPopMatrix(); // end rail bar
+
+    // side clips
+    // left outside
+    glNormal3f(-1, 0, 0);
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(-9.2, 6.9, -17); // center
+    glVertex3f(-9.2, 7.1, -16.2);
+    glVertex3f(-9.2, 7.1, -17.9);
+    glVertex3f(-9.2, 6.5, -17.9);
+    glVertex3f(-9.2, 6.1, -17.3);
+    glVertex3f(-9.2, 6.1, -16.7);
+    glVertex3f(-9.2, 6.5, -16.2);
+    glVertex3f(-9.2, 7.1, -16.2); // repeated
+    
+    glEnd();
+    // left inside
+    glNormal3f(1, 0, 0);
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(-9.1, 6.9, -17); // center
+    glVertex3f(-9.1, 7.1, -16.2);
+    glVertex3f(-9.1, 6.5, -16.2);
+    glVertex3f(-9.1, 6.1, -16.7);
+    glVertex3f(-9.1, 6.1, -17.3);
+    glVertex3f(-9.1, 6.5, -17.9);
+    glVertex3f(-9.1, 7.1, -17.9);
+    glVertex3f(-9.1, 7.1, -16.2); // repeated
+    glEnd();
+    // left rim
+    glBegin(GL_QUAD_STRIP);
+    glVertex3f(-9.2, 7.1, -16.2);
+    glVertex3f(-9.1, 7.1, -16.2);
+    glVertex3f(-9.2, 7.1, -17.9);
+    glVertex3f(-9.1, 7.1, -17.9);
+    glVertex3f(-9.2, 6.5, -17.9);
+    glVertex3f(-9.1, 6.5, -17.9);
+    glVertex3f(-9.2, 6.1, -17.3);
+    glVertex3f(-9.1, 6.1, -17.3);
+    glVertex3f(-9.2, 6.1, -16.7);
+    glVertex3f(-9.1, 6.1, -16.7);
+    glVertex3f(-9.2, 6.5, -16.2);
+    glVertex3f(-9.1, 6.5, -16.2);
+    glVertex3f(-9.2, 7.1, -16.2);
+    glVertex3f(-9.1, 7.1, -16.2);
+    glEnd();
+
+    // right outside
+    glNormal3f(1, 0, 0);
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(9.2, 6.9, -17); // center
+    glVertex3f(9.2, 7.1, -16.2);
+    glVertex3f(9.2, 6.5, -16.2);
+    glVertex3f(9.2, 6.1, -16.7);
+    glVertex3f(9.2, 6.1, -17.3);
+    glVertex3f(9.2, 6.5, -17.9);
+    glVertex3f(9.2, 7.1, -17.9);
+    glVertex3f(9.2, 7.1, -16.2); // repeated
+    glEnd();
+    // right inside
+    glNormal3f(-1, 0, 0);
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(9.1, 6.9, -17); // center
+    glVertex3f(9.1, 7.1, -16.2);
+    glVertex3f(9.1, 7.1, -17.9);
+    glVertex3f(9.1, 6.5, -17.9);
+    glVertex3f(9.1, 6.1, -17.3);
+    glVertex3f(9.1, 6.1, -16.7);
+    glVertex3f(9.1, 6.5, -16.2);
+    glVertex3f(9.1, 7.1, -16.2); // repeated
+    glEnd();
+    // right rim
+    glBegin(GL_QUAD_STRIP);
+    glVertex3f(9.1, 7.1, -16.2);
+    glVertex3f(9.2, 7.1, -16.2);
+    glVertex3f(9.1, 7.1, -17.9);
+    glVertex3f(9.2, 7.1, -17.9);
+    glVertex3f(9.1, 6.5, -17.9);
+    glVertex3f(9.2, 6.5, -17.9);
+    glVertex3f(9.1, 6.1, -17.3);
+    glVertex3f(9.2, 6.1, -17.3);
+    glVertex3f(9.1, 6.1, -16.7);
+    glVertex3f(9.2, 6.1, -16.7);
+    glVertex3f(9.1, 6.5, -16.2);
+    glVertex3f(9.2, 6.5, -16.2);
+    glVertex3f(9.1, 7.1, -16.2);
+    glVertex3f(9.2, 7.1, -16.2);
+    glEnd();
+
+    // back support bar ~ thickness 0.05
+    glBegin(GL_QUAD_STRIP);
+    glVertex3f(-9.1, 6.5, -17.9);
+    glVertex3f(9.1, 6.5, -17.9);
+    glVertex3f(-9.1, 7.1, -17.9);
+    glVertex3f(9.1, 7.1, -17.9);
+    glVertex3f(-9.1, 7.1, -17.85);
+    glVertex3f(9.1, 7.1, -17.85);
+    glVertex3f(-9.1, 6.5, -17.85);
+    glVertex3f(9.1, 6.5, -17.85);
+    glVertex3f(-9.1, 6.5, -17.9);
+    glVertex3f(9.1, 6.5, -17.9);    
+    glEnd();
+
+    // knobs
+    gColor3fHEX(0x4a4a4a);
+    glPushMatrix();
+    glTranslatef(-8, 6.9, -17);
+    glRotatef(90, 0, 0, 1);
+    glScalef(0.7, 1, 0.7);
+    glBegin(GL_TRIANGLE_FAN); // left core
+    glVertex3f(0, 0, 0); // center
+    for (int th = 0; th <= 360; th += 20)
+    {
+        glVertex3f(cosd(th), 2, sind(th));
+    }
+    glEnd();
+    glBegin(GL_TRIANGLE_FAN); // left outer
+    glNormal3f(0, 1, 0);
+    glVertex3f(0, 2, 0); // center
+    for (int th = 360; th >= 0; th -= 20)
+    {
+        glVertex3f(cosd(th), 2, sind(th));
+    }
+    glEnd();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(8, 6.9, -17);
+    glRotatef(-90, 0, 0, 1);
+    glScalef(0.7, 1, 0.7);
+    glBegin(GL_TRIANGLE_FAN); // right core
+    glVertex3f(0, 0, 0); // center
+    for (int th = 0; th <= 360; th += 20)
+    {
+        glVertex3f(cosd(th), 2, sind(th));
+    }
+    glEnd();
+    glBegin(GL_TRIANGLE_FAN); // right outer
+    glNormal3f(0, 1, 0);
+    glVertex3f(0, 2, 0); // center
+    for (int th = 360; th >= 0; th -= 20)
+    {
+        glVertex3f(cosd(th), 2, sind(th));
+    }
+    glEnd();
+    glPopMatrix(); // last knob
+
+
+    glPopMatrix(); // entire carriage
 }
 
-void Typewriter::buildTypewriter(unsigned int* textures)
+void Typewriter::buildTypewriter(unsigned int* textures, float coffset)
 {
     // add each key
     for (int k = 97; k <= 122; k++)
@@ -1269,7 +1495,7 @@ void Typewriter::buildTypewriter(unsigned int* textures)
     twBody(textures);
 
     // build paper tray
-    twpTray(0);
+    twpTray(coffset);
 }
 
 Typewriter::Typewriter(){}
