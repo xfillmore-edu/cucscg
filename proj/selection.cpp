@@ -169,138 +169,138 @@ void fboPlace(unsigned int id)
 
     glPushMatrix();
 
-    switch(id)
+    switch(id) // id only used to define letter, not color
     {
         case 0x000001: // a
             glTranslatef(-5.9, r2y, r2z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0xff0000);
             break;
         case 0x000002: // b
             glTranslatef(0.4, r1y, r1z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x00ff00);
             break;
         case 0x000003: // c
             glTranslatef(-2.4, r1y, r1z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x0000ff);
             break;
         case 0x000004: // d
             glTranslatef(-3.1, r2y, r2z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0xf0f0f0);
             break;
         case 0x000005: // e
             glTranslatef(-3.8, r3y, r3z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x0f0f0f);
             break;
         case 0x000006: // f
             glTranslatef(-1.7, r2y, r2z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0xffff00);
             break;
         case 0x000007: // g
             glTranslatef(-0.3, r2y, r2z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x00ffff);
             break;
         case 0x000008: // h
             glTranslatef(1.1, r2y, r2z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0xff00ff);
             break;
         case 0x000009: // i
             glTranslatef(3.2, r3y, r3z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x990000);
             break;
         case 0x00000a: // j
             glTranslatef(2.5, r2y, r2z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x009900);
             break;
         case 0x00000b: // k
             glTranslatef(3.9, r2y, r2z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x000099);
             break;
         case 0x00000c: // l
             glTranslatef(5.3, r2y, r2z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x909090);
             break;
         case 0x00000d: // m
             glTranslatef(3.2, r1y, r1z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x090909);
             break;
         case 0x00000e: // n
             glTranslatef(1.8, r1y, r1z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x999900);
             break;
         case 0x00000f: // o
             glTranslatef(4.6, r3y, r3z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x009999);
             break;
         case 0x000010: // p
             glTranslatef(6, r3y, r3z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x990099);
             break;
         case 0x000011: // q
             glTranslatef(-6.6, r3y, r3z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x550000);
             break;
         case 0x000012: // r
             glTranslatef(-2.4, r3y, r3z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x005500);
             break;
         case 0x000013: // s
             glTranslatef(-4.5, r2y, r2z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x000055);
             break;
         case 0x000014: // t
             glTranslatef(-1, r3y, r3z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x505050);
             break;
         case 0x000015: // u
             glTranslatef(1.8, r3y, r3z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x050505);
             break;
         case 0x000016: // v
             glTranslatef(-1, r1y, r1z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x555500);
             break;
         case 0x000017: // w
             glTranslatef(-5.2, r3y, r3z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x005555);
             break;
         case 0x000018: // x
             glTranslatef(-3.8, r1y, r1z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x550055);
             break;
         case 0x000019: // y
             glTranslatef(0.4, r3y, r3z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0xbb0000);
             break;
         case 0x00001a: // z
             glTranslatef(-5.2, r1y, r1z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x00bb00);
             break;
         case 0x00001b: // ?
             glTranslatef(6.7, r2y, r2z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x0000bb);
             break;
         case 0x00001c: // ,
             glTranslatef(4.6, r1y, r1z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0xb0b0b0);
             break;
         case 0x00001d: // .
             glTranslatef(6, r1y, r1z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0x0b0b0b);
             break;
         case 0x00001e: // -
             glTranslatef(7.4, r1y, r1z);
-            fboKey(0.5, id);
+            fboKey(0.5, 0xbbbb00);
             break;
         case 0x00001f: // CAP
             glTranslatef(-6.8, r1y, -2.2);
-            fboKey(0.7, id);
+            fboKey(0.7, 0x00bbbb);
             break;
         case 0x000020: // FIG
             glTranslatef(-7.5, r2y, -4.4);
-            fboKey(0.7, id);
+            fboKey(0.7, 0xbb00bb);
             break;
         case 0x000021: // SPACE
-            fboSpace(0x000021);
+            fboSpace(0xffffff);
             
     }
 
@@ -313,12 +313,35 @@ void Typewriter::fboTypewriter()
     // ensure no lighting or textures
     glDisable(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
+    glDisable(GL_DITHER);
+
+    glEnable(GL_DEPTH_TEST);
 
     // render relevant keys in frame buffer for detection
-    unsigned int pickColor; // increment through blues
+    unsigned int pickColor;
 
     for (pickColor = 0x000001; pickColor <= 0x000021; pickColor++)
     {
+        // pickColor no longer defines the object's render color
         fboPlace(pickColor);
     }
+
+    // render "walls" to hide keys behind body when appropriate
+    glColor3f(0.0, 0.0, 0.0); // BLACK
+
+    glBegin(GL_QUADS); // base that keys sit on (lower top face)
+    glVertex3f(-9.1, 2, 0);
+    glVertex3f(9.1, 2, 0);
+    glVertex3f(9.1, 4.8,-8);
+    glVertex3f(-9.1, 4.8, -8);
+    glEnd();
+
+    glBegin(GL_QUADS); // backing (upper front face)
+    glVertex3f(-9.1, 4.8, -8);
+    glVertex3f(9.1, 4.8, -8);
+    glVertex3f(9.1, 6.8, -8);
+    glVertex3f(-9.1, 6.8, -8);
+    glEnd();
+
+
 }
